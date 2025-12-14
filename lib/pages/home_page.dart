@@ -112,7 +112,20 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
+            
+            // Logo
+            Center(
+              child: Image.asset(
+                'assets/images/brandings/logo.png',
+                width: 120,
+                height: 120,
+                fit: BoxFit.contain,
+              ),
+            ),
+            
+            const SizedBox(height: 20),
+            
             const Text(
               'Share your music between all platforms',
               textAlign: TextAlign.center,
