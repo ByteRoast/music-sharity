@@ -13,7 +13,15 @@
 
 **Music Sharity** is a cross-platform app that converts music links between different streaming services instantly.
 
-## ✨ Features
+## Screenshots
+
+<p align="center">
+  <img src="./docs/assets/home_page.png" width="30%" />
+  <img src="./docs/assets/conversion_page.png" width="30%" />
+  <img src="./docs/assets/conversion_page_success.png" width="30%" />
+</p>
+
+## Features
 
 - 🎵 **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal
 - 📀 **Supports tracks and albums**
@@ -23,7 +31,7 @@
 - 🔒 **Privacy-focused**: No data collection, no tracking
 - 🆓 **Free and Open Source** (GPL v3)
 
-## 📥 Installation
+## Installation
 
 ### Android
 
@@ -53,7 +61,7 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 
 **Community contributions are welcome!** If you have the hardware and want to help maintain these platforms, please open an issue or PR.
 
-## 🚀 How to Use
+## How to Use
 
 ### Method 1: Share from Music App (Android only)
 
@@ -72,7 +80,7 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 4. Select your destination platform
 5. Share or copy the converted link
 
-## 🎯 Supported Platforms
+## Supported Platforms
 
 | Platform | Status | Notes |
 |----------|--------|-------|
@@ -82,7 +90,7 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 | **YouTube Music** | ✅ Supported | Via Odesli API |
 | **Tidal** | ✅ Supported | Via Odesli API |
 
-## 🛠️ Technical Details
+## Technical Details
 
 **Built with:**
 - [Flutter](https://flutter.dev) - Cross-platform framework
@@ -97,7 +105,7 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 - No user data collection
 - No tracking or analytics
 
-## 🔒 Privacy
+## Privacy
 
 Music Sharity **does not collect or store any personal data**.
 
@@ -109,7 +117,7 @@ Music Sharity **does not collect or store any personal data**.
 
 Read our [Privacy Policy](https://byteroast.github.io/music-sharity/PRIVACY) for details.
 
-## 🏗️ Build from Source
+## Build from Source
 
 ### Prerequisites
 
@@ -158,7 +166,7 @@ flutter build apk --release
 flutter build windows --release
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Especially for:
 
@@ -169,7 +177,7 @@ Contributions are welcome! Especially for:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## 📝 License
+## License
 
 This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
 
@@ -179,13 +187,13 @@ This means:
 - ✅ You must disclose the source code
 - ✅ Changes must be documented
 
-## 👤 Author
+## Author
 
 **Sikelio (Byte Roast)**
 
 - GitHub: [@sikelio](https://github.com/sikelio)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Flutter](https://flutter.dev) - Amazing cross-platform framework
 - [Spotify API](https://developer.spotify.com) - Track metadata
@@ -193,7 +201,7 @@ This means:
 - [Odesli](https://odesli.co) - Universal music link conversion
 - All contributors and testers!
 
-## ⭐ Support
+## Support
 
 If you find this project useful, please consider:
 - ⭐ Starring the repository
