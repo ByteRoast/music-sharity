@@ -109,9 +109,8 @@ class _AboutPageState extends State<AboutPage> {
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
             subtitle: 'How we handle your data',
-            onTap: () => _launchUrl(
-              'https://byteroast.github.io/music-sharity/privacy-policy.html',
-            ),
+            onTap: () =>
+                _launchUrl('https://byteroast.github.io/music-sharity/PRIVACY'),
           ),
 
           _buildLinkCard(
@@ -119,7 +118,7 @@ class _AboutPageState extends State<AboutPage> {
             title: 'License',
             subtitle: 'GPL v3',
             onTap: () => _launchUrl(
-              'https://github.com/byteroast/music-sharity/blob/main/LICENSE',
+              'https://byteroast.github.io/music-sharity/LICENSE',
             ),
           ),
 

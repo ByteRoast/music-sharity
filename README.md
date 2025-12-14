@@ -107,7 +107,7 @@ Music Sharity **does not collect or store any personal data**.
 - ✅ No ads
 - ✅ All conversions happen in real-time
 
-Read our [Privacy Policy](https://byteroast.github.io/music-sharity/privacy-policy.html) for details.
+Read our [Privacy Policy](https://byteroast.github.io/music-sharity/PRIVACY) for details.
 
 ## 🏗️ Build from Source
 
