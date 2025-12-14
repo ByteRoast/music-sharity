@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'about_page.dart';
 import 'conversion_page.dart';
+import '../models/music_link.dart';
 import '../utils/link_validator.dart';
 import '../models/music_link.dart';
 
@@ -106,7 +108,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Music Sharity')),
+      appBar: AppBar(
+        title: const Text('Music Sharity'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),  // ← Margin à droite
+            child: IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutPage()),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
