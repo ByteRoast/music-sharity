@@ -5,6 +5,7 @@
         android:label="Music Sharity"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -18,6 +19,7 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"
             />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,18 +35,25 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="https"
-                    android:host="open.spotify.com"
+
+                <data android:scheme="https" android:host="open.spotify.com"
                     android:pathPrefix="/track" />
-                <data
-                    android:scheme="https"
-                    android:host="www.deezer.com"
+                <data android:scheme="https" android:host="open.spotify.com"
+                    android:pathPrefix="/album" />
+                <data android:scheme="https" android:host="open.spotify.com"
+                    android:pathPrefix="/playlist" />
+
+                <data android:scheme="https" android:host="www.deezer.com"
                     android:pathPrefix="/track" />
-                <data
-                    android:scheme="https"
-                    android:host="deezer.com"
-                    android:pathPrefix="/track" />
+                <data android:scheme="https" android:host="deezer.com" android:pathPrefix="/track" />
+
+                <data android:scheme="https" android:host="tidal.com" />
+                <data android:scheme="https" android:host="listen.tidal.com" />
+
+                <data android:scheme="https" android:host="music.apple.com" />
+                <data android:scheme="https" android:host="itunes.apple.com" />
+
+                <data android:scheme="https" android:host="music.youtube.com" />
             </intent-filter>
         </activity>
 
@@ -54,35 +63,5 @@
     </application>
 
     <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT" />
-            <data android:mimeType="text/plain" />
-        </intent>
-
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="http" />
-        </intent>
-
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="spotify" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="deezer" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="tidal" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="music" />
-        </intent>
     </queries>
 </manifest>
