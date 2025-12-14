@@ -1,4 +1,4 @@
-package wtf.sikelio.music_sharity
+package fr.byteroast.music_sharity
 
 import io.flutter.embedding.android.FlutterActivity
 
