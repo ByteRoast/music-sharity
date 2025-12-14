@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:app_links/app_links.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
@@ -25,11 +27,19 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   StreamSubscription<List<SharedMediaFile>>? _sharingMediaSubscription;
   String? _sharedLink;
 
+  bool get _isMobilePlatform {
+    if (kIsWeb) return false;
+    return Platform.isAndroid || Platform.isIOS;
+  }
+
   @override
   void initState() {
     super.initState();
     _initDeepLinks();
-    _initSharingIntent();
+
+    if (_isMobilePlatform) {
+      _initSharingIntent();
+    }
   }
 
   Future<void> _initDeepLinks() async {
@@ -93,7 +103,11 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   void dispose() {
     _deepLinkSubscription?.cancel();
     _sharingMediaSubscription?.cancel();
-    ReceiveSharingIntent.instance.reset();
+
+    if (_isMobilePlatform) {
+      ReceiveSharingIntent.instance.reset();
+    }
+
     super.dispose();
   }
 
