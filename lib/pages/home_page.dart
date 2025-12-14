@@ -1,7 +1,25 @@
+/*
+ * Music Sharity - Convert music links between streaming platforms
+ * Copyright (C) 2025 Sikelio (Byte Roast)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 import 'package:flutter/material.dart';
+import 'about_page.dart';
 import 'conversion_page.dart';
-import '../utils/link_validator.dart';
 import '../models/music_link.dart';
+import '../utils/link_validator.dart';
 
 class HomePage extends StatefulWidget {
   final String? initialLink;
@@ -106,13 +124,42 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Music Sharity')),
+      appBar: AppBar(
+        title: const Text('Music Sharity'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),  // ← Margin à droite
+            child: IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutPage()),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
+            
+            // Logo
+            Center(
+              child: Image.asset(
+                'assets/images/brandings/logo.png',
+                width: 120,
+                height: 120,
+                fit: BoxFit.contain,
+              ),
+            ),
+            
+            const SizedBox(height: 20),
+            
             const Text(
               'Share your music between all platforms',
               textAlign: TextAlign.center,

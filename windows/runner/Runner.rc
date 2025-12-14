@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "wtf.sikelio" "\0"
-            VALUE "FileDescription", "music_sharity" "\0"
+            VALUE "CompanyName", "fr.byteroast" "\0"
+            VALUE "FileDescription", "Music Sharity" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "music_sharity" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 wtf.sikelio. All rights reserved." "\0"
-            VALUE "OriginalFilename", "music_sharity.exe" "\0"
-            VALUE "ProductName", "music_sharity" "\0"
+            VALUE "InternalName", "Music Sharity" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 fr.byteroast. All rights reserved." "\0"
+            VALUE "OriginalFilename", "Music Sharity.exe" "\0"
+            VALUE "ProductName", "Music Sharity" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

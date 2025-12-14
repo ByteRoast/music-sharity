@@ -1,4 +1,23 @@
+/*
+ * Music Sharity - Convert music links between streaming platforms
+ * Copyright (C) 2025 Sikelio (Byte Roast)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:app_links/app_links.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
@@ -25,11 +44,19 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   StreamSubscription<List<SharedMediaFile>>? _sharingMediaSubscription;
   String? _sharedLink;
 
+  bool get _isMobilePlatform {
+    if (kIsWeb) return false;
+    return Platform.isAndroid || Platform.isIOS;
+  }
+
   @override
   void initState() {
     super.initState();
     _initDeepLinks();
-    _initSharingIntent();
+
+    if (_isMobilePlatform) {
+      _initSharingIntent();
+    }
   }
 
   Future<void> _initDeepLinks() async {
@@ -93,7 +120,11 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   void dispose() {
     _deepLinkSubscription?.cancel();
     _sharingMediaSubscription?.cancel();
-    ReceiveSharingIntent.instance.reset();
+
+    if (_isMobilePlatform) {
+      ReceiveSharingIntent.instance.reset();
+    }
+
     super.dispose();
   }
 
