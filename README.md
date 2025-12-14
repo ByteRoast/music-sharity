@@ -18,7 +18,7 @@
 <p align="center">
   <img src="./docs/assets/home_page.png" width="30%" />
   <img src="./docs/assets/conversion_page.png" width="30%" />
-  <img src="./docs/assets/conversion_page_success.png" width="30%" />
+  <img src="./docs/assets/conversion_success.png" width="30%" />
 </p>
 
 ## Features
