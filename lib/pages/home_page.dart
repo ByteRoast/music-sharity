@@ -173,7 +173,10 @@ class _HomePageState extends State<HomePage> {
               onChanged: _validateLink,
               decoration: InputDecoration(
                 hintText: 'Paste your music link here...',
-                prefixIcon: const Icon(Icons.link),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                  child: const Icon(Icons.link),
+                ),
                 suffixIcon: _isValidLink
                     ? const Icon(Icons.check_circle, color: Colors.green)
                     : null,

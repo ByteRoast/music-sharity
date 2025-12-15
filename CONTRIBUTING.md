@@ -136,14 +136,14 @@ Get credentials at [developer.spotify.com/dashboard](https://developer.spotify.c
 
 6. **Run the app**
 ```bash
-   # Android emulator/device
-   flutter run
-   
-   # Windows
-   flutter run -d windows
-   
-   # Chrome (web)
-   flutter run -d chrome
+# Android emulator/device
+flutter run
+
+# Windows
+flutter run -d windows
+
+# Chrome (web)
+flutter run -d chrome
 ```
 
 7. **Verify everything works**
