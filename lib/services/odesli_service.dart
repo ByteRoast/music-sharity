@@ -17,6 +17,14 @@
  */
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../models/track_metadata.dart';
+
+class OdesliResult {
+  final Map<String, String> platformLinks;
+  final TrackMetadata? metadata;
+
+  OdesliResult({required this.platformLinks, this.metadata});
+}
 
 class OdesliService {
   static const String _baseUrl = 'https://api.song.link/v1-alpha.1/links';
@@ -25,45 +33,88 @@ class OdesliService {
   factory OdesliService() => _instance;
   OdesliService._internal();
 
-  Future<Map<String, String>> convertLink(String sourceUrl) async {
+  /// Converts a music link and returns both platform links and metadata
+  Future<OdesliResult> convertLink(String sourceUrl) async {
     final encodedUrl = Uri.encodeComponent(sourceUrl);
     final response = await http.get(Uri.parse('$_baseUrl?url=$encodedUrl'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final linksByPlatform = data['linksByPlatform'] as Map<String, dynamic>?;
+      
+      final platformLinks = _extractPlatformLinks(data);
+      final metadata = _extractMetadata(data);
 
-      if (linksByPlatform == null) {
-        throw Exception('No links found for this track');
-      }
-
-      final Map<String, String> platformLinks = {};
-
-      if (linksByPlatform['appleMusic'] != null) {
-        platformLinks['appleMusic'] = linksByPlatform['appleMusic']['url'];
-      }
-
-      if (linksByPlatform['spotify'] != null) {
-        platformLinks['spotify'] = linksByPlatform['spotify']['url'];
-      }
-
-      if (linksByPlatform['deezer'] != null) {
-        platformLinks['deezer'] = linksByPlatform['deezer']['url'];
-      }
-
-      if (linksByPlatform['youtubeMusic'] != null) {
-        platformLinks['youtubeMusic'] = linksByPlatform['youtubeMusic']['url'];
-      }
-
-      if (linksByPlatform['tidal'] != null) {
-        platformLinks['tidal'] = linksByPlatform['tidal']['url'];
-      }
-
-      return platformLinks;
+      return OdesliResult(
+        platformLinks: platformLinks,
+        metadata: metadata,
+      );
     } else {
       throw Exception(
         'Odesli API error: ${response.statusCode} - ${response.body}',
       );
+    }
+  }
+
+  Map<String, String> _extractPlatformLinks(Map<String, dynamic> data) {
+    final linksByPlatform = data['linksByPlatform'] as Map<String, dynamic>?;
+
+    if (linksByPlatform == null) {
+      throw Exception('No links found for this track');
+    }
+
+    final Map<String, String> platformLinks = {};
+
+    if (linksByPlatform['appleMusic'] != null) {
+      platformLinks['appleMusic'] = linksByPlatform['appleMusic']['url'];
+    }
+
+    if (linksByPlatform['spotify'] != null) {
+      platformLinks['spotify'] = linksByPlatform['spotify']['url'];
+    }
+
+    if (linksByPlatform['deezer'] != null) {
+      platformLinks['deezer'] = linksByPlatform['deezer']['url'];
+    }
+
+    if (linksByPlatform['youtubeMusic'] != null) {
+      platformLinks['youtubeMusic'] = linksByPlatform['youtubeMusic']['url'];
+    }
+
+    if (linksByPlatform['tidal'] != null) {
+      platformLinks['tidal'] = linksByPlatform['tidal']['url'];
+    }
+
+    return platformLinks;
+  }
+
+  TrackMetadata? _extractMetadata(Map<String, dynamic> data) {
+    try {
+      final entitiesByUniqueId = data['entitiesByUniqueId'] as Map<String, dynamic>?;
+      
+      if (entitiesByUniqueId == null || entitiesByUniqueId.isEmpty) {
+        return null;
+      }
+
+      // Get the first entity to extract metadata
+      final entityUniqueId = data['entityUniqueId'] as String?;
+      Map<String, dynamic>? entity;
+
+      if (entityUniqueId != null && entitiesByUniqueId.containsKey(entityUniqueId)) {
+        entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>;
+      } else {
+        // Fallback to first entity
+        entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
+      }
+
+      return TrackMetadata(
+        title: entity['title'] ?? 'Unknown Title',
+        artist: entity['artistName'] ?? 'Unknown Artist',
+        album: entity['title'], // Odesli doesn't provide album name separately for tracks
+        imageUrl: entity['thumbnailUrl'],
+      );
+    } catch (e) {
+      // If metadata extraction fails, return null but don't fail the whole request
+      return null;
     }
   }
 }
