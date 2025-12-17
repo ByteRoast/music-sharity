@@ -25,11 +25,9 @@
 
 - 🎵 **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal
 - 📀 **Supports tracks and albums**
-- 🔄 **Fast conversion**: Direct API integration for Spotify/Deezer
+- 🔄 **Fast conversion**: Powered by Odesli API
 - 📱 **Native Android sharing**: Appears in the share menu
-- 🎨 **Modern Material Design 3** dark theme
-- 🔒 **Privacy-focused**: No data collection, no tracking
-- 🆓 **Free and Open Source** (GPL v3)
+- 🔒 **Privacy-focused**: No API keys, no data collection, no tracking
 
 ## Installation
 
@@ -82,26 +80,24 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 
 ## Supported Platforms
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| **Spotify** | ✅ Fully supported | Direct API integration |
-| **Deezer** | ✅ Fully supported | Direct API integration |
-| **Apple Music** | ✅ Supported | Via Odesli API |
-| **YouTube Music** | ✅ Supported | Via Odesli API |
-| **Tidal** | ✅ Supported | Via Odesli API |
+| Platform | Status |
+|----------|--------|
+| **Spotify** | ✅ Fully supported |
+| **Deezer** | ✅ Fully supported |
+| **Apple Music** | ✅ Fully supported |
+| **YouTube Music** | ✅ Fully supported |
+| **Tidal** | ✅ Fully supported |
 
 ## Technical Details
 
 **Built with:**
 - [Flutter](https://flutter.dev) - Cross-platform framework
 - Material Design 3 - Modern UI design
-- Spotify API - Direct track metadata
-- Deezer API - Direct track metadata
-- [Odesli/song.link](https://odesli.co) - Universal link conversion
+- [Odesli/song.link](https://odesli.co) - Universal link conversion API
 
 **Architecture:**
-- Direct API calls for Spotify ↔ Deezer (fast, with metadata)
-- Odesli API for other platforms (universal compatibility)
+- All conversions powered by the Odesli API
+- No API keys required - fully open source friendly
 - No user data collection
 - No tracking or analytics
 
@@ -113,7 +109,7 @@ Music Sharity **does not collect or store any personal data**.
 - ✅ No tracking
 - ✅ No analytics
 - ✅ No ads
-- ✅ All conversions happen in real-time
+- ✅ All conversions happen in real-time via Odesli
 
 Read our [Privacy Policy](https://byteroast.github.io/music-sharity/PRIVACY) for details.
 
@@ -123,7 +119,6 @@ Read our [Privacy Policy](https://byteroast.github.io/music-sharity/PRIVACY) for
 
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.10+)
 - Android Studio or VS Code
-- Spotify Developer Account (for API keys)
 
 ### Setup
 
@@ -138,14 +133,7 @@ cd music-sharity
 flutter pub get
 ```
 
-3. **Create `.env` file:**
-```env
-SPOTIFY_CLIENT_ID=your_client_id
-SPOTIFY_CLIENT_SECRET=your_client_secret
-```
-   Get your Spotify credentials at [developer.spotify.com](https://developer.spotify.com/dashboard)
-
-4. **Run the app:**
+3. **Run the app:**
 ```bash
 # Android
 flutter run
@@ -157,7 +145,7 @@ flutter run -d windows
 flutter run -d chrome
 ```
 
-5. **Build release:**
+4. **Build release:**
 ```bash
 # Android APK
 flutter build apk --release
@@ -196,9 +184,7 @@ This means:
 ## Acknowledgments
 
 - [Flutter](https://flutter.dev) - Amazing cross-platform framework
-- [Spotify API](https://developer.spotify.com) - Track metadata
-- [Deezer API](https://developers.deezer.com) - Track metadata
-- [Odesli](https://odesli.co) - Universal music link conversion
+- [Odesli](https://odesli.co) - Universal music link conversion API
 - All contributors and testers!
 
 ## Support

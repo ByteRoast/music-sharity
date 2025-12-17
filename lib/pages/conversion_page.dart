@@ -34,6 +34,7 @@ class ConversionPage extends StatefulWidget {
 
 class _ConversionPageState extends State<ConversionPage> {
   final MusicConverterService _converterService = MusicConverterService();
+  bool _isConverting = false;
 
   List<MusicPlatform> get availablePlatforms {
     return MusicPlatform.values
@@ -66,6 +67,12 @@ class _ConversionPageState extends State<ConversionPage> {
     BuildContext context,
     MusicPlatform targetPlatform,
   ) async {
+    if (_isConverting) return;
+
+    setState(() {
+      _isConverting = true;
+    });
+
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     try {
@@ -75,6 +82,10 @@ class _ConversionPageState extends State<ConversionPage> {
       );
 
       if (!mounted) return;
+
+      setState(() {
+        _isConverting = false;
+      });
 
       if (result.isSuccess) {
         _showConversionSuccessDialog(result, targetPlatform);
@@ -88,6 +99,10 @@ class _ConversionPageState extends State<ConversionPage> {
       }
     } catch (e) {
       if (!mounted) return;
+
+      setState(() {
+        _isConverting = false;
+      });
 
       scaffoldMessenger.showSnackBar(
         SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
@@ -138,85 +153,116 @@ class _ConversionPageState extends State<ConversionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Choose destination platform')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Card(
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Source',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Card(
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          _getContentIcon(widget.musicLink.contentType),
-                          size: 24,
+                        const Text(
+                          'Source',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        const SizedBox(height: 8),
+                        Row(
                           children: [
-                            Text(
-                              sourcePlatformName,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Icon(
+                              _getContentIcon(widget.musicLink.contentType),
+                              size: 24,
                             ),
-                            Text(
-                              _getContentTypeName(widget.musicLink.contentType),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  sourcePlatformName,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  _getContentTypeName(widget.musicLink.contentType),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                const Text(
+                  'Convert to',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(height: 20),
+
+                Expanded(
+                  child: AbsorbPointer(
+                    absorbing: _isConverting,
+                    child: Opacity(
+                      opacity: _isConverting ? 0.5 : 1.0,
+                      child: ListView.builder(
+                        itemCount: availablePlatforms.length,
+                        itemBuilder: (context, index) {
+                          final platform = availablePlatforms[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: PlatformCard(
+                              platform: platform,
+                              onTap: () => _convertToPlatform(context, platform),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          if (_isConverting)
+            Container(
+              color: Colors.black.withValues(alpha: 0.3),
+              child: const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text(
+                      'Converting...',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-
-            const SizedBox(height: 30),
-
-            const Text(
-              'Convert to',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 20),
-
-            Expanded(
-              child: ListView.builder(
-                itemCount: availablePlatforms.length,
-                itemBuilder: (context, index) {
-                  final platform = availablePlatforms[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: PlatformCard(
-                      platform: platform,
-                      onTap: () => _convertToPlatform(context, platform),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -278,7 +324,6 @@ class _ConversionPageState extends State<ConversionPage> {
       
       if (!mounted) return;
       
-      // Retour à une HomePage fraîche
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const HomePage()),
         (route) => false,
