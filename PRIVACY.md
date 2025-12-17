@@ -1,6 +1,6 @@
 # Privacy Policy for Music Sharity
 
-**Last updated: December 15, 2024**
+**Last updated: December 17, 2025**
 
 ## Overview
 
@@ -27,7 +27,7 @@ Music Sharity is designed with privacy as a core principle. We explicitly **DO N
 Music Sharity operates entirely on your device:
 
 1. ✅ You paste or share a music link
-2. ✅ The app converts it locally or via third-party APIs
+2. ✅ The app converts it via the Odesli API
 3. ✅ You receive the converted link
 4. ✅ **No data is stored or transmitted to our servers**
 
@@ -35,28 +35,18 @@ We don't have servers. We don't have databases. We don't collect anything.
 
 ## Third-Party Services
 
-Music Sharity uses the following third-party APIs to convert music links. These services may collect data according to their own privacy policies:
+Music Sharity uses the following third-party API to convert music links:
 
-### 1. Spotify API
-- **Purpose**: Retrieve track metadata for Spotify links
-- **Data sent**: Track URLs only (no personal data)
-- **Privacy Policy**: [spotify.com/privacy](https://www.spotify.com/privacy)
-
-### 2. Deezer API
-- **Purpose**: Retrieve track metadata for Deezer links
-- **Data sent**: Track URLs only (no personal data)
-- **Privacy Policy**: [deezer.com/legal/personal-datas](https://www.deezer.com/legal/personal-datas)
-
-### 3. Odesli API (song.link)
-- **Purpose**: Convert links for Apple Music, YouTube Music, and Tidal
+### Odesli API (song.link)
+- **Purpose**: Convert music links between all supported platforms
 - **Data sent**: Music URLs only (no personal data)
 - **Privacy Policy**: [odesli.co/privacy](https://odesli.co/privacy)
 
 **Important notes:**
-- These services receive only the music links you provide
-- We don't send any personal or device information to them
+- Odesli receives only the music links you provide
+- We don't send any personal or device information
 - We have no control over their data practices
-- Please review their privacy policies if you have concerns
+- Please review their privacy policy if you have concerns
 
 ## Data Storage
 
@@ -66,6 +56,7 @@ Music Sharity does **NOT** store any data:
 - ✅ No cached links
 - ✅ No user preferences saved
 - ✅ No local databases
+- ✅ No API keys or secrets
 - ✅ All conversions happen in real-time and are immediately discarded
 
 ## Permissions Required
@@ -75,7 +66,7 @@ Music Sharity does **NOT** store any data:
 Music Sharity requests the following permissions:
 
 **Internet Access** (`android.permission.INTERNET`)
-- **Purpose**: Required to communicate with Spotify, Deezer, and Odesli APIs
+- **Purpose**: Required to communicate with the Odesli API
 - **Data transmitted**: Music URLs only (no personal data)
 
 **No other permissions are requested.**
@@ -144,6 +135,7 @@ We are not responsible for the privacy practices of these third parties.
 Since we don't collect or store data, there is no data to secure. However:
 
 - ✅ All API communications use HTTPS encryption
+- ✅ The app contains no API keys or secrets
 - ✅ The app source code is publicly auditable
 - ✅ No passwords or sensitive data are handled
 
@@ -184,6 +176,7 @@ If you have questions about this Privacy Policy or Music Sharity's privacy pract
 | Do you store conversion history? | ❌ No |
 | Do you have user accounts? | ❌ No |
 | Do you sell data? | ❌ No (we don't have any!) |
+| Do you store API keys? | ❌ No |
 | Is the source code public? | ✅ Yes |
 | Can I verify privacy claims? | ✅ Yes (open source) |
 
