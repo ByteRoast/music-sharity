@@ -111,7 +111,7 @@ Music Sharity **does not collect or store any personal data**.
 - ✅ No ads
 - ✅ All conversions happen in real-time via Odesli
 
-Read our [Privacy Policy](https://byteroast.github.io/music-sharity/PRIVACY) for details.
+Read our [Privacy Policy](https://music-sharity.byteroast.fr/PRIVACY) for details.
 
 ## Build from Source
 
@@ -167,7 +167,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
-This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE.md) file for details.
 
 This means:
 - ✅ You can use, modify, and distribute this software
