@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Music Sharity'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 12.0),  // ← Margin à droite
+            padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
               icon: const Icon(Icons.info_outline),
               onPressed: () {
@@ -147,8 +147,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 20),
-            
-            // Logo
+
             Center(
               child: Image.asset(
                 'assets/images/brandings/logo.png',
@@ -157,9 +156,9 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.contain,
               ),
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             const Text(
               'Share your music between all platforms',
               textAlign: TextAlign.center,
@@ -214,7 +213,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             _getContentTypeName(
-                              LinkValidator.detectContentType(_linkController.text),
+                              LinkValidator.detectContentType(
+                                _linkController.text,
+                              ),
                             ),
                             style: const TextStyle(
                               fontSize: 12,

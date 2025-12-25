@@ -110,16 +110,15 @@ class _AboutPageState extends State<AboutPage> {
             title: 'Privacy Policy',
             subtitle: 'How we handle your data',
             onTap: () =>
-                _launchUrl('https://music-sharity.byteroast.fr/PRIVACY'),
+                _launchUrl('https://music-sharity.byteroast.fr/privacy.html'),
           ),
 
           _buildLinkCard(
             icon: Icons.gavel,
             title: 'License',
             subtitle: 'GPL v3',
-            onTap: () => _launchUrl(
-              'https://music-sharity.byteroast.fr/LICENSE.md',
-            ),
+            onTap: () =>
+                _launchUrl('https://music-sharity.byteroast.fr/license.html'),
           ),
 
           const SizedBox(height: 24),
@@ -130,7 +129,7 @@ class _AboutPageState extends State<AboutPage> {
             icon: Icons.person_outline,
             title: 'Sikelio (Byte Roast)',
             subtitle: 'Created by',
-            onTap: () => _launchUrl('https://github.com/Sikelio'),
+            onTap: () => _launchUrl('https://github.com/sikelio'),
           ),
 
           const SizedBox(height: 24),

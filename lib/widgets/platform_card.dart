@@ -23,11 +23,7 @@ class PlatformCard extends StatelessWidget {
   final MusicPlatform platform;
   final VoidCallback onTap;
 
-  const PlatformCard({
-    super.key,
-    required this.platform,
-    required this.onTap,
-  });
+  const PlatformCard({super.key, required this.platform, required this.onTap});
 
   String get platformName {
     switch (platform) {

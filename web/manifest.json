@@ -1,12 +1,13 @@
 {
     "name": "Music Sharity",
     "short_name": "Music Sharity",
-    "start_url": ".",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
-    "background_color": "#0A0A0A",
-    "theme_color": "#00A8FF",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#000000",
+    "theme_color": "#2196F3",
+    "description": "Convert music links between streaming platforms",
+    "orientation": "portrait",
     "prefer_related_applications": false,
     "icons": [
         {
@@ -31,5 +32,15 @@
             "type": "image/png",
             "purpose": "maskable"
         }
-    ]
+    ],
+    "share_target": {
+        "action": "/share",
+        "method": "GET",
+        "enctype": "application/x-www-form-urlencoded",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    }
 }

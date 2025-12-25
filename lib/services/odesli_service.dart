@@ -33,21 +33,17 @@ class OdesliService {
   factory OdesliService() => _instance;
   OdesliService._internal();
 
-  /// Converts a music link and returns both platform links and metadata
   Future<OdesliResult> convertLink(String sourceUrl) async {
     final encodedUrl = Uri.encodeComponent(sourceUrl);
     final response = await http.get(Uri.parse('$_baseUrl?url=$encodedUrl'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      
+
       final platformLinks = _extractPlatformLinks(data);
       final metadata = _extractMetadata(data);
 
-      return OdesliResult(
-        platformLinks: platformLinks,
-        metadata: metadata,
-      );
+      return OdesliResult(platformLinks: platformLinks, metadata: metadata);
     } else {
       throw Exception(
         'Odesli API error: ${response.statusCode} - ${response.body}',
@@ -89,31 +85,30 @@ class OdesliService {
 
   TrackMetadata? _extractMetadata(Map<String, dynamic> data) {
     try {
-      final entitiesByUniqueId = data['entitiesByUniqueId'] as Map<String, dynamic>?;
-      
+      final entitiesByUniqueId =
+          data['entitiesByUniqueId'] as Map<String, dynamic>?;
+
       if (entitiesByUniqueId == null || entitiesByUniqueId.isEmpty) {
         return null;
       }
 
-      // Get the first entity to extract metadata
       final entityUniqueId = data['entityUniqueId'] as String?;
       Map<String, dynamic>? entity;
 
-      if (entityUniqueId != null && entitiesByUniqueId.containsKey(entityUniqueId)) {
+      if (entityUniqueId != null &&
+          entitiesByUniqueId.containsKey(entityUniqueId)) {
         entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>;
       } else {
-        // Fallback to first entity
         entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
       }
 
       return TrackMetadata(
         title: entity['title'] ?? 'Unknown Title',
         artist: entity['artistName'] ?? 'Unknown Artist',
-        album: entity['title'], // Odesli doesn't provide album name separately for tracks
+        album: entity['title'],
         imageUrl: entity['thumbnailUrl'],
       );
     } catch (e) {
-      // If metadata extraction fails, return null but don't fail the whole request
       return null;
     }
   }
