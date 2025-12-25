@@ -15,15 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import 'package:flutter/foundation.dart';
-
-import 'web_share_handler_stub.dart'
-  if (dart.library.html) 'web_share_handler_web.dart';
-
-class WebShareHandler {
-  static String? getSharedUrl() {
-    if (!kIsWeb) return null;
-
-    return getSharedUrlImpl();
-  }
+String? getSharedUrlImpl() {
+  return null;
 }

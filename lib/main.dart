@@ -46,6 +46,7 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   StreamSubscription<Uri>? _deepLinkSubscription;
   StreamSubscription<List<SharedMediaFile>>? _sharingMediaSubscription;
   String? _sharedLink;
+  Timer? _webShareCheckTimer;
 
   bool get _isMobilePlatform {
     if (kIsWeb) return false;
@@ -58,6 +59,7 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
 
     if (kIsWeb) {
       _initWebSharing();
+      _startWebSharePolling();
     } else {
       _initDeepLinks();
 
@@ -74,9 +76,28 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
       setState(() {
         _sharedLink = sharedUrl;
       });
-
-      debugPrint('Web share detected: $_sharedLink');
     }
+  }
+
+  void _startWebSharePolling() {
+    int checkCount = 0;
+
+    _webShareCheckTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      checkCount++;
+      
+      final sharedUrl = WebShareHandler.getSharedUrl();
+      if (sharedUrl != null && sharedUrl.isNotEmpty && sharedUrl != _sharedLink) {
+        setState(() {
+          _sharedLink = sharedUrl;
+        });
+
+        timer.cancel();
+      }
+
+      if (checkCount >= 10) {
+        timer.cancel();
+      }
+    });
   }
 
   Future<void> _initDeepLinks() async {
@@ -140,6 +161,7 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   void dispose() {
     _deepLinkSubscription?.cancel();
     _sharingMediaSubscription?.cancel();
+    _webShareCheckTimer?.cancel();
 
     if (_isMobilePlatform) {
       ReceiveSharingIntent.instance.reset();

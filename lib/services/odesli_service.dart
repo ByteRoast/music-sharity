@@ -29,7 +29,8 @@ class OdesliResult {
 
 class OdesliService {
   static const String _baseUrl = 'https://api.song.link/v1-alpha.1/links';
-  static const String _corsProxy = 'https://corsproxy.io/?';
+  static const String _cloudflareWorkerUrl =
+      'https://music-sharity-proxy.byteroast.workers.dev';
 
   static final OdesliService _instance = OdesliService._internal();
   factory OdesliService() => _instance;
@@ -39,7 +40,7 @@ class OdesliService {
     final encodedUrl = Uri.encodeComponent(sourceUrl);
 
     final String finalUrl = kIsWeb
-        ? '$_corsProxy${Uri.encodeComponent('$_baseUrl?url=$encodedUrl')}'
+        ? '$_cloudflareWorkerUrl?url=$encodedUrl'
         : '$_baseUrl?url=$encodedUrl';
 
     final response = await http.get(Uri.parse(finalUrl));
