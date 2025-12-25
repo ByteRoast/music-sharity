@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import '../models/track_metadata.dart';
 
@@ -28,6 +29,7 @@ class OdesliResult {
 
 class OdesliService {
   static const String _baseUrl = 'https://api.song.link/v1-alpha.1/links';
+  static const String _corsProxy = 'https://corsproxy.io/?';
 
   static final OdesliService _instance = OdesliService._internal();
   factory OdesliService() => _instance;
@@ -35,7 +37,12 @@ class OdesliService {
 
   Future<OdesliResult> convertLink(String sourceUrl) async {
     final encodedUrl = Uri.encodeComponent(sourceUrl);
-    final response = await http.get(Uri.parse('$_baseUrl?url=$encodedUrl'));
+
+    final String finalUrl = kIsWeb
+        ? '$_corsProxy${Uri.encodeComponent('$_baseUrl?url=$encodedUrl')}'
+        : '$_baseUrl?url=$encodedUrl';
+
+    final response = await http.get(Uri.parse(finalUrl));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
