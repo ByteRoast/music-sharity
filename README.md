@@ -4,6 +4,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Windows-brightgreen)]()
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue)]()
 [![GitHub issues](https://img.shields.io/github/issues/byteroast/music-sharity)](https://github.com/byteroast/music-sharity/issues)
+[![Build Tests](https://github.com/ByteRoast/music-sharity/actions/workflows/build_tests.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/build_tests.yml)
 [![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
 
 > [!WARNING]
