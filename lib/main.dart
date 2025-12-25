@@ -24,6 +24,7 @@ import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'dart:async';
 import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
+import 'utils/web_share_handler.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,10 +55,27 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   @override
   void initState() {
     super.initState();
-    _initDeepLinks();
 
-    if (_isMobilePlatform) {
-      _initSharingIntent();
+    if (kIsWeb) {
+      _initWebSharing();
+    } else {
+      _initDeepLinks();
+
+      if (_isMobilePlatform) {
+        _initSharingIntent();
+      }
+    }
+  }
+
+  void _initWebSharing() {
+    final sharedUrl = WebShareHandler.getSharedUrl();
+
+    if (sharedUrl != null && sharedUrl.isNotEmpty) {
+      setState(() {
+        _sharedLink = sharedUrl;
+      });
+
+      debugPrint('Web share detected: $_sharedLink');
     }
   }
 
