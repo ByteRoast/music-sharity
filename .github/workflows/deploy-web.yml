@@ -197,7 +197,7 @@ jobs:
           </html>`;
 
             fs.writeFileSync(outputFile, html, 'utf8');
-            console.log(\`Generated \${outputFile}\`);
+            console.log(`Generated ${outputFile}`);
           }
 
           convertToHTML('LICENSE.md', 'Music Sharity - License', 'build/web/license.html');
