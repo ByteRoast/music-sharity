@@ -25,18 +25,10 @@ class WebShareHandler {
     try {
       final uri = Uri.parse(web.window.location.href);
 
-      debugPrint('WebShareHandler - Current URL: ${uri.toString()}');
-      debugPrint('WebShareHandler - Path: ${uri.path}');
-      debugPrint('WebShareHandler - Query params: ${uri.queryParameters}');
-
       if (uri.path == '/share' || uri.path == '/share/') {
         final sharedUrl = uri.queryParameters['url'];
         final sharedText = uri.queryParameters['text'];
-        final sharedTitle = uri.queryParameters['title'];
-
-        debugPrint('WebShareHandler - Shared URL: $sharedUrl');
-        debugPrint('WebShareHandler - Shared text: $sharedText');
-        debugPrint('WebShareHandler - Shared title: $sharedTitle');
+        // final sharedTitle = uri.queryParameters['title'];
 
         String? musicUrl;
 
@@ -53,15 +45,12 @@ class WebShareHandler {
         }
 
         if (musicUrl != null && musicUrl.isNotEmpty) {
-          debugPrint('WebShareHandler - Extracted music URL: $musicUrl');
-
           final newUrl = '/#shared=${Uri.encodeComponent(musicUrl)}';
 
           web.window.history.replaceState(null, '', newUrl);
 
           return musicUrl;
         } else {
-          debugPrint('WebShareHandler - No valid URL found in shared data');
           web.window.history.replaceState(null, '', '/');
         }
       }
@@ -72,8 +61,6 @@ class WebShareHandler {
         if (fragment.startsWith('shared=')) {
           final encodedUrl = fragment.substring('shared='.length);
           final sharedUrl = Uri.decodeComponent(encodedUrl);
-
-          debugPrint('WebShareHandler - Found URL in fragment: $sharedUrl');
 
           web.window.history.replaceState(null, '', '/');
 

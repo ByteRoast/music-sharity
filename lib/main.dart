@@ -76,8 +76,6 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
       setState(() {
         _sharedLink = sharedUrl;
       });
-
-      debugPrint('Web share detected: $_sharedLink');
     }
   }
 
@@ -89,8 +87,6 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
       
       final sharedUrl = WebShareHandler.getSharedUrl();
       if (sharedUrl != null && sharedUrl.isNotEmpty && sharedUrl != _sharedLink) {
-        debugPrint('Web share detected via polling: $sharedUrl');
-
         setState(() {
           _sharedLink = sharedUrl;
         });
