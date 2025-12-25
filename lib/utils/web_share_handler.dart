@@ -20,7 +20,9 @@ import 'package:web/web.dart' as web;
 
 class WebShareHandler {
   static String? getSharedUrl() {
-    if (kIsWeb) {
+    if (!kIsWeb) return null;
+
+    try {
       final uri = Uri.parse(web.window.location.href);
 
       debugPrint('WebShareHandler - Current URL: ${uri.toString()}');
@@ -30,14 +32,56 @@ class WebShareHandler {
       if (uri.path == '/share' || uri.path == '/share/') {
         final sharedUrl = uri.queryParameters['url'];
         final sharedText = uri.queryParameters['text'];
+        final sharedTitle = uri.queryParameters['title'];
 
-        debugPrint('WebShareHandler - Shared URL detected: $sharedUrl');
-        debugPrint('WebShareHandler - Shared text detected: $sharedText');
+        debugPrint('WebShareHandler - Shared URL: $sharedUrl');
+        debugPrint('WebShareHandler - Shared text: $sharedText');
+        debugPrint('WebShareHandler - Shared title: $sharedTitle');
 
-        web.window.history.replaceState(null, '', '/');
+        String? musicUrl;
 
-        return sharedUrl ?? sharedText;
+        if (sharedUrl != null && sharedUrl.isNotEmpty) {
+          musicUrl = sharedUrl;
+        } else if (sharedText != null && sharedText.isNotEmpty) {
+          final urlPattern = RegExp(
+            r'https?://[^\s]+',
+            caseSensitive: false,
+          );
+
+          final match = urlPattern.firstMatch(sharedText);
+          musicUrl = match?.group(0);
+        }
+
+        if (musicUrl != null && musicUrl.isNotEmpty) {
+          debugPrint('WebShareHandler - Extracted music URL: $musicUrl');
+
+          final newUrl = '/#shared=${Uri.encodeComponent(musicUrl)}';
+
+          web.window.history.replaceState(null, '', newUrl);
+
+          return musicUrl;
+        } else {
+          debugPrint('WebShareHandler - No valid URL found in shared data');
+          web.window.history.replaceState(null, '', '/');
+        }
       }
+
+      if (uri.fragment.isNotEmpty) {
+        final fragment = uri.fragment;
+
+        if (fragment.startsWith('shared=')) {
+          final encodedUrl = fragment.substring('shared='.length);
+          final sharedUrl = Uri.decodeComponent(encodedUrl);
+
+          debugPrint('WebShareHandler - Found URL in fragment: $sharedUrl');
+
+          web.window.history.replaceState(null, '', '/');
+
+          return sharedUrl;
+        }
+      }
+    } catch (e) {
+      debugPrint('WebShareHandler - Error: $e');
     }
 
     return null;
