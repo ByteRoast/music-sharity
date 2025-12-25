@@ -18,7 +18,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0"
+          flutter-version: '3.38.5'
           channel: "stable"
 
       - name: Get dependencies
@@ -140,71 +140,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
-
-          pandoc LICENSE.md -f markdown -t html -s -o build/web/license.html \
-            --metadata title="Music Sharity - License" \
-            --css=https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css \
-            --template=<(cat << 'TEMPLATE'
+          
+          cat > /tmp/template.html << 'TEMPLATE'
           <!DOCTYPE html>
           <html lang="en">
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
             <title>$title$</title>
-
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css">
-
-            <style>
-                body { 
-                  max-width: 900px; 
-                  margin: 40px auto; 
-                  padding: 20px;
-                  background: #f5f5f5;
-                }
-
-                .markdown-body {
-                  background: white;
-                  padding: 40px;
-                  border-radius: 8px;
-                  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                }
-
-                .back-link {
-                  display: inline-block;
-                  margin-bottom: 20px;
-                  color: #1976d2;
-                  text-decoration: none;
-                }
-
-                .back-link:hover { text-decoration: underline; }
-            </style>
-          </head>
-          <body>
-            <a href="/docs.html" class="back-link">← Back to Documentation</a>
-
-            <div class="markdown-body">
-              $body$
-            </div>
-          </body>
-          </html>
-          TEMPLATE
-          )
-
-          pandoc PRIVACY.md -f markdown -t html -s -o build/web/privacy.html \
-            --metadata title="Music Sharity - Privacy Policy" \
-            --css=https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css \
-            --template=<(cat << 'TEMPLATE'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-            <title>$title$</title>
-
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css">
-
             <style>
               body { 
                 max-width: 900px; 
@@ -212,36 +156,37 @@ jobs:
                 padding: 20px;
                 background: #f5f5f5;
               }
-
               .markdown-body {
                 background: white;
                 padding: 40px;
                 border-radius: 8px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
               }
-
               .back-link {
                 display: inline-block;
                 margin-bottom: 20px;
                 color: #1976d2;
                 text-decoration: none;
               }
-
-              .back-link:hover {
-                text-decoration: underline;
-              }
+              .back-link:hover { text-decoration: underline; }
             </style>
           </head>
           <body>
             <a href="/docs.html" class="back-link">← Back to Documentation</a>
-
             <div class="markdown-body">
               $body$
             </div>
           </body>
           </html>
           TEMPLATE
-          )
+          
+          pandoc LICENSE.md -f markdown -t html -s -o build/web/license.html \
+            --metadata title="Music Sharity - License" \
+            --template=/tmp/template.html
+          
+          pandoc PRIVACY.md -f markdown -t html -s -o build/web/privacy.html \
+            --metadata title="Music Sharity - Privacy Policy" \
+            --template=/tmp/template.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
