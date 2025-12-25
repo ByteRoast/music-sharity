@@ -126,10 +126,11 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install marked
+        run: npm install marked
+
       - name: Convert Markdown to HTML
         run: |
-          npm install -g marked
-
           node << 'SCRIPT'
           const fs = require('fs');
           const { marked } = require('marked');
