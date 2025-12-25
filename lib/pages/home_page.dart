@@ -148,7 +148,6 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height: 20),
 
-            // Logo
             Center(
               child: Image.asset(
                 'assets/images/brandings/logo.png',

@@ -33,7 +33,6 @@ class OdesliService {
   factory OdesliService() => _instance;
   OdesliService._internal();
 
-  /// Converts a music link and returns both platform links and metadata
   Future<OdesliResult> convertLink(String sourceUrl) async {
     final encodedUrl = Uri.encodeComponent(sourceUrl);
     final response = await http.get(Uri.parse('$_baseUrl?url=$encodedUrl'));
@@ -93,7 +92,6 @@ class OdesliService {
         return null;
       }
 
-      // Get the first entity to extract metadata
       final entityUniqueId = data['entityUniqueId'] as String?;
       Map<String, dynamic>? entity;
 
@@ -101,19 +99,16 @@ class OdesliService {
           entitiesByUniqueId.containsKey(entityUniqueId)) {
         entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>;
       } else {
-        // Fallback to first entity
         entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
       }
 
       return TrackMetadata(
         title: entity['title'] ?? 'Unknown Title',
         artist: entity['artistName'] ?? 'Unknown Artist',
-        album:
-            entity['title'], // Odesli doesn't provide album name separately for tracks
+        album: entity['title'],
         imageUrl: entity['thumbnailUrl'],
       );
     } catch (e) {
-      // If metadata extraction fails, return null but don't fail the whole request
       return null;
     }
   }
