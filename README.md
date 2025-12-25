@@ -94,12 +94,20 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 - [Flutter](https://flutter.dev) - Cross-platform framework
 - Material Design 3 - Modern UI design
 - [Odesli/song.link](https://odesli.co) - Universal link conversion API
+- [Cloudflare Workers](https://workers.cloudflare.com) - Privacy-first CORS proxy (web version only)
 
 **Architecture:**
-- All conversions powered by the Odesli API
+- **Native apps** (Android, iOS, Windows, macOS, Linux): Direct API calls to Odesli (zero intermediaries)
+- **Web app**: Privacy-first CORS proxy via Cloudflare Workers (zero logging, zero tracking)
 - No API keys required - fully open source friendly
 - No user data collection
 - No tracking or analytics
+- Proxy source code: [music-sharity-proxy](https://github.com/ByteRoast/music-sharity-proxy)
+
+**Privacy infrastructure:**
+- Native apps: Direct API communication ✅
+- Web app: Stateless edge proxy with no data retention ✅
+- All code is open source and auditable ✅
 
 ## Privacy
 

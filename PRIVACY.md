@@ -48,6 +48,51 @@ Music Sharity uses the following third-party API to convert music links:
 - We have no control over their data practices
 - Please review their privacy policy if you have concerns
 
+## Technical Infrastructure (Web Version Only)
+
+### CORS Proxy for Web Browsers
+
+Due to browser security restrictions (CORS), **the web version only** of Music Sharity uses a privacy-first serverless proxy to communicate with the Odesli API.
+
+**Important privacy guarantees:**
+
+- ✅ **Zero data storage**: The proxy does not store any request data
+- ✅ **Zero user tracking**: No analytics, cookies, or tracking mechanisms
+- ✅ **Zero IP logging**: User IP addresses are not forwarded or logged
+- ✅ **Transparent relay**: The proxy simply forwards requests to Odesli API
+- ✅ **Open source**: The proxy code is publicly available in our [proxy repository](https://github.com/ByteRoast/music-sharity-proxy)
+- ✅ **No logs retention**: Logging is explicitly disabled in the worker configuration
+
+**Why is this proxy needed?**
+
+Web browsers enforce CORS (Cross-Origin Resource Sharing) policies that prevent direct API calls to external services. The proxy exists solely to bypass this browser limitation. It acts as a transparent relay with **zero data retention**.
+
+**Technical implementation:**
+- Platform: Cloudflare Workers (Edge Computing)
+- Runtime: V8 Isolate (serverless, stateless)
+- Network: 300+ global data centers
+- Logging: Explicitly disabled (`observability.enabled = false`)
+- Data retention: None (stateless execution)
+
+**Data flow (Web version only):**
+```
+Your Browser → Cloudflare Worker → Odesli API → Cloudflare Worker → Your Browser
+             (no logging)        (public API)      (no logging)
+```
+
+**Native apps (Android, iOS, Windows, macOS, Linux):**
+
+Native applications communicate **directly** with the Odesli API without any proxy or intermediary, ensuring maximum privacy and zero additional infrastructure.
+
+**Transparency:**
+
+The proxy source code is fully open source and auditable:
+- Repository: [github.com/ByteRoast/music-sharity-proxy](https://github.com/ByteRoast/music-sharity-proxy)
+- Configuration: `wrangler.toml` shows `observability.enabled = false`
+- Worker code: `worker.js` contains no logging or data collection logic
+
+If you have privacy concerns about the web version, we recommend using our native applications (Android, iOS, Windows, macOS, Linux) which guarantee direct API communication with zero intermediaries.
+
 ## Data Storage
 
 Music Sharity does **NOT** store any data:
