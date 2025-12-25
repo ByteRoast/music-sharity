@@ -161,7 +161,9 @@ class _ConversionPageState extends State<ConversionPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Card(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -193,7 +195,9 @@ class _ConversionPageState extends State<ConversionPage> {
                                   ),
                                 ),
                                 Text(
-                                  _getContentTypeName(widget.musicLink.contentType),
+                                  _getContentTypeName(
+                                    widget.musicLink.contentType,
+                                  ),
                                   style: const TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey,
@@ -230,7 +234,8 @@ class _ConversionPageState extends State<ConversionPage> {
                             padding: const EdgeInsets.only(bottom: 12.0),
                             child: PlatformCard(
                               platform: platform,
-                              onTap: () => _convertToPlatform(context, platform),
+                              onTap: () =>
+                                  _convertToPlatform(context, platform),
                             ),
                           );
                         },
@@ -321,14 +326,13 @@ class _ConversionPageState extends State<ConversionPage> {
 
     try {
       await SharePlus.instance.share(ShareParams(text: result.url));
-      
+
       if (!mounted) return;
-      
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const HomePage()),
         (route) => false,
       );
-      
     } catch (e) {
       if (!mounted) return;
 

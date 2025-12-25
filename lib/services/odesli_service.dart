@@ -40,14 +40,11 @@ class OdesliService {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      
+
       final platformLinks = _extractPlatformLinks(data);
       final metadata = _extractMetadata(data);
 
-      return OdesliResult(
-        platformLinks: platformLinks,
-        metadata: metadata,
-      );
+      return OdesliResult(platformLinks: platformLinks, metadata: metadata);
     } else {
       throw Exception(
         'Odesli API error: ${response.statusCode} - ${response.body}',
@@ -89,8 +86,9 @@ class OdesliService {
 
   TrackMetadata? _extractMetadata(Map<String, dynamic> data) {
     try {
-      final entitiesByUniqueId = data['entitiesByUniqueId'] as Map<String, dynamic>?;
-      
+      final entitiesByUniqueId =
+          data['entitiesByUniqueId'] as Map<String, dynamic>?;
+
       if (entitiesByUniqueId == null || entitiesByUniqueId.isEmpty) {
         return null;
       }
@@ -99,7 +97,8 @@ class OdesliService {
       final entityUniqueId = data['entityUniqueId'] as String?;
       Map<String, dynamic>? entity;
 
-      if (entityUniqueId != null && entitiesByUniqueId.containsKey(entityUniqueId)) {
+      if (entityUniqueId != null &&
+          entitiesByUniqueId.containsKey(entityUniqueId)) {
         entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>;
       } else {
         // Fallback to first entity
@@ -109,7 +108,8 @@ class OdesliService {
       return TrackMetadata(
         title: entity['title'] ?? 'Unknown Title',
         artist: entity['artistName'] ?? 'Unknown Artist',
-        album: entity['title'], // Odesli doesn't provide album name separately for tracks
+        album:
+            entity['title'], // Odesli doesn't provide album name separately for tracks
         imageUrl: entity['thumbnailUrl'],
       );
     } catch (e) {

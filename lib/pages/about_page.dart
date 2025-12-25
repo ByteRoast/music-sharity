@@ -117,9 +117,8 @@ class _AboutPageState extends State<AboutPage> {
             icon: Icons.gavel,
             title: 'License',
             subtitle: 'GPL v3',
-            onTap: () => _launchUrl(
-              'https://music-sharity.byteroast.fr/LICENSE.md',
-            ),
+            onTap: () =>
+                _launchUrl('https://music-sharity.byteroast.fr/LICENSE.md'),
           ),
 
           const SizedBox(height: 24),
