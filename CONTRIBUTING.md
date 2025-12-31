@@ -47,6 +47,10 @@ lib/
 
 ## Pull Requests
 
+### Target Branch
+
+All PRs should target the `dev/main` branch.
+
 ### Branch Naming
 
 - `feature/description` for new features
