@@ -1,6 +1,6 @@
 # Privacy Policy for Music Sharity
 
-**Last updated: December 17, 2025**
+**Last updated: December 31, 2024**
 
 ## Overview
 
@@ -12,24 +12,24 @@ Music Sharity ("we", "our", or "the app") is committed to protecting your privac
 
 Music Sharity is designed with privacy as a core principle. We explicitly **DO NOT** collect:
 
-- ❌ Personal information (name, email, phone number)
-- ❌ User accounts or login credentials
-- ❌ Music listening history or preferences
-- ❌ Device information or identifiers
-- ❌ Location data
-- ❌ Analytics or usage statistics
-- ❌ Cookies or tracking data
-- ❌ IP addresses
-- ❌ Any other personally identifiable information
+- Personal information (name, email, phone number)
+- User accounts or login credentials
+- Music listening history or preferences
+- Device information or identifiers
+- Location data
+- Analytics or usage statistics
+- Cookies or tracking data
+- IP addresses
+- Any other personally identifiable information
 
 ## How the App Works
 
 Music Sharity operates entirely on your device:
 
-1. ✅ You paste or share a music link
-2. ✅ The app converts it via the Odesli API
-3. ✅ You receive the converted link
-4. ✅ **No data is stored or transmitted to our servers**
+1. You paste or share a music link
+2. The app converts it via the Odesli API
+3. You receive the converted link
+4. **No data is stored or transmitted to our servers**
 
 We don't have servers. We don't have databases. We don't collect anything.
 
@@ -38,11 +38,13 @@ We don't have servers. We don't have databases. We don't collect anything.
 Music Sharity uses the following third-party API to convert music links:
 
 ### Odesli API (song.link)
+
 - **Purpose**: Convert music links between all supported platforms
 - **Data sent**: Music URLs only (no personal data)
 - **Privacy Policy**: [odesli.co/privacy](https://odesli.co/privacy)
 
 **Important notes:**
+
 - Odesli receives only the music links you provide
 - We don't send any personal or device information
 - We have no control over their data practices
@@ -54,20 +56,21 @@ Music Sharity uses the following third-party API to convert music links:
 
 Due to browser security restrictions (CORS), **the web version only** of Music Sharity uses a privacy-first serverless proxy to communicate with the Odesli API.
 
-**Important privacy guarantees:**
+**Privacy guarantees:**
 
-- ✅ **Zero data storage**: The proxy does not store any request data
-- ✅ **Zero user tracking**: No analytics, cookies, or tracking mechanisms
-- ✅ **Zero IP logging**: User IP addresses are not forwarded or logged
-- ✅ **Transparent relay**: The proxy simply forwards requests to Odesli API
-- ✅ **Open source**: The proxy code is publicly available in our [proxy repository](https://github.com/ByteRoast/music-sharity-proxy)
-- ✅ **No logs retention**: Logging is explicitly disabled in the worker configuration
+- **Zero data storage**: The proxy does not store any request data
+- **Zero user tracking**: No analytics, cookies, or tracking mechanisms
+- **Zero IP logging**: User IP addresses are not forwarded or logged
+- **Transparent relay**: The proxy simply forwards requests to Odesli API
+- **Open source**: The proxy code is publicly available in our [proxy repository](https://github.com/ByteRoast/music-sharity-proxy)
+- **No logs retention**: Logging is explicitly disabled in the worker configuration
 
 **Why is this proxy needed?**
 
 Web browsers enforce CORS (Cross-Origin Resource Sharing) policies that prevent direct API calls to external services. The proxy exists solely to bypass this browser limitation. It acts as a transparent relay with **zero data retention**.
 
 **Technical implementation:**
+
 - Platform: Cloudflare Workers (Edge Computing)
 - Runtime: V8 Isolate (serverless, stateless)
 - Network: 300+ global data centers
@@ -75,34 +78,36 @@ Web browsers enforce CORS (Cross-Origin Resource Sharing) policies that prevent 
 - Data retention: None (stateless execution)
 
 **Data flow (Web version only):**
+
 ```
 Your Browser → Cloudflare Worker → Odesli API → Cloudflare Worker → Your Browser
              (no logging)        (public API)      (no logging)
 ```
 
-**Native apps (Android, iOS, Windows, macOS, Linux):**
+**Native apps (Android, Windows):**
 
 Native applications communicate **directly** with the Odesli API without any proxy or intermediary, ensuring maximum privacy and zero additional infrastructure.
 
 **Transparency:**
 
 The proxy source code is fully open source and auditable:
+
 - Repository: [github.com/ByteRoast/music-sharity-proxy](https://github.com/ByteRoast/music-sharity-proxy)
 - Configuration: `wrangler.toml` shows `observability.enabled = false`
 - Worker code: `worker.js` contains no logging or data collection logic
 
-If you have privacy concerns about the web version, we recommend using our native applications (Android, iOS, Windows, macOS, Linux) which guarantee direct API communication with zero intermediaries.
+If you have privacy concerns about the web version, we recommend using our native applications which guarantee direct API communication with zero intermediaries.
 
 ## Data Storage
 
 Music Sharity does **NOT** store any data:
 
-- ✅ No conversion history
-- ✅ No cached links
-- ✅ No user preferences saved
-- ✅ No local databases
-- ✅ No API keys or secrets
-- ✅ All conversions happen in real-time and are immediately discarded
+- No conversion history
+- No cached links
+- No user preferences saved
+- No local databases
+- No API keys or secrets
+- All conversions happen in real-time and are immediately discarded
 
 ## Permissions Required
 
@@ -111,6 +116,7 @@ Music Sharity does **NOT** store any data:
 Music Sharity requests the following permissions:
 
 **Internet Access** (`android.permission.INTERNET`)
+
 - **Purpose**: Required to communicate with the Odesli API
 - **Data transmitted**: Music URLs only (no personal data)
 
@@ -142,21 +148,23 @@ If you have any questions about data protection, please contact us.
 
 Music Sharity is **open source** under the GPL v3 license. You can:
 
-- ✅ View the complete source code: [github.com/byteroast/music-sharity](https://github.com/byteroast/music-sharity)
-- ✅ Verify our privacy claims yourself
-- ✅ Build the app from source
-- ✅ Audit the code for any data collection
+- View the complete source code: [github.com/byteroast/music-sharity](https://github.com/byteroast/music-sharity)
+- Verify our privacy claims yourself
+- Build the app from source
+- Audit the code for any data collection
 
 **Transparency is our priority.**
 
 ## Changes to This Privacy Policy
 
 We may update this Privacy Policy from time to time to reflect:
+
 - Changes in legal requirements
 - App functionality updates
 - User feedback
 
 **We will notify you of changes by:**
+
 - Updating the "Last updated" date
 - Posting the new policy in the app repository
 - (For significant changes) Displaying a notice in the app
@@ -179,51 +187,49 @@ We are not responsible for the privacy practices of these third parties.
 
 Since we don't collect or store data, there is no data to secure. However:
 
-- ✅ All API communications use HTTPS encryption
-- ✅ The app contains no API keys or secrets
-- ✅ The app source code is publicly auditable
-- ✅ No passwords or sensitive data are handled
+- All API communications use HTTPS encryption
+- The app contains no API keys or secrets
+- The app source code is publicly auditable
+- No passwords or sensitive data are handled
 
 ## International Users
 
 Music Sharity is available worldwide. Since we don't collect data:
 
-- ✅ No data crosses borders
-- ✅ No data residency concerns
-- ✅ GDPR, CCPA, and other privacy regulations are inherently satisfied
+- No data crosses borders
+- No data residency concerns
+- GDPR, CCPA, and other privacy regulations are inherently satisfied
 
 ## Contact Us
 
 If you have questions about this Privacy Policy or Music Sharity's privacy practices:
 
-**GitHub Issues**: [github.com/byteroast/music-sharity/issues](https://github.com/byteroast/music-sharity/issues)  
-**Project Repository**: [github.com/byteroast/music-sharity](https://github.com/byteroast/music-sharity)
+- **GitHub Issues**: [github.com/byteroast/music-sharity/issues](https://github.com/byteroast/music-sharity/issues)
+- **Project Repository**: [github.com/byteroast/music-sharity](https://github.com/byteroast/music-sharity)
 
 ## Legal Information
 
-**App Name**: Music Sharity  
-**Developer**: Sikelio (Byte Roast)  
-**License**: GNU General Public License v3.0  
-**Open Source**: Yes  
-**Data Collection**: None  
+- **App Name**: Music Sharity
+- **Developer**: Sikelio (Byte Roast)
+- **License**: GNU General Public License v3.0
+- **Open Source**: Yes
+- **Data Collection**: None
 
 ---
 
 ## Summary
 
-**Music Sharity is privacy-first:**
-
 | Question | Answer |
 |----------|--------|
-| Do you collect personal data? | ❌ No |
-| Do you track users? | ❌ No |
-| Do you use analytics? | ❌ No |
-| Do you store conversion history? | ❌ No |
-| Do you have user accounts? | ❌ No |
-| Do you sell data? | ❌ No (we don't have any!) |
-| Do you store API keys? | ❌ No |
-| Is the source code public? | ✅ Yes |
-| Can I verify privacy claims? | ✅ Yes (open source) |
+| Do you collect personal data? | No |
+| Do you track users? | No |
+| Do you use analytics? | No |
+| Do you store conversion history? | No |
+| Do you have user accounts? | No |
+| Do you sell data? | No (we don't have any!) |
+| Do you store API keys? | No |
+| Is the source code public? | Yes |
+| Can I verify privacy claims? | Yes (open source) |
 
 **Your privacy is guaranteed because we simply don't collect anything.**
 
