@@ -8,9 +8,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
 
 > [!WARNING]
-> Currently only **Android** and **Windows** builds are officially released and supported.
+> Currently only **Android**, **Windows** and **Web** builds are officially released and supported.
 > 
-> iOS, macOS, Linux, and Web builds are technically functional but not actively maintained due to hardware limitations (no Mac ownership). Community contributions for these platforms are welcome!
+> iOS, macOS and Linux builds are technically functional but not actively maintained due to hardware limitations (no Mac ownership). Community contributions for these platforms are welcome!
 
 **Music Sharity** is a cross-platform app that converts music links between different streaming services instantly.
 
@@ -24,11 +24,11 @@
 
 ## Features
 
-- 🎵 **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal
-- 📀 **Supports tracks and albums**
-- 🔄 **Fast conversion**: Powered by Odesli API
-- 📱 **Native Android sharing**: Appears in the share menu
-- 🔒 **Privacy-focused**: No API keys, no data collection, no tracking
+- **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal
+- **Supports tracks and albums**
+- **Fast conversion**: Powered by Odesli API
+- **Native Android sharing**: Appears in the share menu
+- **Privacy-focused**: No API keys, no data collection, no tracking
 
 ## Installation
 
@@ -51,18 +51,22 @@
 2. Download `music-sharity-windows-x.y.z.zip`
 3. Extract and run `music_sharity.exe`
 
+### Web
+
+1. Go to [https://music-sharity.byteroast.fr](https://music-sharity.byteroast.fr)
+2. Use it like this or install it as PWA (On Android devices the PWA can appear in the share fleet)
+
 ### Other Platforms
 
-While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not officially supported** at this time due to:
+While **iOS, macOS and Linux** builds can be compiled, they are **not officially supported** at this time due to:
 - Lack of hardware for testing (no Mac)
-- Limited platform-specific optimizations
 - No active maintenance
 
 **Community contributions are welcome!** If you have the hardware and want to help maintain these platforms, please open an issue or PR.
 
 ## How to Use
 
-### Method 1: Share from Music App (Android only)
+### Method 1: Share from Music App (Android or Android PWA only)
 
 1. Open Spotify, Deezer, or any supported music app
 2. Find a track or album you want to share
@@ -83,11 +87,11 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 
 | Platform | Status |
 |----------|--------|
-| **Spotify** | ✅ Fully supported |
-| **Deezer** | ✅ Fully supported |
-| **Apple Music** | ✅ Fully supported |
-| **YouTube Music** | ✅ Fully supported |
-| **Tidal** | ✅ Fully supported |
+| **Spotify** | Fully supported |
+| **Deezer** | Fully supported |
+| **Apple Music** | Fully supported |
+| **YouTube Music** | Fully supported |
+| **Tidal** | Fully supported |
 
 ## Technical Details
 
@@ -114,11 +118,11 @@ While **iOS, macOS, Linux, and Web** builds can be compiled, they are **not offi
 
 Music Sharity **does not collect or store any personal data**.
 
-- ✅ No user accounts
-- ✅ No tracking
-- ✅ No analytics
-- ✅ No ads
-- ✅ All conversions happen in real-time via Odesli
+- No user accounts
+- No tracking
+- No analytics
+- No ads
+- All conversions happen in real-time via Odesli
 
 Read our [Privacy Policy](https://music-sharity.byteroast.fr/PRIVACY) for details.
 
@@ -167,10 +171,10 @@ flutter build windows --release
 
 Contributions are welcome! Especially for:
 
-- 🍎 **iOS/macOS support** (need Mac owners!)
-- 🌐 **Web optimization**
-- 🎵 **New platform integrations**
-- 🐛 **Bug fixes**
+- **iOS/macOS support** (need Mac owners!)
+- **Web optimization**
+- **New platform integrations**
+- **Bug fixes**
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
@@ -179,10 +183,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE.md) file for details.
 
 This means:
-- ✅ You can use, modify, and distribute this software
-- ✅ You must keep the same license (GPL v3)
-- ✅ You must disclose the source code
-- ✅ Changes must be documented
+- You can use, modify, and distribute this software
+- You must keep the same license (GPL v3)
+- You must disclose the source code
+- Changes must be documented
 
 ## Author
 
@@ -199,7 +203,7 @@ This means:
 ## Support
 
 If you find this project useful, please consider:
-- ⭐ Starring the repository
-- 🐛 Reporting bugs
-- 💡 Suggesting features
-- 🤝 Contributing code
+- Starring the repository
+- Reporting bugs
+- Suggesting features
+- Contributing code
