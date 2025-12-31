@@ -1,357 +1,100 @@
 # Contributing to Music Sharity
 
-First off, thank you for considering contributing to Music Sharity!
-
-Music Sharity is an open-source project, and we welcome contributions from everyone. Whether you're fixing bugs, adding features, improving documentation, or helping with platform support, your help is appreciated!
-
-## Table of Contents
-
-- [Code of Conduct](#code-of-conduct)
-- [How Can I Contribute?](#how-can-i-contribute)
-- [Development Setup](#development-setup)
-- [Pull Request Process](#pull-request-process)
-- [Coding Guidelines](#coding-guidelines)
-- [Platform-Specific Contributions](#platform-specific-contributions)
+Thank you for considering contributing to Music Sharity! This project is open-source under GPL v3, and contributions are welcome.
 
 ## Code of Conduct
 
-This project adheres to a simple code of conduct:
-- Be respectful and inclusive
-- Focus on constructive criticism
-- Help others learn and grow
-- Keep discussions on-topic
+Be respectful, constructive, and keep discussions on-topic.
 
-## How Can I Contribute?
+## What We Need
 
-### Reporting Bugs
+### High Priority
 
-Before creating bug reports, please check existing issues to avoid duplicates.
-
-**When reporting a bug, include:**
-- A clear, descriptive title
-- Steps to reproduce the issue
-- Expected behavior vs actual behavior
-- Screenshots (if applicable)
-- Your environment:
-  - OS and version (Android 14, Windows 11, etc.)
-  - App version
-  - Device model (for mobile)
-
-**Bug report template:**
-```markdown
-**Description**
-A clear description of the bug.
-
-**Steps to Reproduce**
-1. Open app
-2. Click on '...'
-3. See error
-
-**Expected Behavior**
-What you expected to happen.
-
-**Actual Behavior**
-What actually happened.
-
-**Environment**
-- OS: Android 14
-- App Version: 1.0.0
-- Device: Pixel 7
-
-**Screenshots**
-If applicable, add screenshots.
-```
-
-### Suggesting Features
-
-We welcome feature suggestions! Before creating a feature request:
-- Check if it's already been suggested
-- Make sure it aligns with the project's goals
-- Consider if it would benefit most users
-
-**Feature request template:**
-```markdown
-**Feature Description**
-A clear description of the feature.
-
-**Use Case**
-Why is this feature needed? Who would benefit?
-
-**Proposed Solution**
-How would you implement this?
-
-**Alternatives**
-Any alternative solutions you've considered?
-```
-
-### Contributing Code
-
-We especially welcome contributions for:
-
-- **iOS/macOS support** - If you own a Mac and can test/maintain these platforms
+- **iOS/macOS support** - Testing, TestFlight builds, App Store submission (requires Mac + Xcode)
 - **Linux packaging** - AppImage, Snap, Flatpak
-- **Web optimization** - Improve web platform support
 - **New platforms** - Amazon Music, SoundCloud, Pandora, etc.
-- **Translations** - Internationalization support
-- **Bug fixes**
-- **Documentation** - Improve README, comments, guides
 
-## Development Setup
+### Always Welcome
 
-### Prerequisites
+- Bug fixes
+- Various optimizations
+- Translations / i18n
+- Documentation improvements
 
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.10 or higher)
-- [Git](https://git-scm.com/)
-- IDE: [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/)
-- Spotify Developer Account (for API keys)
+## Development
 
-### Setup Steps
+**Requirements:** Flutter 3.38+, Dart 3.10+
 
-1. **Fork the repository**
-   - Click the "Fork" button at the top of this repository
-
-2. **Clone your fork**
 ```bash
-git clone https://github.com/YOUR_USERNAME/music-sharity.git
+git clone https://github.com/byteroast/music-sharity.git
 cd music-sharity
-```
-
-3. **Add upstream remote**
-```bash
-git remote add upstream https://github.com/byteroast/music-sharity.git
-```
-
-4. **Install dependencies**
-```bash
 flutter pub get
-```
-
-5. **Create `.env` file** (in project root)
-```env
-SPOTIFY_CLIENT_ID=your_client_id_here
-SPOTIFY_CLIENT_SECRET=your_client_secret_here
-```
-   
-Get credentials at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
-
-6. **Run the app**
-```bash
-# Android emulator/device
 flutter run
-
-# Windows
-flutter run -d windows
-
-# Chrome (web)
-flutter run -d chrome
 ```
 
-7. **Verify everything works**
-   - Test link conversion (Spotify → Deezer, etc.)
-   - Test sharing (Android only)
-   - Check UI on different screen sizes
+### Project Structure
 
-## Pull Request Process
-
-1. **Create a new branch**
-```bash
-git checkout -b feature/your-feature-name
-# or
-git checkout -b fix/bug-description
+```
+lib/
+├── main.dart          # Entry point
+├── models/            # Data models
+├── pages/             # UI screens
+├── services/          # API services, business logic
+├── utils/             # Utility functions
+├── widgets/           # Reusable widgets
+└── theme/             # App theming
 ```
 
-2. **Make your changes**
-   - Follow the [Coding Guidelines](#coding-guidelines)
-   - Write clear, descriptive commit messages
-   - Add comments for complex logic
+## Pull Requests
 
-3. **Test your changes**
+### Branch Naming
+
+- `feature/description` for new features
+- `fix/description` for bug fixes
+
+### Before Submitting
+
 ```bash
-# Run the app and test manually
-flutter run
-
-# Format code
 dart format .
-
-# Analyze code
 flutter analyze
 ```
 
-4. **Commit your changes**
-```bash
-git add .
-git commit -m "feat: add Amazon Music support"
-```
-   
-   **Commit message format:**
-   - `feat:` - New feature
-   - `fix:` - Bug fix
-   - `docs:` - Documentation changes
-   - `style:` - Code style/formatting
-   - `refactor:` - Code refactoring
-   - `test:` - Adding tests
-   - `chore:` - Maintenance tasks
+### Commit Messages
 
-5. **Push to your fork**
-```bash
-git push origin feature/your-feature-name
-```
+Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
 
-6. **Create Pull Request**
-   - Go to the original repository
-   - Click "New Pull Request"
-   - Select your branch
-   - Fill in the PR template
-   - Submit!
+Example: `feat: add Amazon Music platform support`
 
-### Pull Request Guidelines
+### PR Description
 
-- **Title**: Clear and descriptive (e.g., "Add Amazon Music platform support")
-- **Description**: Explain what you changed and why
-- **Screenshots**: Include before/after screenshots for UI changes
-- **Testing**: Describe how you tested your changes
-- **Breaking changes**: Clearly note any breaking changes
+Include what you changed, why, and how you tested it. Add screenshots for UI changes.
 
-**PR template:**
-```markdown
-## Description
-Brief description of changes.
+## Coding Style
 
-## Type of Change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation update
-- [ ] Code refactoring
+Follow [Effective Dart](https://dart.dev/guides/language/effective-dart). Key points:
 
-## Changes Made
-- Added X
-- Fixed Y
-- Updated Z
+- Meaningful names, small focused functions
+- Proper error handling and null safety
+- Comments explain *why*, not *what*
+- Prefer `async/await` over `.then()` chains
 
-## Testing
-How did you test these changes?
+## Bug Reports
 
-## Screenshots (if applicable)
-Before | After
-```
+Check existing issues first. Include:
 
-## Coding Guidelines
+- Steps to reproduce
+- Expected vs actual behavior
+- Environment (OS, app version, device)
+- Screenshots if relevant
 
-### Dart/Flutter Style
+## Feature Requests
 
-- Follow [Effective Dart](https://dart.dev/guides/language/effective-dart) guidelines
-- Use `dart format` to format code
-- Run `flutter analyze` before committing
-- Maximum line length: 80 characters (flexible for readability)
-
-### Code Organization
-```
-lib/
-├── main.dart              # App entry point
-├── models/                # Data models
-├── pages/                 # UI screens
-├── services/              # API services, business logic
-├── utils/                 # Utility functions
-├── widgets/               # Reusable widgets
-└── theme/                 # App theming
-```
-
-### Best Practices
-
-- **Use meaningful names**: `convertMusicLink()` not `doThing()`
-- **Keep functions small**: One function = one responsibility
-- **Add comments**: Explain *why*, not *what*
-- **Error handling**: Always handle potential errors
-- **Null safety**: Use null-safe code
-- **Async/await**: Prefer over `.then()` chains
-
-### Example
-```dart
-// ❌ Bad
-Future<String?> f(String u) async {
-  var r = await http.get(Uri.parse(u));
-  return jsonDecode(r.body)['id'];
-}
-
-// ✅ Good
-/// Fetches track ID from Spotify API
-/// 
-/// Returns null if track not found or API error occurs
-Future<String?> fetchSpotifyTrackId(String trackUrl) async {
-  try {
-    final response = await http.get(Uri.parse(trackUrl));
-    
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data['id'] as String?;
-    }
-    
-    return null;
-  } catch (e) {
-    debugPrint('Error fetching Spotify track: $e');
-    return null;
-  }
-}
-```
-
-## 🖥️ Platform-Specific Contributions
-
-### iOS/macOS (We need help!)
-
-**Requirements:**
-- Mac with macOS
-- Xcode installed
-- Apple Developer account (for testing on device)
-
-**What we need:**
-- Testing sharing functionality on iOS
-- TestFlight builds
-- App Store submission help
-- macOS desktop app testing
-
-**How to help:**
-1. Build and test on iOS/macOS
-2. Report iOS-specific bugs
-3. Optimize for iOS Share Sheet
-4. Help with App Store metadata
-
-### Linux (We need packages!)
-
-**What we need:**
-- AppImage packaging
-- Snap packaging
-- Flatpak packaging
-- Testing on different distros
-
-### Web (Optimization needed!)
-
-**What we need:**
-- CORS proxy solution
-- PWA optimization
-- Mobile web responsiveness
-- Performance improvements
-
-## License
-
-By contributing to Music Sharity, you agree that your contributions will be licensed under the **GNU General Public License v3.0**.
-
-This means:
-- Your code will remain open source
-- Others can use, modify, and distribute it
-- Any derivative work must also be GPL v3
+Before submitting, check if it aligns with the project's privacy-first goals and would benefit most users.
 
 ## Recognition
 
-All contributors will be recognized in:
-- README.md acknowledgments section
-- Release notes
-- GitHub contributors page
+Contributors are acknowledged in the README and release notes.
 
 ## Questions?
 
-- **Issues**: [GitHub Issues](https://github.com/byteroast/music-sharity/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/byteroast/music-sharity/discussions)
-
----
-
-**Thank you for contributing to Music Sharity!**
+Open an issue or start a discussion on GitHub.
