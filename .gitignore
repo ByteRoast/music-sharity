@@ -7,8 +7,6 @@
 .buildlog/
 .history
 
-
-
 # Flutter repo-specific
 /bin/cache/
 /bin/internal/bootstrap.bat
@@ -147,3 +145,6 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# MSI output stuff
+installer/output/*
