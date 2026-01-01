@@ -148,3 +148,9 @@ doc/api/
 
 # MSI output stuff
 installer/output/*
+
+gitignore# IDE - IntelliJ / Android Studio
+.idea/
+
+# IDE - VS Code
+.vscode/
