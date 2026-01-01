@@ -48,8 +48,9 @@
 ### Windows
 
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
-2. Download `music-sharity-windows-x.y.z.zip`
-3. Extract and run `music_sharity.exe`
+2. Download `music-sharity-x.y.z-windows-x64.exe`
+3. Install the program
+4. Run `Music Sharity`
 
 ### Web
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" 
+           Name="Music Sharity" 
+           Language="1033" 
+           Version="$(var.Version)" 
+           Manufacturer="Byte Roast" 
+           UpgradeCode="26E2058C-8853-4F40-AA58-68AD5BF070AD">
+
+    <Package InstallerVersion="500" 
+             Compressed="yes" 
+             InstallScope="perMachine"
+             Description="Music Sharity - Universal music link converter"
+             Comments="Share music across all platforms - Privacy first, no tracking" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Music Sharity is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="AppIcon" SourceFile="$(var.ProjectDir)\windows\runner\resources\app_icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="ARPURLINFOABOUT" Value="https://music-sharity.byteroast.fr" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/music-sharity/music-sharity/issues" />
+
+    <Feature Id="Complete" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="StartMenuShortcut" />
+    </Feature>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Music Sharity" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Music Sharity" />
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="StartMenuShortcut" Guid="3FD7B0AB-5B79-4913-8F3A-47CCCF27B482">
+        <Shortcut Id="AppShortcut"
+                  Name="Music Sharity"
+                  Description="Universal music link converter"
+                  Target="[INSTALLFOLDER]music_sharity.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon" />
+        <RemoveFolder Id="CleanupStartMenu" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\ByteRoast\MusicSharity" 
+                       Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <UIRef Id="WixUI_InstallDir" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\installer\src\license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\installer\src\assets\banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\installer\src\assets\dialog.bmp" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+  </Product>
+</Wix>
