@@ -13,7 +13,6 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
@@ -76,7 +75,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "[3/3] Creating MSI with light..." -ForegroundColor Yellow
+Write-Host "[3/4] Creating MSI with light..." -ForegroundColor Yellow
 
 $MsiName = "music-sharity-$Version-windows-x64.msi"
 
@@ -95,11 +94,21 @@ if ($LASTEXITCODE -ne 0) {
 Remove-Item "$OutputDir\*.wixobj" -ErrorAction SilentlyContinue
 Remove-Item "$OutputDir\*.wxi" -ErrorAction SilentlyContinue
 
+Write-Host "[4/4] Generating SHA-1 checksum..." -ForegroundColor Yellow
+
+$MsiPath = "$OutputDir\$MsiName"
+$Hash = (Get-FileHash -Path $MsiPath -Algorithm SHA1).Hash.ToLower()
+$ChecksumFile = "$OutputDir\$MsiName.sha1"
+
+"$Hash  $MsiName" | Out-File -FilePath $ChecksumFile -Encoding ASCII -NoNewline
+
 Write-Host ""
 Write-Host "=== MSI created successfully! ===" -ForegroundColor Green
-Write-Host "File: $OutputDir\$MsiName" -ForegroundColor Cyan
+Write-Host "File: $MsiPath" -ForegroundColor Cyan
+Write-Host "Checksum: $ChecksumFile" -ForegroundColor Cyan
 Write-Host ""
 
-$Size = (Get-Item "$OutputDir\$MsiName").Length / 1MB
+$Size = (Get-Item "$MsiPath").Length / 1MB
 
 Write-Host "Size: $([math]::Round($Size, 2)) MB" -ForegroundColor Gray
+Write-Host "SHA-1: $Hash" -ForegroundColor Gray
