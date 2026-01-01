@@ -75,7 +75,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "[3/4] Creating MSI with light..." -ForegroundColor Yellow
+Write-Host "[3/4] Creating MSI..." -ForegroundColor Yellow
 
 $MsiName = "music-sharity-$Version-windows-x64.msi"
 
