@@ -31,10 +31,7 @@ String? getSharedUrlImpl() {
       if (sharedUrl != null && sharedUrl.isNotEmpty) {
         musicUrl = sharedUrl;
       } else if (sharedText != null && sharedText.isNotEmpty) {
-        final urlPattern = RegExp(
-          r'https?://[^\s]+',
-          caseSensitive: false,
-        );
+        final urlPattern = RegExp(r'https?://[^\s]+', caseSensitive: false);
 
         final match = urlPattern.firstMatch(sharedText);
 
@@ -45,7 +42,7 @@ String? getSharedUrlImpl() {
         final newUrl = '/#shared=${Uri.encodeComponent(musicUrl)}';
 
         web.window.history.replaceState(null, '', newUrl);
-        
+
         return musicUrl;
       } else {
         web.window.history.replaceState(null, '', '/');
@@ -60,7 +57,7 @@ String? getSharedUrlImpl() {
         final sharedUrl = Uri.decodeComponent(encodedUrl);
 
         web.window.history.replaceState(null, '', '/');
-        
+
         return sharedUrl;
       }
     }

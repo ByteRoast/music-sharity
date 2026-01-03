@@ -84,9 +84,11 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
 
     _webShareCheckTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       checkCount++;
-      
+
       final sharedUrl = WebShareHandler.getSharedUrl();
-      if (sharedUrl != null && sharedUrl.isNotEmpty && sharedUrl != _sharedLink) {
+      if (sharedUrl != null &&
+          sharedUrl.isNotEmpty &&
+          sharedUrl != _sharedLink) {
         setState(() {
           _sharedLink = sharedUrl;
         });

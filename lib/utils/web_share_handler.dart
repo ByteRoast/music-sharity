@@ -18,7 +18,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'web_share_handler_stub.dart'
-  if (dart.library.html) 'web_share_handler_web.dart';
+    if (dart.library.html) 'web_share_handler_web.dart';
 
 class WebShareHandler {
   static String? getSharedUrl() {
