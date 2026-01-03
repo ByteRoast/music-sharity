@@ -123,52 +123,68 @@ class _ConversionPageState extends State<ConversionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const Text(
+                  'Source',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(height: 20),
+
                 Card(
                   color: Theme.of(
                     context,
                   ).colorScheme.primary.withValues(alpha: 0.1),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
                       children: [
-                        const Text(
-                          'Source',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            UiHelpers.getPlatformLogo(
+                              widget.musicLink.sourcePlatform,
+                            ),
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(
-                              UiHelpers.getContentIcon(widget.musicLink.contentType),
-                              size: 24,
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  sourcePlatformName,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                sourcePlatformName,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                Text(
-                                  UiHelpers.getContentTypeName(
-                                    widget.musicLink.contentType,
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 12,
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Icon(
+                                    UiHelpers.getContentIcon(
+                                      widget.musicLink.contentType,
+                                    ),
+                                    size: 16,
                                     color: Colors.grey,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    UiHelpers.getContentTypeName(
+                                      widget.musicLink.contentType,
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
