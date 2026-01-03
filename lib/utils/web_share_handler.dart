@@ -1,6 +1,6 @@
 /*
- * Music Sharity - Convert music links between streaming platforms
- * Copyright (C) 2025 Sikelio (Byte Roast)
+ * Music Sharity - Share music across all platforms
+ * Copyright (C) 2026 Sikelio (Byte Roast)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'web_share_handler_stub.dart'
-  if (dart.library.html) 'web_share_handler_web.dart';
+    if (dart.library.html) 'web_share_handler_web.dart';
 
 class WebShareHandler {
   static String? getSharedUrl() {

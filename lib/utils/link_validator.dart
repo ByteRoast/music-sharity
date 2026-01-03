@@ -1,6 +1,6 @@
 /*
- * Music Sharity - Convert music links between streaming platforms
- * Copyright (C) 2025 Sikelio (Byte Roast)
+ * Music Sharity - Share music across all platforms
+ * Copyright (C) 2026 Sikelio (Byte Roast)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  */
 enum MusicPlatform { spotify, deezer, appleMusic, youtubeMusic, tidal, unknown }
 
-enum ContentType { track, album, unknown }
+enum ContentType { track, album, shortLink, unknown }
 
 class LinkValidator {
   static final Map<MusicPlatform, RegExp> platformPatterns = {
@@ -25,7 +25,7 @@ class LinkValidator {
       r'open\.spotify\.com/(intl-[a-z]{2}/|)(track|album)/([a-zA-Z0-9]+)',
     ),
     MusicPlatform.deezer: RegExp(
-      r'deezer\.com/(intl-[a-z]{2}/|)(track|album)/(\d+)',
+      r'(deezer\.com/(intl-[a-z]{2}/|)(track|album)/(\d+)|link\.deezer\.com/s/[a-zA-Z0-9]+)',
     ),
     MusicPlatform.appleMusic: RegExp(
       r'music\.apple\.com/[a-z]{2}/(album|song)/([^?]+)',
@@ -46,6 +46,10 @@ class LinkValidator {
   }
 
   static ContentType detectContentType(String url) {
+    if (url.contains('link.deezer.com/s/')) {
+      return ContentType.shortLink;
+    }
+
     if (url.contains('/track/') ||
         url.contains('/song/') ||
         url.contains('watch?v=')) {

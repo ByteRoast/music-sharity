@@ -1,6 +1,6 @@
 /*
- * Music Sharity - Convert music links between streaming platforms
- * Copyright (C) 2025 Sikelio (Byte Roast)
+ * Music Sharity - Share music across all platforms
+ * Copyright (C) 2026 Sikelio (Byte Roast)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,17 +25,13 @@ String? getSharedUrlImpl() {
     if (uri.path == '/share' || uri.path == '/share/') {
       final sharedUrl = uri.queryParameters['url'];
       final sharedText = uri.queryParameters['text'];
-      // final sharedTitle = uri.queryParameters['title'];
 
       String? musicUrl;
 
       if (sharedUrl != null && sharedUrl.isNotEmpty) {
         musicUrl = sharedUrl;
       } else if (sharedText != null && sharedText.isNotEmpty) {
-        final urlPattern = RegExp(
-          r'https?://[^\s]+',
-          caseSensitive: false,
-        );
+        final urlPattern = RegExp(r'https?://[^\s]+', caseSensitive: false);
 
         final match = urlPattern.firstMatch(sharedText);
 
@@ -46,7 +42,7 @@ String? getSharedUrlImpl() {
         final newUrl = '/#shared=${Uri.encodeComponent(musicUrl)}';
 
         web.window.history.replaceState(null, '', newUrl);
-        
+
         return musicUrl;
       } else {
         web.window.history.replaceState(null, '', '/');
@@ -61,7 +57,7 @@ String? getSharedUrlImpl() {
         final sharedUrl = Uri.decodeComponent(encodedUrl);
 
         web.window.history.replaceState(null, '', '/');
-        
+
         return sharedUrl;
       }
     }

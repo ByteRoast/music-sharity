@@ -16,16 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
-import '../utils/link_validator.dart';
+import 'link_validator.dart';
 
-class PlatformCard extends StatelessWidget {
-  final MusicPlatform platform;
-  final VoidCallback onTap;
-
-  const PlatformCard({super.key, required this.platform, required this.onTap});
-
-  String get platformName {
+class UiHelpers {
+  static String getPlatformName(MusicPlatform platform) {
     switch (platform) {
       case MusicPlatform.spotify:
         return 'Spotify';
@@ -42,7 +36,7 @@ class PlatformCard extends StatelessWidget {
     }
   }
 
-  String get platformLogo {
+  static String getPlatformLogo(MusicPlatform platform) {
     switch (platform) {
       case MusicPlatform.spotify:
         return 'assets/images/platforms/spotify.png';
@@ -59,44 +53,29 @@ class PlatformCard extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  platformLogo,
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Text(
-                  platformName,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: AppTheme.lightGrey,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  static String getContentTypeName(ContentType type) {
+    switch (type) {
+      case ContentType.track:
+        return 'Track';
+      case ContentType.album:
+        return 'Album';
+      case ContentType.shortLink:
+        return 'Shared Link';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  static IconData getContentIcon(ContentType type) {
+    switch (type) {
+      case ContentType.track:
+        return Icons.music_note;
+      case ContentType.album:
+        return Icons.album;
+      case ContentType.shortLink:
+        return Icons.link;
+      default:
+        return Icons.music_note;
+    }
   }
 }

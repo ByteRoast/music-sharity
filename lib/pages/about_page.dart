@@ -1,6 +1,6 @@
 /*
- * Music Sharity - Convert music links between streaming platforms
- * Copyright (C) 2025 Sikelio (Byte Roast)
+ * Music Sharity - Share music across all platforms
+ * Copyright (C) 2026 Sikelio (Byte Roast)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ class _AboutPageState extends State<AboutPage> {
 
           const Center(
             child: Text(
-              'Convert music links between streaming platforms',
+              'Share music across all platforms',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: Colors.grey),
             ),
@@ -151,7 +151,7 @@ class _AboutPageState extends State<AboutPage> {
 
           Center(
             child: Text(
-              '© 2025 Byte Roast',
+              '© 2026 Byte Roast',
               style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             ),
           ),

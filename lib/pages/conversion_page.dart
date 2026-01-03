@@ -1,6 +1,6 @@
 /*
- * Music Sharity - Convert music links between streaming platforms
- * Copyright (C) 2025 Sikelio (Byte Roast)
+ * Music Sharity - Share music across all platforms
+ * Copyright (C) 2026 Sikelio (Byte Roast)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/music_link.dart';
 import '../utils/link_validator.dart';
+import '../utils/ui_helpers.dart';
 import '../widgets/platform_card.dart';
 import '../services/music_converter_service.dart';
 import '../pages/home_page.dart';
@@ -110,45 +111,6 @@ class _ConversionPageState extends State<ConversionPage> {
     }
   }
 
-  String _getPlatformName(MusicPlatform platform) {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'Spotify';
-      case MusicPlatform.deezer:
-        return 'Deezer';
-      case MusicPlatform.appleMusic:
-        return 'Apple Music';
-      case MusicPlatform.youtubeMusic:
-        return 'YouTube Music';
-      case MusicPlatform.tidal:
-        return 'Tidal';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  IconData _getContentIcon(ContentType type) {
-    switch (type) {
-      case ContentType.track:
-        return Icons.music_note;
-      case ContentType.album:
-        return Icons.album;
-      default:
-        return Icons.music_note;
-    }
-  }
-
-  String _getContentTypeName(ContentType type) {
-    switch (type) {
-      case ContentType.track:
-        return 'Track';
-      case ContentType.album:
-        return 'Album';
-      default:
-        return 'Unknown';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,52 +122,68 @@ class _ConversionPageState extends State<ConversionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const Text(
+                  'Source',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(height: 20),
+
                 Card(
                   color: Theme.of(
                     context,
                   ).colorScheme.primary.withValues(alpha: 0.1),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
                       children: [
-                        const Text(
-                          'Source',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            UiHelpers.getPlatformLogo(
+                              widget.musicLink.sourcePlatform,
+                            ),
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(
-                              _getContentIcon(widget.musicLink.contentType),
-                              size: 24,
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  sourcePlatformName,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                sourcePlatformName,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                Text(
-                                  _getContentTypeName(
-                                    widget.musicLink.contentType,
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 12,
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Icon(
+                                    UiHelpers.getContentIcon(
+                                      widget.musicLink.contentType,
+                                    ),
+                                    size: 16,
                                     color: Colors.grey,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    UiHelpers.getContentTypeName(
+                                      widget.musicLink.contentType,
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -295,7 +273,7 @@ class _ConversionPageState extends State<ConversionPage> {
               Text(result.metadata!.artist),
               const SizedBox(height: 16),
             ],
-            Text('Converted to ${_getPlatformName(targetPlatform)}'),
+            Text('Converted to ${UiHelpers.getPlatformName(targetPlatform)}'),
             const SizedBox(height: 8),
             SelectableText(
               result.url!,
