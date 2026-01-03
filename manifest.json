@@ -6,7 +6,7 @@
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#2196F3",
-    "description": "Convert music links between streaming platforms",
+    "description": "Share music across all platforms",
     "orientation": "portrait",
     "prefer_related_applications": false,
     "icons": [
