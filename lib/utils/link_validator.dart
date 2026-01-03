@@ -17,7 +17,7 @@
  */
 enum MusicPlatform { spotify, deezer, appleMusic, youtubeMusic, tidal, unknown }
 
-enum ContentType { track, album, unknown }
+enum ContentType { track, album, shortLink, unknown }
 
 class LinkValidator {
   static final Map<MusicPlatform, RegExp> platformPatterns = {
@@ -25,7 +25,7 @@ class LinkValidator {
       r'open\.spotify\.com/(intl-[a-z]{2}/|)(track|album)/([a-zA-Z0-9]+)',
     ),
     MusicPlatform.deezer: RegExp(
-      r'deezer\.com/(intl-[a-z]{2}/|)(track|album)/(\d+)',
+      r'(deezer\.com/(intl-[a-z]{2}/|)(track|album)/(\d+)|link\.deezer\.com/s/[a-zA-Z0-9]+)',
     ),
     MusicPlatform.appleMusic: RegExp(
       r'music\.apple\.com/[a-z]{2}/(album|song)/([^?]+)',
@@ -46,6 +46,10 @@ class LinkValidator {
   }
 
   static ContentType detectContentType(String url) {
+    if (url.contains('link.deezer.com/s/')) {
+      return ContentType.shortLink;
+    }
+
     if (url.contains('/track/') ||
         url.contains('/song/') ||
         url.contains('watch?v=')) {

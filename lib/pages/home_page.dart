@@ -20,6 +20,7 @@ import 'about_page.dart';
 import 'conversion_page.dart';
 import '../models/music_link.dart';
 import '../utils/link_validator.dart';
+import '../utils/ui_helpers.dart';
 
 class HomePage extends StatefulWidget {
   final String? initialLink;
@@ -76,50 +77,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  String _getPlatformName(MusicPlatform platform) {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'Spotify';
-      case MusicPlatform.deezer:
-        return 'Deezer';
-      case MusicPlatform.appleMusic:
-        return 'Apple Music';
-      case MusicPlatform.youtubeMusic:
-        return 'YouTube Music';
-      case MusicPlatform.tidal:
-        return 'Tidal';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  String _getContentTypeName(ContentType type) {
-    switch (type) {
-      case ContentType.track:
-        return 'Track';
-      case ContentType.album:
-        return 'Album';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  String _getPlatformLogo(MusicPlatform platform) {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'assets/images/platforms/spotify.png';
-      case MusicPlatform.deezer:
-        return 'assets/images/platforms/deezer.png';
-      case MusicPlatform.appleMusic:
-        return 'assets/images/platforms/apple_music.png';
-      case MusicPlatform.youtubeMusic:
-        return 'assets/images/platforms/youtube_music.png';
-      case MusicPlatform.tidal:
-        return 'assets/images/platforms/tidal.png';
-      default:
-        return '';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          _getPlatformLogo(_detectedPlatform!),
+                          UiHelpers.getPlatformLogo(_detectedPlatform!),
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
@@ -205,14 +162,14 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _getPlatformName(_detectedPlatform!),
+                            UiHelpers.getPlatformName(_detectedPlatform!),
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            _getContentTypeName(
+                            UiHelpers.getContentTypeName(
                               LinkValidator.detectContentType(
                                 _linkController.text,
                               ),

@@ -25,7 +25,6 @@ String? getSharedUrlImpl() {
     if (uri.path == '/share' || uri.path == '/share/') {
       final sharedUrl = uri.queryParameters['url'];
       final sharedText = uri.queryParameters['text'];
-      // final sharedTitle = uri.queryParameters['title'];
 
       String? musicUrl;
 
