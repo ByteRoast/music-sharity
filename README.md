@@ -116,6 +116,9 @@ While **iOS, macOS and Linux** builds can be compiled, they are **not officially
 - Web app: Stateless edge proxy with no data retention ✅
 - All code is open source and auditable ✅
 
+> [!NOTE]
+> Due to Odesli API restrictions, the application is limited to **10 requests per minute**. A rate limiting mechanism is implemented to ensure smooth operation within this constraint.
+
 ## Privacy
 
 Music Sharity **does not collect or store any personal data**.
