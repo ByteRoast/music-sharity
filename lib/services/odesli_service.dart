@@ -19,6 +19,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import '../models/track_metadata.dart';
+import 'rate_limiter_service.dart';
 
 class OdesliResult {
   final Map<String, String> platformLinks;
@@ -36,28 +37,60 @@ class OdesliService {
   factory OdesliService() => _instance;
   OdesliService._internal();
 
+  final RateLimiterService _rateLimiter = RateLimiterService();
+  final Map<String, _CacheEntry> _cache = {};
+
+  static const Duration _cacheDuration = Duration(hours: 1);
+
   Future<OdesliResult> convertLink(String sourceUrl) async {
-    final encodedUrl = Uri.encodeComponent(sourceUrl);
+    _cleanExpiredCache();
 
-    final String finalUrl = kIsWeb
-        ? '$_cloudflareWorkerUrl?url=$encodedUrl'
-        : '$_baseUrl?url=$encodedUrl';
-
-    final response = await http.get(Uri.parse(finalUrl));
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-
-      final platformLinks = _extractPlatformLinks(data);
-      final metadata = _extractMetadata(data);
-
-      return OdesliResult(platformLinks: platformLinks, metadata: metadata);
-    } else {
-      throw Exception(
-        'Odesli API error: ${response.statusCode} - ${response.body}',
-      );
+    final cachedResult = _cache[sourceUrl];
+    if (cachedResult != null && !cachedResult.isExpired) {
+      return cachedResult.result;
     }
+
+    return await _rateLimiter.executeWithRateLimit(() async {
+      final encodedUrl = Uri.encodeComponent(sourceUrl);
+
+      final String finalUrl = kIsWeb
+          ? '$_cloudflareWorkerUrl?url=$encodedUrl'
+          : '$_baseUrl?url=$encodedUrl';
+
+      final response = await http.get(Uri.parse(finalUrl));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final platformLinks = _extractPlatformLinks(data);
+        final metadata = _extractMetadata(data);
+        final result = OdesliResult(
+          platformLinks: platformLinks,
+          metadata: metadata,
+        );
+
+        _cache[sourceUrl] = _CacheEntry(result);
+
+        return result;
+      } else if (response.statusCode == 429) {
+        throw RateLimitException(
+          'Rate limit exceeded by server. Please try again in a moment.',
+          const Duration(seconds: 60),
+        );
+      } else {
+        throw Exception(
+          'Odesli API error: ${response.statusCode} - ${response.body}',
+        );
+      }
+    });
   }
+
+  void _cleanExpiredCache() {
+    _cache.removeWhere((key, value) => value.isExpired);
+  }
+
+  int get remainingQuota => _rateLimiter.remainingQuota;
+
+  Duration? get timeUntilNextRequest => _rateLimiter.timeUntilNextAvailable;
 
   Map<String, String> _extractPlatformLinks(Map<String, dynamic> data) {
     final linksByPlatform = data['linksByPlatform'] as Map<String, dynamic>?;
@@ -119,5 +152,16 @@ class OdesliService {
     } catch (e) {
       return null;
     }
+  }
+}
+
+class _CacheEntry {
+  final OdesliResult result;
+  final DateTime timestamp;
+
+  _CacheEntry(this.result) : timestamp = DateTime.now();
+
+  bool get isExpired {
+    return DateTime.now().difference(timestamp) > OdesliService._cacheDuration;
   }
 }

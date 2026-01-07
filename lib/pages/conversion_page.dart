@@ -21,7 +21,9 @@ import '../models/music_link.dart';
 import '../utils/link_validator.dart';
 import '../utils/ui_helpers.dart';
 import '../widgets/platform_card.dart';
+import '../widgets/rate_limit_indicator.dart';
 import '../services/music_converter_service.dart';
+import '../services/rate_limiter_service.dart';
 import '../pages/home_page.dart';
 
 class ConversionPage extends StatefulWidget {
@@ -98,6 +100,39 @@ class _ConversionPageState extends State<ConversionPage> {
           ),
         );
       }
+    } on RateLimitException catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _isConverting = false;
+      });
+
+      final seconds = e.waitTime.inSeconds;
+      final message = seconds < 60
+          ? 'Rate limit reached. Please wait $seconds seconds.'
+          : 'Rate limit reached. Please wait ${(seconds / 60).ceil()} minute(s).';
+
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.schedule, size: 18, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text('Too many requests'),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(message, style: const TextStyle(fontSize: 12)),
+            ],
+          ),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 5),
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
 
@@ -114,7 +149,15 @@ class _ConversionPageState extends State<ConversionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Choose destination platform')),
+      appBar: AppBar(
+        title: const Text('Choose destination platform'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 12.0),
+            child: Center(child: RateLimitIndicator()),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Padding(
