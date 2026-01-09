@@ -100,7 +100,7 @@ echo -e "\033[33m[3/5] Creating .rpm package...\033[0m"
 
 RPM_DIR="$OUTPUT_DIR/rpm"
 RPM_BUILD_DIR="$RPM_DIR/rpmbuild"
-RPM_NAME="music-sharity-${VERSION}-${BUILD_NUMBER}-x86_64"
+RPM_NAME="music-sharity-${VERSION}-${BUILD_NUMBER}.x86_64"
 
 mkdir -p "$RPM_BUILD_DIR"/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 mkdir -p "$RPM_BUILD_DIR/BUILD/music-sharity-$VERSION"
