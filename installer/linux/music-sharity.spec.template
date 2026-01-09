@@ -1,6 +1,6 @@
 Name:           music-sharity
 Version:        VERSION_PLACEHOLDER
-Release:        BUILD_NUMBER_PLACEHOLDER
+Release:        BUILD_NUMBER_PLACEHOLDER%{?dist}
 Summary:        Share music across all platforms
 License:        GPLv3+
 URL:            https://github.com/ByteRoast/music-sharity

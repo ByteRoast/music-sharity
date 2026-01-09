@@ -134,7 +134,7 @@ awk -v post_script="$POST_SCRIPT" '{
 
 rm "$RPM_BUILD_DIR/SPECS/music-sharity.spec.tmp"
 
-rpmbuild --define "_topdir $RPM_BUILD_DIR" -bb "$RPM_BUILD_DIR/SPECS/music-sharity.spec"
+rpmbuild --define "_topdir $RPM_BUILD_DIR" --define "dist %{nil}" -bb "$RPM_BUILD_DIR/SPECS/music-sharity.spec"
 
 cp "$RPM_BUILD_DIR/RPMS/x86_64/$RPM_NAME.rpm" "$OUTPUT_DIR/"
 
