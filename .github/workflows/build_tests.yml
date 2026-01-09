@@ -184,7 +184,7 @@ jobs:
       - name: Check build status
         run: |
           if [ "${{ needs.build-android.result }}" != "success" ] || \
-          if [ "${{ needs.build-linux.result }}" != "success" ] || \
+             [ "${{ needs.build-linux.result }}" != "success" ] || \
              [ "${{ needs.build-web.result }}" != "success" ] || \
              [ "${{ needs.build-windows.result }}" != "success" ]; then
             echo "Some builds failed!"
