@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 $ErrorActionPreference = "Stop"
 
-$ProjectRoot = Split-Path -Parent $PSScriptRoot
+$ProjectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $SourceDir = "$ProjectRoot\build\windows\x64\runner\Release"
 $InstallerDir = $PSScriptRoot
 $OutputDir = "$InstallerDir\output"

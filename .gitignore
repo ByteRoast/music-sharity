@@ -147,7 +147,7 @@ doc/api/
 .flutter-plugins-dependencies
 
 # MSI output stuff
-installer/output/*
+installer/windows/output/*
 
 gitignore# IDE - IntelliJ / Android Studio
 .idea/
