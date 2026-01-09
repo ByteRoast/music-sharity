@@ -1,0 +1,10 @@
+Package: music-sharity
+Version: VERSION_PLACEHOLDER
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Sikelio (Byte Roast) <contact@byteroast.fr>
+Description: Share music across all platforms
+ Music Sharity allows you to share music links across different
+ streaming platforms like Spotify, Apple Music, YouTube Music, and more.
+Depends: libgtk-3-0, libblkid1, liblzma5

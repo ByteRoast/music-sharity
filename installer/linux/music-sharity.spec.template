@@ -1,0 +1,49 @@
+Name:           music-sharity
+Version:        VERSION_PLACEHOLDER
+Release:        BUILD_NUMBER_PLACEHOLDER
+Summary:        Share music across all platforms
+License:        GPLv3+
+URL:            https://github.com/ByteRoast/music-sharity
+BuildArch:      x86_64
+Requires:       gtk3, libblkid, xz-libs
+
+%description
+Music Sharity allows you to share music links across different
+streaming platforms like Spotify, Apple Music, YouTube Music, and more.
+
+%install
+rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/lib/music-sharity
+mkdir -p %{buildroot}/usr/bin
+mkdir -p %{buildroot}/usr/share/applications
+mkdir -p %{buildroot}/usr/share/pixmaps
+mkdir -p %{buildroot}/usr/share/doc/music-sharity
+mkdir -p %{buildroot}/usr/share/metainfo
+
+cp -r RPM_BUILD_DIR_PLACEHOLDER/BUILD/music-sharity-VERSION_PLACEHOLDER/* %{buildroot}/usr/lib/music-sharity/
+
+cp SCRIPT_DIR_PLACEHOLDER/music-sharity-wrapper.sh %{buildroot}/usr/bin/music-sharity
+chmod +x %{buildroot}/usr/bin/music-sharity
+
+cp SCRIPT_DIR_PLACEHOLDER/music-sharity.desktop %{buildroot}/usr/share/applications/music-sharity.desktop
+
+cp RPM_BUILD_DIR_PLACEHOLDER/music-sharity.metainfo.xml %{buildroot}/usr/share/metainfo/fr.byteroast.music-sharity.metainfo.xml
+
+LOGO_INSTALL_PLACEHOLDER
+
+cp SCRIPT_DIR_PLACEHOLDER/../common/copyright %{buildroot}/usr/share/doc/music-sharity/copyright
+
+%files
+/usr/lib/music-sharity/
+/usr/bin/music-sharity
+/usr/share/applications/music-sharity.desktop
+/usr/share/pixmaps/music-sharity.png
+/usr/share/metainfo/fr.byteroast.music-sharity.metainfo.xml
+/usr/share/doc/music-sharity/copyright
+
+%post
+POST_SCRIPT_PLACEHOLDER
+
+%changelog
+* Thu Jan 09 2025 Sikelio (Byte Roast) <contact@byteroast.fr>
+- Initial RPM release

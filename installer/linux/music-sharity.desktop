@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Music Sharity
+Comment=Share music across all platforms
+Exec=/usr/bin/music-sharity
+Icon=music-sharity
+Categories=AudioVideo;Audio;Network;
+Terminal=false
+Keywords=music;streaming;spotify;apple;youtube;converter;
