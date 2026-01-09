@@ -52,9 +52,9 @@
 
     <UIRef Id="WixUI_InstallDir" />
     <UIRef Id="WixUI_ErrorProgressText" />
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\installer\windows\src\license.rtf" />
-    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\installer\windows\src\assets\banner.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\installer\windows\src\assets\dialog.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\installer\common\license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\installer\windows\assets\banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\installer\windows\assets\dialog.bmp" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
   </Product>
 </Wix>

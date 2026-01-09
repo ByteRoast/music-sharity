@@ -30,7 +30,7 @@ if ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)') {
     exit 1
 }
 
-Write-Host "=== Music Sharity MSI Builder ===" -ForegroundColor Cyan
+Write-Host "=== Music Sharity Windows Builder ===" -ForegroundColor Cyan
 Write-Host "Version: $Version" -ForegroundColor Gray
 Write-Host ""
 
