@@ -61,7 +61,7 @@ fi
 echo -e "\033[33m[2/5] Creating .deb package...\033[0m"
 
 DEB_DIR="$OUTPUT_DIR/deb"
-DEB_NAME="music-sharity_${VERSION}+${BUILD_NUMBER}_amd64"
+DEB_NAME="music-sharity-${VERSION}+${BUILD_NUMBER}-amd64"
 DEB_PACKAGE_DIR="$DEB_DIR/$DEB_NAME"
 
 mkdir -p "$DEB_PACKAGE_DIR/DEBIAN"
@@ -100,7 +100,7 @@ echo -e "\033[33m[3/5] Creating .rpm package...\033[0m"
 
 RPM_DIR="$OUTPUT_DIR/rpm"
 RPM_BUILD_DIR="$RPM_DIR/rpmbuild"
-RPM_NAME="music-sharity-${VERSION}-${BUILD_NUMBER}.x86_64"
+RPM_NAME="music-sharity-${VERSION}-${BUILD_NUMBER}-x86_64"
 
 mkdir -p "$RPM_BUILD_DIR"/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 mkdir -p "$RPM_BUILD_DIR/BUILD/music-sharity-$VERSION"
