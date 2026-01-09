@@ -18,7 +18,7 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $SourceDir = "$ProjectRoot\build\windows\x64\runner\Release"
 $InstallerDir = $PSScriptRoot
-$OutputDir = "$InstallerDir\output"
+$OutputDir = "$ProjectRoot\dist\windows\x64"
 
 $PubspecPath = "$ProjectRoot\pubspec.yaml"
 $PubspecContent = Get-Content $PubspecPath -Raw
