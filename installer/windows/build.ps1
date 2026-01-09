@@ -23,15 +23,21 @@ $OutputDir = "$ProjectRoot\dist\windows\x64"
 $PubspecPath = "$ProjectRoot\pubspec.yaml"
 $PubspecContent = Get-Content $PubspecPath -Raw
 
-if ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)') {
+if ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)\+(\d+)') {
     $Version = $Matches[1]
+    $BuildNumber = $Matches[2]
+    $FullVersion = "$Version+$BuildNumber"
+} elseif ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)') {
+    $Version = $Matches[1]
+    $BuildNumber = "0"
+    $FullVersion = "$Version+$BuildNumber"
 } else {
     Write-Host "Error: Could not extract version from pubspec.yaml" -ForegroundColor Red
     exit 1
 }
 
 Write-Host "=== Music Sharity Windows Builder ===" -ForegroundColor Cyan
-Write-Host "Version: $Version" -ForegroundColor Gray
+Write-Host "Version: $FullVersion" -ForegroundColor Gray
 Write-Host ""
 
 if (Test-Path $OutputDir) {
@@ -100,7 +106,7 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host ""
 Write-Host "[4/5] Creating MSI..." -ForegroundColor Yellow
 
-$MsiName = "music-sharity-$Version-windows-x64.msi"
+$MsiName = "music-sharity-$FullVersion-windows-x64.msi"
 
 & light.exe `
     -ext WixUIExtension `
