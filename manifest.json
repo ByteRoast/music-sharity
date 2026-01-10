@@ -4,11 +4,21 @@
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#2196F3",
+    "background_color": "#0A0A0A",
+    "theme_color": "#00A8FF",
     "description": "Share music across all platforms",
     "orientation": "portrait",
     "prefer_related_applications": false,
+    "share_target": {
+        "action": "/share",
+        "method": "GET",
+        "enctype": "application/x-www-form-urlencoded",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    },
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -32,15 +42,5 @@
             "type": "image/png",
             "purpose": "maskable"
         }
-    ],
-    "share_target": {
-        "action": "/share",
-        "method": "GET",
-        "enctype": "application/x-www-form-urlencoded",
-        "params": {
-            "title": "title",
-            "text": "text",
-            "url": "url"
-        }
-    }
+    ]
 }
