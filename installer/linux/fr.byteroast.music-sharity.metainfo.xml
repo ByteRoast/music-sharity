@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fr.byteroast.music-sharity</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>Music Sharity</name>
+  <summary>Share music across all platforms</summary>
+  <description>
+    <p>
+      Music Sharity allows you to share music links across different streaming platforms
+      like Spotify, Apple Music, YouTube Music, Deezer, and Tidal. Simply paste a music
+      link and convert it to your preferred streaming service.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Support for multiple streaming platforms</li>
+      <li>Fast and easy link conversion</li>
+      <li>Privacy-focused: no tracking</li>
+      <li>Clean and intuitive interface</li>
+    </ul>
+  </description>
+  <url type="homepage">https://music-sharity.byteroast.fr/</url>
+  <url type="bugtracker">https://github.com/ByteRoast/music-sharity/issues</url>
+  <url type="vcs">https://github.com/ByteRoast/music-sharity</url>
+  <launchable type="desktop-id">music-sharity.desktop</launchable>
+  <provides>
+    <binary>music-sharity</binary>
+  </provides>
+  <releases>
+    <release version="VERSION_PLACEHOLDER" date="DATE_PLACEHOLDER">
+      <description>
+        <p>Latest release of Music Sharity</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>

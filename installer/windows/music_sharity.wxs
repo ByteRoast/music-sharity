@@ -10,16 +10,17 @@
     <Package InstallerVersion="500" 
              Compressed="yes" 
              InstallScope="perMachine"
-             Description="Music Sharity - Universal music link converter"
-             Comments="Share music across all platforms - Privacy first, no tracking" />
+             Description="Music Sharity - Share music across all platforms"
+             Comments="Privacy first, no tracking" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of Music Sharity is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
     <Icon Id="AppIcon" SourceFile="$(var.ProjectDir)\windows\runner\resources\app_icon.ico" />
     <Property Id="ARPPRODUCTICON" Value="AppIcon" />
-    <Property Id="ARPURLINFOABOUT" Value="https://music-sharity.byteroast.fr" />
+    <Property Id="ARPURLINFOABOUT" Value="https://music-sharity.byteroast.fr/" />
     <Property Id="ARPHELPLINK" Value="https://github.com/music-sharity/music-sharity/issues" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://github.com/ByteRoast/music-sharity/releases" />
 
     <Feature Id="Complete" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
@@ -51,9 +52,9 @@
 
     <UIRef Id="WixUI_InstallDir" />
     <UIRef Id="WixUI_ErrorProgressText" />
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\installer\src\license.rtf" />
-    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\installer\src\assets\banner.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\installer\src\assets\dialog.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\installer\common\license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\installer\windows\assets\banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\installer\windows\assets\dialog.bmp" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
   </Product>
 </Wix>

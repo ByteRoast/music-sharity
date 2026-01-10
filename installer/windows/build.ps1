@@ -15,30 +15,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 $ErrorActionPreference = "Stop"
 
-$ProjectRoot = Split-Path -Parent $PSScriptRoot
+$ProjectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $SourceDir = "$ProjectRoot\build\windows\x64\runner\Release"
 $InstallerDir = $PSScriptRoot
-$OutputDir = "$InstallerDir\output"
+$OutputDir = "$ProjectRoot\dist\windows\x64"
 
 $PubspecPath = "$ProjectRoot\pubspec.yaml"
 $PubspecContent = Get-Content $PubspecPath -Raw
 
-if ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)') {
+if ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)\+(\d+)') {
     $Version = $Matches[1]
+    $BuildNumber = $Matches[2]
+    $FullVersion = "$Version+$BuildNumber"
+} elseif ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)') {
+    $Version = $Matches[1]
+    $BuildNumber = "0"
+    $FullVersion = "$Version+$BuildNumber"
 } else {
     Write-Host "Error: Could not extract version from pubspec.yaml" -ForegroundColor Red
     exit 1
 }
 
-Write-Host "=== Music Sharity MSI Builder ===" -ForegroundColor Cyan
-Write-Host "Version: $Version" -ForegroundColor Gray
+Write-Host "=== Music Sharity Windows Builder ===" -ForegroundColor Cyan
+Write-Host "Version: $FullVersion" -ForegroundColor Gray
 Write-Host ""
-
-if (-not (Test-Path "$SourceDir\music_sharity.exe")) {
-    Write-Host "Error: Release build not found!" -ForegroundColor Red
-    Write-Host "Run first: flutter build windows --release" -ForegroundColor Yellow
-    exit 1
-}
 
 if (Test-Path $OutputDir) {
     Remove-Item -Recurse -Force $OutputDir
@@ -46,7 +46,35 @@ if (Test-Path $OutputDir) {
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 
-Write-Host "[1/3] Collecting files with heat..." -ForegroundColor Yellow
+$LogFile = "$OutputDir\build.log"
+
+Write-Host "[1/5] Building Flutter Windows app..." -ForegroundColor Yellow
+Write-Host "Log file: $LogFile" -ForegroundColor Gray
+
+Push-Location $ProjectRoot
+
+& flutter clean
+& flutter pub get
+& flutter build windows --release --verbose *>&1 | Out-File -FilePath $LogFile -Encoding UTF8
+
+$BuildExitCode = $LASTEXITCODE
+
+Pop-Location
+
+Write-Host ""
+
+if ($BuildExitCode -ne 0) {
+    Write-Host "Error: Flutter build failed" -ForegroundColor Red
+    Write-Host "Check log file for details: $LogFile" -ForegroundColor Yellow
+    exit 1
+}
+
+if (-not (Test-Path "$SourceDir\music_sharity.exe")) {
+    Write-Host "Error: Release build not found after build!" -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "[2/5] Collecting files with heat..." -ForegroundColor Yellow
 
 & heat.exe dir $SourceDir `
     -cg ProductComponents `
@@ -60,7 +88,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "[2/3] Compiling with candle..." -ForegroundColor Yellow
+Write-Host "[3/5] Compiling with candle..." -ForegroundColor Yellow
 
 & candle.exe `
     -dSourceDir="$SourceDir" `
@@ -75,9 +103,10 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "[3/4] Creating MSI..." -ForegroundColor Yellow
+Write-Host ""
+Write-Host "[4/5] Creating MSI..." -ForegroundColor Yellow
 
-$MsiName = "music-sharity-$Version-windows-x64.msi"
+$MsiName = "music-sharity-$FullVersion-windows-x64.msi"
 
 & light.exe `
     -ext WixUIExtension `
@@ -94,7 +123,8 @@ if ($LASTEXITCODE -ne 0) {
 Remove-Item "$OutputDir\*.wixobj" -ErrorAction SilentlyContinue
 Remove-Item "$OutputDir\*.wxi" -ErrorAction SilentlyContinue
 
-Write-Host "[4/4] Generating SHA-1 checksum..." -ForegroundColor Yellow
+Write-Host ""
+Write-Host "[5/5] Generating SHA-1 checksum..." -ForegroundColor Yellow
 
 $MsiPath = "$OutputDir\$MsiName"
 $Hash = (Get-FileHash -Path $MsiPath -Algorithm SHA1).Hash.ToLower()

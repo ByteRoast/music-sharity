@@ -4,14 +4,14 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub issues](https://img.shields.io/github/issues/byteroast/music-sharity)](https://github.com/byteroast/music-sharity/issues)
 [![Build Tests](https://github.com/ByteRoast/music-sharity/actions/workflows/build_tests.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/build_tests.yml)
-[![Platform](https://img.shields.io/badge/Platform-Android%20|%20Windows%20|%20Web-brightgreen)]()
+[![Platform](https://img.shields.io/badge/Platform-Android%20|%20Windows%20|%20Linux%20|%20Web-brightgreen)]()
 
 [![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
 
 > [!WARNING]
-> Currently only **Android**, **Windows** and **Web** builds are officially released and supported.
+> Currently only **Android**, **Windows**, **Linux** and **Web** builds are officially released and supported.
 > 
-> iOS, macOS and Linux builds are technically functional but not actively maintained due to hardware limitations (no Mac ownership). Community contributions for these platforms are welcome!
+> iOS and macOS builds are technically functional but not actively maintained due to hardware limitations (no Mac ownership). Community contributions for these platforms are welcome!
 
 **Music Sharity** is a cross-platform app that converts music links between different streaming services instantly.
 
@@ -42,15 +42,22 @@
 
 **Option 2: Direct APK Download**
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
-2. Download the latest `music-sharity-x.y.z.apk`
+2. Download the latest `music-sharity-x.y.z+<build>.apk`
 3. Enable "Install from unknown sources" in Settings
 4. Install the APK
 
 ### Windows
 
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
-2. Download `music-sharity-x.y.z-windows-x64.exe`
+2. Download `music-sharity-x.y.z+<build>-windows-x64.msi`
 3. Install the program
+4. Run `Music Sharity`
+
+### Linux
+
+1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
+2. Download `music-sharity-x.y.z+<build>-amd64.deb` or `music-sharity-x.y.z-<build>-x86_64.rpm`
+3. Install the package
 4. Run `Music Sharity`
 
 ### Web
@@ -60,7 +67,7 @@
 
 ### Other Platforms
 
-While **iOS, macOS and Linux** builds can be compiled, they are **not officially supported** at this time due to:
+While **iOS and macOS** builds can be compiled, they are **not officially supported** at this time due to:
 - Lack of hardware for testing (no Mac)
 - No active maintenance
 
@@ -159,7 +166,10 @@ flutter run
 # Windows
 flutter run -d windows
 
-# Web (experimental)
+# Linux
+flutter run -d linux
+
+# Web
 flutter run -d chrome
 ```
 
@@ -170,6 +180,12 @@ flutter build apk --release
 
 # Windows
 flutter build windows --release
+
+# Linux
+flutter build linux --release
+
+# Web
+flutter build web --release
 ```
 
 ## Contributing
@@ -177,7 +193,7 @@ flutter build windows --release
 Contributions are welcome! Especially for:
 
 - **iOS/macOS support** (need Mac owners!)
-- **Web optimization**
+- **Web optimizations**
 - **New platform integrations**
 - **Bug fixes**
 
