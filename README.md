@@ -18,9 +18,9 @@
 ## Screenshots
 
 <p align="center">
-  <img src="./docs/assets/home_page.png" width="30%" />
-  <img src="./docs/assets/conversion_page.png" width="30%" />
-  <img src="./docs/assets/conversion_success.png" width="30%" />
+  <img src="./docs/assets/home-page.png" width="30%" />
+  <img src="./docs/assets/conversion-page.png" width="30%" />
+  <img src="./docs/assets/conversion-success.png" width="30%" />
 </p>
 
 ## Features
