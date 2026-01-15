@@ -59,6 +59,9 @@
 
 ### Web
 
+> [!WARNING]
+> The web version shares a **common rate limit** (10 requests/minute) across all users. For heavy usage, consider installing the native app instead.
+
 1. Go to [https://music-sharity.byteroast.fr](https://music-sharity.byteroast.fr)
 2. Use it like this or install it as PWA (On Android devices the PWA can appear in the share fleet)
 
