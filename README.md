@@ -18,9 +18,9 @@
 ## Screenshots
 
 <p align="center">
-  <img src="./docs/assets/home_page.png" width="30%" />
-  <img src="./docs/assets/conversion_page.png" width="30%" />
-  <img src="./docs/assets/conversion_success.png" width="30%" />
+  <img src="./docs/assets/home-page.png" width="30%" />
+  <img src="./docs/assets/conversion-page.png" width="30%" />
+  <img src="./docs/assets/conversion-success.png" width="30%" />
 </p>
 
 ## Features
@@ -35,10 +35,7 @@
 
 ### Android
 
-**Option 1: Google Play Store** (Recommended)
-```
-[Coming soon - Link to Play Store]
-```
+**Option 1: Google Play Store** (Recommended): [Link](https://play.google.com/store/apps/details?id=fr.byteroast.music_sharity)
 
 **Option 2: Direct APK Download**
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
@@ -61,6 +58,9 @@
 4. Run `Music Sharity`
 
 ### Web
+
+> [!WARNING]
+> The web version shares a **common rate limit** (10 requests/minute) across all users. For heavy usage, consider installing the native app instead.
 
 1. Go to [https://music-sharity.byteroast.fr](https://music-sharity.byteroast.fr)
 2. Use it like this or install it as PWA (On Android devices the PWA can appear in the share fleet)
