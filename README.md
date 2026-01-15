@@ -35,10 +35,7 @@
 
 ### Android
 
-**Option 1: Google Play Store** (Recommended)
-```
-[Coming soon - Link to Play Store]
-```
+**Option 1: Google Play Store** (Recommended): [Link](https://play.google.com/store/apps/details?id=fr.byteroast.music_sharity)
 
 **Option 2: Direct APK Download**
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
