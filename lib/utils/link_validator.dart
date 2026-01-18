@@ -33,7 +33,7 @@ class LinkValidator {
     MusicPlatform.youtubeMusic: RegExp(
       r'music\.youtube\.com/watch\?v=([a-zA-Z0-9_-]+)',
     ),
-    MusicPlatform.tidal: RegExp(r'tidal\.com/(track|album)/(\d+)'),
+    MusicPlatform.tidal: RegExp(r'tidal\.com/(browse/)?(track|album)/(\d+)'),
   };
 
   static MusicPlatform detectPlatform(String url) {
