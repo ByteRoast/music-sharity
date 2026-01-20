@@ -322,8 +322,12 @@ class _ConversionPageState extends State<ConversionPage> {
                 await _copyLink(result);
               }
             },
-            icon: Icon((Platform.isAndroid || Platform.isIOS) ? Icons.share : Icons.copy),
-            label: Text((Platform.isAndroid || Platform.isIOS) ? 'Share' : 'Copy'),
+            icon: Icon(
+              (Platform.isAndroid || Platform.isIOS) ? Icons.share : Icons.copy,
+            ),
+            label: Text(
+              (Platform.isAndroid || Platform.isIOS) ? 'Share' : 'Copy',
+            ),
           ),
         ],
       ),

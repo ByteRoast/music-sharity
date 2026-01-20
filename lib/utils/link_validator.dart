@@ -22,7 +22,7 @@ enum MusicPlatform {
   youtubeMusic,
   tidal,
   soundCloud,
-  unknown
+  unknown,
 }
 
 extension MusicPlatformExtension on MusicPlatform {
