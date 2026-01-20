@@ -16,9 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'odesli_service.dart';
+import '../models/content_type.dart';
 import '../models/music_link.dart';
+import '../models/music_platform.dart';
 import '../models/track_metadata.dart';
-import '../utils/link_validator.dart';
 
 class ConversionResult {
   final String? url;

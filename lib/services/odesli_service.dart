@@ -18,8 +18,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
-import '../models/track_metadata.dart';
 import 'rate_limiter_service.dart';
+import '../models/track_metadata.dart';
 
 class OdesliResult {
   final Map<String, String> platformLinks;

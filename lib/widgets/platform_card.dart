@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'package:flutter/material.dart';
+import '../models/music_platform.dart';
 import '../theme/app_theme.dart';
-import '../utils/link_validator.dart';
 
 class PlatformCard extends StatelessWidget {
   final MusicPlatform platform;

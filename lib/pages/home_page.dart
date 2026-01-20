@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'about_page.dart';
 import 'conversion_page.dart';
 import '../models/music_link.dart';
+import '../models/music_platform.dart';
 import '../utils/link_validator.dart';
 import '../utils/ui_helpers.dart';
 

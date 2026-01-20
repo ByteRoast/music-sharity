@@ -15,6 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import '../models/content_type.dart';
+import '../models/music_platform.dart';
 import '../utils/link_validator.dart';
 
 class MusicLink {
