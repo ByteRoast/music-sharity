@@ -15,7 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/music_link.dart';
 import '../utils/link_validator.dart';
@@ -332,10 +334,15 @@ class _ConversionPageState extends State<ConversionPage> {
           ElevatedButton.icon(
             onPressed: () async {
               Navigator.pop(dialogContext);
-              await _shareLink(result);
+
+              if (Platform.isAndroid || Platform.isIOS) {
+                await _shareLink(result);
+              } else {
+                await _copyLink(result);
+              }
             },
-            icon: const Icon(Icons.share),
-            label: const Text('Share'),
+            icon: Icon((Platform.isAndroid || Platform.isIOS) ? Icons.share : Icons.copy),
+            label: Text((Platform.isAndroid || Platform.isIOS) ? 'Share' : 'Copy'),
           ),
         ],
       ),
@@ -360,6 +367,39 @@ class _ConversionPageState extends State<ConversionPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to share: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _copyLink(ConversionResult result) async {
+    final url = result.url;
+
+    if (url == null) return;
+
+    try {
+      await Clipboard.setData(ClipboardData(text: url));
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Link copied to clipboard'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to copy to clipboard: $e'),
           backgroundColor: Colors.red,
         ),
       );
