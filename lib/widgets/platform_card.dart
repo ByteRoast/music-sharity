@@ -37,6 +37,8 @@ class PlatformCard extends StatelessWidget {
         return 'YouTube Music';
       case MusicPlatform.tidal:
         return 'Tidal';
+      case MusicPlatform.soundCloud:
+        return 'SoundCloud';
       default:
         return 'Unknown';
     }
@@ -54,6 +56,8 @@ class PlatformCard extends StatelessWidget {
         return 'assets/images/platforms/youtube-music.png';
       case MusicPlatform.tidal:
         return 'assets/images/platforms/tidal.png';
+      case MusicPlatform.soundCloud:
+        return 'assets/images/platforms/soundcloud.png';
       default:
         return '';
     }

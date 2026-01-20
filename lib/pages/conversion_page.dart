@@ -63,6 +63,8 @@ class _ConversionPageState extends State<ConversionPage> {
         return 'YouTube Music';
       case MusicPlatform.tidal:
         return 'Tidal';
+      case MusicPlatform.soundCloud:
+        return 'SoundClound';
       default:
         return 'Unknown';
     }

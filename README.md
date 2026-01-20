@@ -101,6 +101,7 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 | **Apple Music** | Fully supported |
 | **YouTube Music** | Fully supported |
 | **Tidal** | Fully supported |
+| **SoundClound** | Fully supported |
 
 ## Technical Details
 
