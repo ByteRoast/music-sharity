@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -316,17 +317,17 @@ class _ConversionPageState extends State<ConversionPage> {
             onPressed: () async {
               Navigator.pop(dialogContext);
 
-              if (Platform.isAndroid || Platform.isIOS) {
+              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
                 await _shareLink(result);
               } else {
                 await _copyLink(result);
               }
             },
             icon: Icon(
-              (Platform.isAndroid || Platform.isIOS) ? Icons.share : Icons.copy,
+              (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) ? Icons.share : Icons.copy,
             ),
             label: Text(
-              (Platform.isAndroid || Platform.isIOS) ? 'Share' : 'Copy',
+              (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) ? 'Share' : 'Copy',
             ),
           ),
         ],
