@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          UiHelpers.getPlatformLogo(_detectedPlatform!),
+                          _detectedPlatform!.logo,
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            UiHelpers.getPlatformName(_detectedPlatform!),
+                            _detectedPlatform!.displayName,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

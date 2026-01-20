@@ -51,25 +51,6 @@ class _ConversionPageState extends State<ConversionPage> {
         .toList();
   }
 
-  String get sourcePlatformName {
-    switch (widget.musicLink.sourcePlatform) {
-      case MusicPlatform.spotify:
-        return 'Spotify';
-      case MusicPlatform.deezer:
-        return 'Deezer';
-      case MusicPlatform.appleMusic:
-        return 'Apple Music';
-      case MusicPlatform.youtubeMusic:
-        return 'YouTube Music';
-      case MusicPlatform.tidal:
-        return 'Tidal';
-      case MusicPlatform.soundCloud:
-        return 'SoundClound';
-      default:
-        return 'Unknown';
-    }
-  }
-
   Future<void> _convertToPlatform(
     BuildContext context,
     MusicPlatform targetPlatform,
@@ -187,9 +168,7 @@ class _ConversionPageState extends State<ConversionPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.asset(
-                            UiHelpers.getPlatformLogo(
-                              widget.musicLink.sourcePlatform,
-                            ),
+                            widget.musicLink.sourcePlatform.logo,
                             width: 60,
                             height: 60,
                             fit: BoxFit.cover,
@@ -201,7 +180,7 @@ class _ConversionPageState extends State<ConversionPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                sourcePlatformName,
+                                widget.musicLink.sourcePlatform.displayName,
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
@@ -320,7 +299,7 @@ class _ConversionPageState extends State<ConversionPage> {
               Text(result.metadata!.artist),
               const SizedBox(height: 16),
             ],
-            Text('Converted to ${UiHelpers.getPlatformName(targetPlatform)}'),
+            Text('Converted to ${targetPlatform.displayName}'),
             const SizedBox(height: 8),
             SelectableText(
               result.url!,

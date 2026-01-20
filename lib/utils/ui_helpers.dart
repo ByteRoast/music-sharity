@@ -19,44 +19,6 @@ import 'package:flutter/material.dart';
 import 'link_validator.dart';
 
 class UiHelpers {
-  static String getPlatformName(MusicPlatform platform) {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'Spotify';
-      case MusicPlatform.deezer:
-        return 'Deezer';
-      case MusicPlatform.appleMusic:
-        return 'Apple Music';
-      case MusicPlatform.youtubeMusic:
-        return 'YouTube Music';
-      case MusicPlatform.tidal:
-        return 'Tidal';
-      case MusicPlatform.soundCloud:
-        return 'SoundCloud';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  static String getPlatformLogo(MusicPlatform platform) {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'assets/images/platforms/spotify.png';
-      case MusicPlatform.deezer:
-        return 'assets/images/platforms/deezer.png';
-      case MusicPlatform.appleMusic:
-        return 'assets/images/platforms/apple-music.png';
-      case MusicPlatform.youtubeMusic:
-        return 'assets/images/platforms/youtube-music.png';
-      case MusicPlatform.tidal:
-        return 'assets/images/platforms/tidal.png';
-      case MusicPlatform.soundCloud:
-        return 'assets/images/platforms/soundcloud.png';
-      default:
-        return '';
-    }
-  }
-
   static String getContentTypeName(ContentType type) {
     switch (type) {
       case ContentType.track:
