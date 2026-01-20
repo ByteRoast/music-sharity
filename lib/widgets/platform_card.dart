@@ -49,9 +49,9 @@ class PlatformCard extends StatelessWidget {
       case MusicPlatform.deezer:
         return 'assets/images/platforms/deezer.png';
       case MusicPlatform.appleMusic:
-        return 'assets/images/platforms/apple_music.png';
+        return 'assets/images/platforms/apple-music.png';
       case MusicPlatform.youtubeMusic:
-        return 'assets/images/platforms/youtube_music.png';
+        return 'assets/images/platforms/youtube-music.png';
       case MusicPlatform.tidal:
         return 'assets/images/platforms/tidal.png';
       default:
