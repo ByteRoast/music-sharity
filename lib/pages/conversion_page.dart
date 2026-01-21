@@ -324,10 +324,14 @@ class _ConversionPageState extends State<ConversionPage> {
               }
             },
             icon: Icon(
-              (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) ? Icons.share : Icons.copy,
+              (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+                  ? Icons.share
+                  : Icons.copy,
             ),
             label: Text(
-              (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) ? 'Share' : 'Copy',
+              (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+                  ? 'Share'
+                  : 'Copy',
             ),
           ),
         ],
