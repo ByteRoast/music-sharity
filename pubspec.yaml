@@ -2,7 +2,7 @@ name: music_sharity
 description: "Share music across all platforms"
 publish_to: 'none'
 
-version: 1.0.0+4
+version: 1.1.0+1
 
 environment:
   sdk: ^3.10.3
