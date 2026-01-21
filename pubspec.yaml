@@ -77,8 +77,6 @@ flutter_native_splash:
   image: assets/images/brandings/logo.png
 
   android_12:
-    # Android 12+ utilise un masque circulaire qui coupe l'icône
-    # L'image doit avoir ~2/3 de la taille totale pour éviter le cropping
-    image: assets/images/brandings/logo_splash.png
+    image: assets/images/brandings/logo-splash.png
     icon_background_color: "#0A0A0A"
     color: "#0A0A0A"
