@@ -15,16 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/music_link.dart';
-import '../utils/link_validator.dart';
+import '../models/music_platform.dart';
+import '../pages/home_page.dart';
+import '../services/music_converter_service.dart';
+import '../services/rate_limiter_service.dart';
 import '../utils/ui_helpers.dart';
 import '../widgets/platform_card.dart';
 import '../widgets/rate_limit_indicator.dart';
-import '../services/music_converter_service.dart';
-import '../services/rate_limiter_service.dart';
-import '../pages/home_page.dart';
 
 class ConversionPage extends StatefulWidget {
   final MusicLink musicLink;
@@ -47,23 +50,6 @@ class _ConversionPageState extends State<ConversionPage> {
               platform != MusicPlatform.unknown,
         )
         .toList();
-  }
-
-  String get sourcePlatformName {
-    switch (widget.musicLink.sourcePlatform) {
-      case MusicPlatform.spotify:
-        return 'Spotify';
-      case MusicPlatform.deezer:
-        return 'Deezer';
-      case MusicPlatform.appleMusic:
-        return 'Apple Music';
-      case MusicPlatform.youtubeMusic:
-        return 'YouTube Music';
-      case MusicPlatform.tidal:
-        return 'Tidal';
-      default:
-        return 'Unknown';
-    }
   }
 
   Future<void> _convertToPlatform(
@@ -183,9 +169,7 @@ class _ConversionPageState extends State<ConversionPage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.asset(
-                            UiHelpers.getPlatformLogo(
-                              widget.musicLink.sourcePlatform,
-                            ),
+                            widget.musicLink.sourcePlatform.logo,
                             width: 60,
                             height: 60,
                             fit: BoxFit.cover,
@@ -197,7 +181,7 @@ class _ConversionPageState extends State<ConversionPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                sourcePlatformName,
+                                widget.musicLink.sourcePlatform.displayName,
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
@@ -316,7 +300,7 @@ class _ConversionPageState extends State<ConversionPage> {
               Text(result.metadata!.artist),
               const SizedBox(height: 16),
             ],
-            Text('Converted to ${UiHelpers.getPlatformName(targetPlatform)}'),
+            Text('Converted to ${targetPlatform.displayName}'),
             const SizedBox(height: 8),
             SelectableText(
               result.url!,
@@ -332,10 +316,23 @@ class _ConversionPageState extends State<ConversionPage> {
           ElevatedButton.icon(
             onPressed: () async {
               Navigator.pop(dialogContext);
-              await _shareLink(result);
+
+              if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+                await _shareLink(result);
+              } else {
+                await _copyLink(result);
+              }
             },
-            icon: const Icon(Icons.share),
-            label: const Text('Share'),
+            icon: Icon(
+              (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+                  ? Icons.share
+                  : Icons.copy,
+            ),
+            label: Text(
+              (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+                  ? 'Share'
+                  : 'Copy',
+            ),
           ),
         ],
       ),
@@ -360,6 +357,39 @@ class _ConversionPageState extends State<ConversionPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to share: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _copyLink(ConversionResult result) async {
+    final url = result.url;
+
+    if (url == null) return;
+
+    try {
+      await Clipboard.setData(ClipboardData(text: url));
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Link copied to clipboard'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to copy to clipboard: $e'),
           backgroundColor: Colors.red,
         ),
       );

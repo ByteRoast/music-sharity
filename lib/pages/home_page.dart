@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'about_page.dart';
 import 'conversion_page.dart';
 import '../models/music_link.dart';
+import '../models/music_platform.dart';
 import '../utils/link_validator.dart';
 import '../utils/ui_helpers.dart';
 
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          UiHelpers.getPlatformLogo(_detectedPlatform!),
+                          _detectedPlatform!.logo,
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
@@ -161,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            UiHelpers.getPlatformName(_detectedPlatform!),
+                            _detectedPlatform!.displayName,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

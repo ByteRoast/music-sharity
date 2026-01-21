@@ -16,9 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'odesli_service.dart';
+import '../models/content_type.dart';
 import '../models/music_link.dart';
+import '../models/music_platform.dart';
 import '../models/track_metadata.dart';
-import '../utils/link_validator.dart';
 
 class ConversionResult {
   final String? url;
@@ -67,19 +68,21 @@ class MusicConverterService {
           break;
       }
 
-      if (targetUrl != null) {
-        return ConversionResult(
-          url: targetUrl,
-          metadata: result.metadata,
-          contentType: sourceLink.contentType,
-        );
-      } else {
-        return ConversionResult(
-          metadata: result.metadata,
-          error: 'Content not found on target platform',
-          contentType: sourceLink.contentType,
-        );
-      }
+      ConversionResult conversionResult;
+
+      targetUrl != null
+          ? conversionResult = ConversionResult(
+              url: targetUrl,
+              metadata: result.metadata,
+              contentType: sourceLink.contentType,
+            )
+          : conversionResult = ConversionResult(
+              metadata: result.metadata,
+              error: 'Content not found on target platform',
+              contentType: sourceLink.contentType,
+            );
+
+      return conversionResult;
     } catch (e) {
       return ConversionResult(error: e.toString());
     }

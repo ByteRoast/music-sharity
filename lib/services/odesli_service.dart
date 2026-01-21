@@ -18,8 +18,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
-import '../models/track_metadata.dart';
 import 'rate_limiter_service.dart';
+import '../models/track_metadata.dart';
 
 class OdesliResult {
   final Map<String, String> platformLinks;
@@ -136,12 +136,9 @@ class OdesliService {
       final entityUniqueId = data['entityUniqueId'] as String?;
       Map<String, dynamic>? entity;
 
-      if (entityUniqueId != null &&
-          entitiesByUniqueId.containsKey(entityUniqueId)) {
-        entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>;
-      } else {
-        entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
-      }
+      (entityUniqueId != null && entitiesByUniqueId.containsKey(entityUniqueId))
+          ? entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>
+          : entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
 
       return TrackMetadata(
         title: entity['title'] ?? 'Unknown Title',

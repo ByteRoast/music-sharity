@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import 'dart:async';
+import 'dart:io' show Platform;
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'dart:io' show Platform;
-import 'package:app_links/app_links.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'dart:async';
 import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
 import 'utils/web_share_handler.dart';

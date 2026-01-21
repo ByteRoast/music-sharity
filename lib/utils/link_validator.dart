@@ -15,9 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-enum MusicPlatform { spotify, deezer, appleMusic, youtubeMusic, tidal, unknown }
-
-enum ContentType { track, album, shortLink, unknown }
+import '../models/content_type.dart';
+import '../models/music_platform.dart';
 
 class LinkValidator {
   static final Map<MusicPlatform, RegExp> platformPatterns = {
@@ -33,7 +32,10 @@ class LinkValidator {
     MusicPlatform.youtubeMusic: RegExp(
       r'music\.youtube\.com/watch\?v=([a-zA-Z0-9_-]+)',
     ),
-    MusicPlatform.tidal: RegExp(r'tidal\.com/(track|album)/(\d+)'),
+    MusicPlatform.tidal: RegExp(r'tidal\.com/(browse/)?(track|album)/(\d+)'),
+    MusicPlatform.soundCloud: RegExp(
+      r'(on\.soundcloud\.com/[a-zA-Z0-9]+|soundcloud\.com/[^/\s?]+/[^/\s?]+)',
+    ),
   };
 
   static MusicPlatform detectPlatform(String url) {
@@ -46,17 +48,23 @@ class LinkValidator {
   }
 
   static ContentType detectContentType(String url) {
-    if (url.contains('link.deezer.com/s/')) {
+    if (url.contains('link.deezer.com/s/') ||
+        url.contains('on.soundcloud.com/')) {
       return ContentType.shortLink;
+    }
+
+    if (url.contains('/album/') ||
+        (url.contains('soundcloud.com/') && url.contains('/sets/'))) {
+      return ContentType.album;
     }
 
     if (url.contains('/track/') ||
         url.contains('/song/') ||
-        url.contains('watch?v=')) {
+        url.contains('watch?v=') ||
+        RegExp(r'soundcloud\.com/[^/\s?]+/[^/\s?]+').hasMatch(url)) {
       return ContentType.track;
-    } else if (url.contains('/album/')) {
-      return ContentType.album;
     }
+
     return ContentType.unknown;
   }
 

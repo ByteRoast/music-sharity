@@ -15,33 +15,4 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import 'package:flutter/material.dart';
-import '../models/content_type.dart';
-
-class UiHelpers {
-  static String getContentTypeName(ContentType type) {
-    switch (type) {
-      case ContentType.track:
-        return 'Track';
-      case ContentType.album:
-        return 'Album';
-      case ContentType.shortLink:
-        return 'Shared Link';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  static IconData getContentIcon(ContentType type) {
-    switch (type) {
-      case ContentType.track:
-        return Icons.music_note;
-      case ContentType.album:
-        return Icons.album;
-      case ContentType.shortLink:
-        return Icons.link;
-      default:
-        return Icons.music_note;
-    }
-  }
-}
+enum ContentType { track, album, shortLink, unknown }

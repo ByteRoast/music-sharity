@@ -16,48 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'package:flutter/material.dart';
+import '../models/music_platform.dart';
 import '../theme/app_theme.dart';
-import '../utils/link_validator.dart';
 
 class PlatformCard extends StatelessWidget {
   final MusicPlatform platform;
   final VoidCallback onTap;
 
   const PlatformCard({super.key, required this.platform, required this.onTap});
-
-  String get platformName {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'Spotify';
-      case MusicPlatform.deezer:
-        return 'Deezer';
-      case MusicPlatform.appleMusic:
-        return 'Apple Music';
-      case MusicPlatform.youtubeMusic:
-        return 'YouTube Music';
-      case MusicPlatform.tidal:
-        return 'Tidal';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  String get platformLogo {
-    switch (platform) {
-      case MusicPlatform.spotify:
-        return 'assets/images/platforms/spotify.png';
-      case MusicPlatform.deezer:
-        return 'assets/images/platforms/deezer.png';
-      case MusicPlatform.appleMusic:
-        return 'assets/images/platforms/apple_music.png';
-      case MusicPlatform.youtubeMusic:
-        return 'assets/images/platforms/youtube_music.png';
-      case MusicPlatform.tidal:
-        return 'assets/images/platforms/tidal.png';
-      default:
-        return '';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +38,7 @@ class PlatformCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
-                  platformLogo,
+                  platform.logo,
                   width: 60,
                   height: 60,
                   fit: BoxFit.cover,
@@ -81,7 +47,7 @@ class PlatformCard extends StatelessWidget {
               const SizedBox(width: 20),
               Expanded(
                 child: Text(
-                  platformName,
+                  platform.displayName,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
