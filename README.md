@@ -1,12 +1,16 @@
 # Music Sharity
 
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue)]()
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![GitHub issues](https://img.shields.io/github/issues/byteroast/music-sharity)](https://github.com/byteroast/music-sharity/issues)
-[![Build Tests](https://github.com/ByteRoast/music-sharity/actions/workflows/build_tests.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/build_tests.yml)
-[![Platform](https://img.shields.io/badge/Platform-Android%20|%20Windows%20|%20Linux%20|%20Web-brightgreen)]()
+<div align="center">
+  <img src="./assets/images/brandings/logo.png" width="200" />
 
-[![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
+  [![Version](https://img.shields.io/badge/Version-1.0.0-blue)]()
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+  [![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
+
+  [![Build Tests](https://github.com/ByteRoast/music-sharity/actions/workflows/build-tests.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/build-tests.yml)
+  [![GitHub issues](https://img.shields.io/github/issues/byteroast/music-sharity)](https://github.com/byteroast/music-sharity/issues)
+  [![Platform](https://img.shields.io/badge/Platform-Android%20|%20Linux%20|%20Web%20|%20Windows-brightgreen)](https://github.com/ByteRoast/music-sharity/releases/tag/v1.0.0)
+</div>
 
 > [!WARNING]
 > Currently only **Android**, **Windows**, **Linux** and **Web** builds are officially released and supported.
