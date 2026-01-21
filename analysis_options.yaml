@@ -2,3 +2,13 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
+
+dcm:
+  rules:
+    - avoid-dynamic
+    - avoid-unused-parameters
+    - prefer-conditional-expressions
+  metrics:
+    cyclomatic-complexity: 15
+    number-of-parameters: 6
+    maximum-nesting-level: 5

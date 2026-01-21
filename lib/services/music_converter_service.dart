@@ -68,19 +68,21 @@ class MusicConverterService {
           break;
       }
 
-      if (targetUrl != null) {
-        return ConversionResult(
-          url: targetUrl,
-          metadata: result.metadata,
-          contentType: sourceLink.contentType,
-        );
-      } else {
-        return ConversionResult(
-          metadata: result.metadata,
-          error: 'Content not found on target platform',
-          contentType: sourceLink.contentType,
-        );
-      }
+      ConversionResult conversionResult;
+
+      targetUrl != null
+          ? conversionResult = ConversionResult(
+              url: targetUrl,
+              metadata: result.metadata,
+              contentType: sourceLink.contentType,
+            )
+          : conversionResult = ConversionResult(
+              metadata: result.metadata,
+              error: 'Content not found on target platform',
+              contentType: sourceLink.contentType,
+            );
+
+      return conversionResult;
     } catch (e) {
       return ConversionResult(error: e.toString());
     }

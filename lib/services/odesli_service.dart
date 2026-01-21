@@ -136,12 +136,9 @@ class OdesliService {
       final entityUniqueId = data['entityUniqueId'] as String?;
       Map<String, dynamic>? entity;
 
-      if (entityUniqueId != null &&
-          entitiesByUniqueId.containsKey(entityUniqueId)) {
-        entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>;
-      } else {
-        entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
-      }
+      (entityUniqueId != null && entitiesByUniqueId.containsKey(entityUniqueId))
+          ? entity = entitiesByUniqueId[entityUniqueId] as Map<String, dynamic>
+          : entity = entitiesByUniqueId.values.first as Map<String, dynamic>;
 
       return TrackMetadata(
         title: entity['title'] ?? 'Unknown Title',
