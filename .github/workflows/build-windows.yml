@@ -31,7 +31,7 @@ jobs:
           echo "C:\Program Files (x86)\WiX Toolset v3.14\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Build Windows installer
-        run: .\installer\windows\build.ps1
+        run: .\installer\windows\build.ps1 -Target release -Clean false
 
       - name: Upload Windows MSI artifact
         uses: actions/upload-artifact@v4

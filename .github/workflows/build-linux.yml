@@ -41,7 +41,7 @@ jobs:
       - name: Build Linux installers
         run: |
           chmod +x ./installer/linux/build.sh
-          ./installer/linux/build.sh
+          ./installer/linux/build.sh --target release --clean false
 
       - name: Upload Linux .deb artifact
         uses: actions/upload-artifact@v4

@@ -13,10 +13,42 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+param(
+    [ValidateSet("release", "debug")]
+    [string]$Target = "release",
+
+    [ValidateSet("true", "false")]
+    [string]$Clean = "true",
+
+    [switch]$Help
+)
+
+function Show-Help {
+    Write-Host "Usage: build.ps1 [OPTIONS]"
+    Write-Host ""
+    Write-Host "Options:"
+    Write-Host "  -Target <release|debug>   Build target (default: release)"
+    Write-Host "  -Clean <true|false>       Run flutter clean before build (default: true)"
+    Write-Host "  -Help                     Show this help message"
+    Write-Host ""
+    Write-Host "Examples:"
+    Write-Host "  .\build.ps1                           # Release build with clean"
+    Write-Host "  .\build.ps1 -Target debug             # Debug build with clean"
+    Write-Host "  .\build.ps1 -Target release -Clean false  # Release build without clean"
+    Write-Host ""
+    Write-Host "Note: Debug builds only create the Flutter bundle, not the MSI installer."
+}
+
+if ($Help) {
+    Show-Help
+    exit 0
+}
+
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $SourceDir = "$ProjectRoot\build\windows\x64\runner\Release"
+$DebugSourceDir = "$ProjectRoot\build\windows\x64\runner\Debug"
 $InstallerDir = $PSScriptRoot
 $OutputDir = "$ProjectRoot\dist\windows\x64"
 
@@ -38,6 +70,7 @@ if ($PubspecContent -match 'version:\s*(\d+\.\d+\.\d+)\+(\d+)') {
 
 Write-Host "=== Music Sharity Windows Builder ===" -ForegroundColor Cyan
 Write-Host "Version: $FullVersion" -ForegroundColor Gray
+Write-Host "Target: $Target | Clean: $Clean" -ForegroundColor Gray
 Write-Host ""
 
 if (Test-Path $OutputDir) {
@@ -48,14 +81,46 @@ New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 
 $LogFile = "$OutputDir\build.log"
 
-Write-Host "[1/5] Building Flutter Windows app..." -ForegroundColor Yellow
-Write-Host "Log file: $LogFile" -ForegroundColor Gray
+if ($Target -eq "release") {
+    if ($Clean -eq "true") {
+        $TotalSteps = 6
+    } else {
+        $TotalSteps = 5
+    }
+} else {
+    if ($Clean -eq "true") {
+        $TotalSteps = 2
+    } else {
+        $TotalSteps = 1
+    }
+}
+
+$Step = 1
 
 Push-Location $ProjectRoot
 
-& flutter clean
+if ($Clean -eq "true") {
+    Write-Host "[$Step/$TotalSteps] Cleaning project..." -ForegroundColor Yellow
+
+    & flutter clean
+
+    Write-Host ""
+
+    $Step++
+}
+
+Write-Host "[$Step/$TotalSteps] Building Flutter Windows app ($Target)..." -ForegroundColor Yellow
+Write-Host "Log file: $LogFile" -ForegroundColor Gray
+
 & flutter pub get
-& flutter build windows --release --verbose *>&1 | Out-File -FilePath $LogFile -Encoding UTF8
+
+if ($Target -eq "release") {
+    & flutter build windows --release --verbose *>&1 | Out-File -FilePath $LogFile -Encoding UTF8
+    $BuildSourceDir = $SourceDir
+} else {
+    & flutter build windows --debug --verbose *>&1 | Out-File -FilePath $LogFile -Encoding UTF8
+    $BuildSourceDir = $DebugSourceDir
+}
 
 $BuildExitCode = $LASTEXITCODE
 
@@ -69,12 +134,24 @@ if ($BuildExitCode -ne 0) {
     exit 1
 }
 
-if (-not (Test-Path "$SourceDir\music_sharity.exe")) {
-    Write-Host "Error: Release build not found after build!" -ForegroundColor Red
+if (-not (Test-Path "$BuildSourceDir\music_sharity.exe")) {
+    Write-Host "Error: Build not found after build!" -ForegroundColor Red
     exit 1
 }
 
-Write-Host "[2/5] Collecting files with heat..." -ForegroundColor Yellow
+if ($Target -eq "debug") {
+    Write-Host ""
+    Write-Host "=== Debug build completed successfully! ===" -ForegroundColor Green
+    Write-Host "Bundle location:" -ForegroundColor Cyan
+    Write-Host "  - $BuildSourceDir" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Note: Debug builds don't create MSI installers." -ForegroundColor Gray
+    exit 0
+}
+
+$Step++
+
+Write-Host "[$Step/$TotalSteps] Collecting files with heat..." -ForegroundColor Yellow
 
 & heat.exe dir $SourceDir `
     -cg ProductComponents `
@@ -88,7 +165,9 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "[3/5] Compiling with candle..." -ForegroundColor Yellow
+$Step++
+
+Write-Host "[$Step/$TotalSteps] Compiling with candle..." -ForegroundColor Yellow
 
 & candle.exe `
     -dSourceDir="$SourceDir" `
@@ -104,7 +183,10 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host ""
-Write-Host "[4/5] Creating MSI..." -ForegroundColor Yellow
+
+$Step++
+
+Write-Host "[$Step/$TotalSteps] Creating MSI..." -ForegroundColor Yellow
 
 $MsiName = "music-sharity-$FullVersion-windows-x64.msi"
 
@@ -124,7 +206,10 @@ Remove-Item "$OutputDir\*.wixobj" -ErrorAction SilentlyContinue
 Remove-Item "$OutputDir\*.wxi" -ErrorAction SilentlyContinue
 
 Write-Host ""
-Write-Host "[5/5] Generating SHA-1 checksum..." -ForegroundColor Yellow
+
+$Step++
+
+Write-Host "[$Step/$TotalSteps] Generating SHA-1 checksum..." -ForegroundColor Yellow
 
 $MsiPath = "$OutputDir\$MsiName"
 $Hash = (Get-FileHash -Path $MsiPath -Algorithm SHA1).Hash.ToLower()

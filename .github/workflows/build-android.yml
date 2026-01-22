@@ -30,15 +30,14 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Get dependencies
-        run: flutter pub get
-
       - name: Build Android APK (debug)
-        run: flutter build apk --debug --no-shrink
+        run: |
+          chmod +x installer/android/build.sh
+          ./installer/android/build.sh --target debug --clean false
 
       - name: Upload Android APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-apk-debug
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: dist/android/*-debug.apk
           retention-days: 7
