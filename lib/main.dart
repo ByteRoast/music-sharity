@@ -21,7 +21,6 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
 import 'utils/web_share_handler.dart';
@@ -42,16 +41,13 @@ class MusicSharityApp extends StatefulWidget {
 }
 
 class _MusicSharityAppState extends State<MusicSharityApp> {
+  static const _shareChannel = EventChannel('fr.byteroast.music_sharity/share');
   final _appLinks = AppLinks();
+
   StreamSubscription<Uri>? _deepLinkSubscription;
-  StreamSubscription<List<SharedMediaFile>>? _sharingMediaSubscription;
+  StreamSubscription<Object?>? _nativeShareSubscription;
   String? _sharedLink;
   Timer? _webShareCheckTimer;
-
-  bool get _isMobilePlatform {
-    if (kIsWeb) return false;
-    return Platform.isAndroid || Platform.isIOS;
-  }
 
   @override
   void initState() {
@@ -63,8 +59,8 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
     } else {
       _initDeepLinks();
 
-      if (_isMobilePlatform) {
-        _initSharingIntent();
+      if (Platform.isAndroid) {
+        _initNativeSharing();
       }
     }
   }
@@ -105,6 +101,7 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
   Future<void> _initDeepLinks() async {
     try {
       final uri = await _appLinks.getInitialLink();
+
       if (uri != null) {
         setState(() {
           _sharedLink = uri.toString();
@@ -126,48 +123,28 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
     );
   }
 
-  Future<void> _initSharingIntent() async {
-    ReceiveSharingIntent.instance.getInitialMedia().then((
-      List<SharedMediaFile> value,
-    ) {
-      if (value.isNotEmpty) {
-        final sharedText = value.first.path;
-        if (sharedText.isNotEmpty) {
+  void _initNativeSharing() {
+    _nativeShareSubscription = _shareChannel.receiveBroadcastStream().listen(
+      (url) {
+        debugPrint('Native share received: $url');
+
+        if (url is String && url.isNotEmpty) {
           setState(() {
-            _sharedLink = sharedText;
+            _sharedLink = url;
           });
         }
-      }
-    });
-
-    _sharingMediaSubscription = ReceiveSharingIntent.instance
-        .getMediaStream()
-        .listen(
-          (List<SharedMediaFile> value) {
-            if (value.isNotEmpty) {
-              final sharedText = value.first.path;
-              if (sharedText.isNotEmpty) {
-                setState(() {
-                  _sharedLink = sharedText;
-                });
-              }
-            }
-          },
-          onError: (err) {
-            debugPrint('Error receiving shared media: $err');
-          },
-        );
+      },
+      onError: (err) {
+        debugPrint('Error receiving native share: $err');
+      },
+    );
   }
 
   @override
   void dispose() {
     _deepLinkSubscription?.cancel();
-    _sharingMediaSubscription?.cancel();
+    _nativeShareSubscription?.cancel();
     _webShareCheckTimer?.cancel();
-
-    if (_isMobilePlatform) {
-      ReceiveSharingIntent.instance.reset();
-    }
 
     super.dispose();
   }
