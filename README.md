@@ -3,13 +3,13 @@
 <div align="center">
   <img src="./assets/images/brandings/logo.png" width="200" />
 
-  [![Version](https://img.shields.io/badge/Version-1.0.0-blue)]()
+  [![Version](https://img.shields.io/badge/Version-1.1.1-blue)]()
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
   [![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
 
-  [![Build Tests](https://github.com/ByteRoast/music-sharity/actions/workflows/build-tests.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/build-tests.yml)
+  [![Analyze Code](https://github.com/ByteRoast/music-sharity/actions/workflows/analyze.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/analyze.yml)
   [![GitHub issues](https://img.shields.io/github/issues/byteroast/music-sharity)](https://github.com/byteroast/music-sharity/issues)
-  [![Platform](https://img.shields.io/badge/Platform-Android%20|%20Linux%20|%20Web%20|%20Windows-brightgreen)](https://github.com/ByteRoast/music-sharity/releases/tag/v1.0.0)
+  [![Platform](https://img.shields.io/badge/Platform-Android%20|%20Linux%20|%20Web%20|%20Windows-brightgreen)](https://github.com/ByteRoast/music-sharity/releases/latest)
 </div>
 
 > [!WARNING]
@@ -150,6 +150,10 @@ Read our [Privacy Policy](https://music-sharity.byteroast.fr/PRIVACY) for detail
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.10+)
 - Android Studio or VS Code
 
+**Platform-specific requirements:**
+- **Linux**: `dpkg-deb`, `rpmbuild`, GTK3 development libraries
+- **Windows**: [WiX Toolset](https://wixtoolset.org/) for MSI packaging
+
 ### Setup
 
 1. **Clone the repository:**
@@ -178,20 +182,47 @@ flutter run -d linux
 flutter run -d chrome
 ```
 
-4. **Build release:**
+### Build with Scripts
+
+Build scripts are available in `installer/` for each platform with support for release/debug targets:
+
+#### Android
+
 ```bash
-# Android APK
-flutter build apk --release
+# Linux/macOS
+./installer/android/build.sh --target release --clean true
 
-# Windows
-flutter build windows --release
-
-# Linux
-flutter build linux --release
-
-# Web
-flutter build web --release
+# Windows (PowerShell)
+.\installer\android\build.ps1 -Target release -Clean true
 ```
+
+Output: `dist/android/music-sharity-x.y.z+<build>.apk` (+ `.aab` for release)
+
+#### Linux
+
+```bash
+./installer/linux/build.sh --target release --clean true
+```
+
+Output: `dist/linux/x64/music-sharity-x.y.z+<build>-amd64.deb` and `.rpm`
+
+#### Windows
+
+```powershell
+.\installer\windows\build.ps1 -Target release -Clean true
+```
+
+Output: `dist/windows/x64/music-sharity-x.y.z+<build>-windows-x64.msi`
+
+#### Script Options
+
+| Option | Values | Default | Description |
+|--------|--------|---------|-------------|
+| `--target` / `-Target` | `release`, `debug` | `release` | Build configuration |
+| `--clean` / `-Clean` | `true`, `false` | `true` | Run `flutter clean` before build |
+| `--help` / `-Help` | - | - | Show help message |
+
+> **Note:** Debug builds only create the Flutter bundle, not installer packages.
 
 ## Contributing
 
