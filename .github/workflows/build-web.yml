@@ -4,6 +4,8 @@ on:
   workflow_run:
     workflows: ["Analyze Code"]
     types: [completed]
+    branches: [main]
+  pull_request:
     branches: [main, dev/main]
   workflow_dispatch:
 
@@ -11,7 +13,7 @@ jobs:
   build-web:
     name: Build Web Application
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout code
