@@ -105,7 +105,10 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 | **Apple Music** | Fully supported |
 | **YouTube Music** | Fully supported |
 | **Tidal** | Fully supported |
-| **SoundClound** | Fully supported |
+| **SoundCloud** | Fully supported |
+
+> [!WARNING]
+> **SoundCloud limitations:** Because SoundCloud does not contain all mainstream artists, converting from popular streaming platforms (Spotify, Apple Music, etc.) to SoundCloud will often fail. Converting from SoundCloud to other platforms may have better results.
 
 ## Technical Details
 
