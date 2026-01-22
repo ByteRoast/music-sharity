@@ -2,9 +2,15 @@ name: Deploy Flutter Web to GitHub Pages
 
 on:
   workflow_run:
-    workflows: ["Build Tests"]
+    workflows: ["Build Web"]
     types: [completed]
     branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - "LICENSE.md"
+      - "PRIVACY.md"
+      - "CNAME"
   workflow_dispatch:
 
 permissions:
@@ -13,19 +19,34 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
       - name: Download web build artifact
+        if: ${{ github.event_name == 'workflow_run' }}
         uses: actions/download-artifact@v4
         with:
           name: web-build
           path: build/web
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Setup Flutter
+        if: ${{ github.event_name != 'workflow_run' }}
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.5"
+          channel: "stable"
+          cache: true
+
+      - name: Build Web
+        if: ${{ github.event_name != 'workflow_run' }}
+        run: |
+          flutter pub get
+          flutter build web --release --base-href "/"
 
       - name: Copy documentation files
         run: |
