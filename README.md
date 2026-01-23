@@ -29,7 +29,7 @@
 
 ## Features
 
-- **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal
+- **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal, SoundCloud
 - **Supports tracks and albums**
 - **Fast conversion**: Powered by Odesli API
 - **Native Android sharing**: Appears in the share menu
@@ -47,13 +47,6 @@
 3. Enable "Install from unknown sources" in Settings
 4. Install the APK
 
-### Windows
-
-1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
-2. Download `music-sharity-x.y.z+<build>-windows-x64.msi`
-3. Install the program
-4. Run `Music Sharity`
-
 ### Linux
 
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
@@ -68,6 +61,13 @@
 
 1. Go to [https://music-sharity.byteroast.fr](https://music-sharity.byteroast.fr)
 2. Use it like this or install it as PWA (On Android devices the PWA can appear in the share fleet)
+
+### Windows
+
+1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
+2. Download `music-sharity-x.y.z+<build>-windows-x64.msi`
+3. Install the program
+4. Run `Music Sharity`
 
 ### Other Platforms
 
@@ -119,7 +119,7 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 - [Cloudflare Workers](https://workers.cloudflare.com) - Privacy-first CORS proxy (web version only)
 
 **Architecture:**
-- **Native apps** (Android, iOS, Windows, macOS, Linux): Direct API calls to Odesli (zero intermediaries)
+- **Native apps** (Android, Linux, Windows): Direct API calls to Odesli (zero intermediaries)
 - **Web app**: Privacy-first CORS proxy via Cloudflare Workers (zero logging, zero tracking)
 - No API keys required - fully open source friendly
 - No user data collection
@@ -127,9 +127,9 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 - Proxy source code: [music-sharity-proxy](https://github.com/ByteRoast/music-sharity-proxy)
 
 **Privacy infrastructure:**
-- Native apps: Direct API communication ✅
-- Web app: Stateless edge proxy with no data retention ✅
-- All code is open source and auditable ✅
+- Native apps: Direct API communication
+- Web app: Stateless edge proxy with no data retention
+- All code is open source and auditable
 
 > [!NOTE]
 > Due to Odesli API restrictions, the application is limited to **10 requests per minute**. A rate limiting mechanism is implemented to ensure smooth operation within this constraint.
