@@ -1,0 +1,48 @@
+name: Analyze Code
+
+on:
+  push:
+    branches: [main, dev/main]
+    paths-ignore:
+      - "*.md"
+      - "CNAME"
+      - ".vscode/**"
+      - "*.iml"
+      - ".gitignore"
+      - "*/.gitignore"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".metadata"
+  pull_request:
+    branches: [main, dev/main]
+    paths-ignore:
+      - "*.md"
+      - "CNAME"
+      - ".vscode/**"
+      - "*.iml"
+      - ".gitignore"
+      - "*/.gitignore"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".metadata"
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.5"
+          channel: "stable"
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Analyze code
+        run: flutter analyze

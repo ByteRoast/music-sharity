@@ -1,0 +1,60 @@
+name: Build Linux
+
+on:
+  workflow_run:
+    workflows: ["Analyze Code"]
+    types: [completed]
+    branches: [main]
+  pull_request:
+    branches: [main, dev/main]
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    name: Build Linux Installers
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.5"
+          channel: "stable"
+          cache: true
+
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang \
+            cmake \
+            ninja-build \
+            pkg-config \
+            libgtk-3-dev \
+            liblzma-dev \
+            libstdc++-12-dev \
+            rpm \
+            dpkg-dev
+
+      - name: Build Linux installers
+        run: |
+          chmod +x ./installer/linux/build.sh
+          ./installer/linux/build.sh --target release --clean false
+
+      - name: Upload Linux .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb-installer
+          path: dist/linux/x64/*.deb
+          retention-days: 7
+
+      - name: Upload Linux .rpm artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-rpm-installer
+          path: dist/linux/x64/*.rpm
+          retention-days: 7

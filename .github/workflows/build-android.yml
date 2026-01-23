@@ -1,0 +1,45 @@
+name: Build Android
+
+on:
+  workflow_run:
+    workflows: ["Analyze Code"]
+    types: [completed]
+    branches: [main]
+  pull_request:
+    branches: [main, dev/main]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.5"
+          channel: "stable"
+          cache: true
+
+      - name: Build Android APK (debug)
+        run: |
+          chmod +x installer/android/build.sh
+          ./installer/android/build.sh --target debug --clean false
+
+      - name: Upload Android APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-debug
+          path: dist/android/*-debug.apk
+          retention-days: 7

@@ -45,5 +45,18 @@ cp SCRIPT_DIR_PLACEHOLDER/../common/copyright %{buildroot}/usr/share/doc/music-s
 POST_SCRIPT_PLACEHOLDER
 
 %changelog
-* Thu Jan 09 2025 Sikelio (Byte Roast) <contact@byteroast.fr>
-- Initial RPM release
+* Wed Jan 22 2026 Sikelio (Byte Roast) <contact@byteroast.fr>
+- Fix Android URL retrieval from shared content
+
+* Tue Jan 21 2026 Sikelio (Byte Roast) <contact@byteroast.fr>
+- Add SoundCloud support
+- Fix Tidal regex patterns
+- Add splash screens
+- Replace share button with clipboard copy button
+- Code refactoring
+
+* Sun Jan 12 2026 Sikelio (Byte Roast) <contact@byteroast.fr>
+- Initial release
+- Support for Spotify, Deezer, Apple Music, YouTube Music and Tidal
+- Native Android sharing integration
+- Material Design 3 theme

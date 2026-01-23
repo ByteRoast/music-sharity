@@ -3,13 +3,13 @@
 <div align="center">
   <img src="./assets/images/brandings/logo.png" width="200" />
 
-  [![Version](https://img.shields.io/badge/Version-1.0.0-blue)]()
+  [![Version](https://img.shields.io/badge/Version-1.1.1-blue)]()
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
   [![GitHub stars](https://img.shields.io/github/stars/byteroast/music-sharity?style=social)](https://github.com/byteroast/music-sharity/stargazers)
 
-  [![Build Tests](https://github.com/ByteRoast/music-sharity/actions/workflows/build-tests.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/build-tests.yml)
+  [![Analyze Code](https://github.com/ByteRoast/music-sharity/actions/workflows/analyze.yml/badge.svg)](https://github.com/ByteRoast/music-sharity/actions/workflows/analyze.yml)
   [![GitHub issues](https://img.shields.io/github/issues/byteroast/music-sharity)](https://github.com/byteroast/music-sharity/issues)
-  [![Platform](https://img.shields.io/badge/Platform-Android%20|%20Linux%20|%20Web%20|%20Windows-brightgreen)](https://github.com/ByteRoast/music-sharity/releases/tag/v1.0.0)
+  [![Platform](https://img.shields.io/badge/Platform-Android%20|%20Linux%20|%20Web%20|%20Windows-brightgreen)](https://github.com/ByteRoast/music-sharity/releases/latest)
 </div>
 
 > [!WARNING]
@@ -29,7 +29,7 @@
 
 ## Features
 
-- **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal
+- **Convert between 5 platforms**: Spotify, Deezer, Apple Music, YouTube Music, Tidal, SoundCloud
 - **Supports tracks and albums**
 - **Fast conversion**: Powered by Odesli API
 - **Native Android sharing**: Appears in the share menu
@@ -47,13 +47,6 @@
 3. Enable "Install from unknown sources" in Settings
 4. Install the APK
 
-### Windows
-
-1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
-2. Download `music-sharity-x.y.z+<build>-windows-x64.msi`
-3. Install the program
-4. Run `Music Sharity`
-
 ### Linux
 
 1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
@@ -68,6 +61,13 @@
 
 1. Go to [https://music-sharity.byteroast.fr](https://music-sharity.byteroast.fr)
 2. Use it like this or install it as PWA (On Android devices the PWA can appear in the share fleet)
+
+### Windows
+
+1. Go to [Releases](https://github.com/byteroast/music-sharity/releases)
+2. Download `music-sharity-x.y.z+<build>-windows-x64.msi`
+3. Install the program
+4. Run `Music Sharity`
 
 ### Other Platforms
 
@@ -105,7 +105,10 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 | **Apple Music** | Fully supported |
 | **YouTube Music** | Fully supported |
 | **Tidal** | Fully supported |
-| **SoundClound** | Fully supported |
+| **SoundCloud** | Fully supported |
+
+> [!WARNING]
+> **SoundCloud limitations:** Because SoundCloud does not contain all mainstream artists, converting from popular streaming platforms (Spotify, Apple Music, etc.) to SoundCloud will often fail. Converting from SoundCloud to other platforms may have better results.
 
 ## Technical Details
 
@@ -116,7 +119,7 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 - [Cloudflare Workers](https://workers.cloudflare.com) - Privacy-first CORS proxy (web version only)
 
 **Architecture:**
-- **Native apps** (Android, iOS, Windows, macOS, Linux): Direct API calls to Odesli (zero intermediaries)
+- **Native apps** (Android, Linux, Windows): Direct API calls to Odesli (zero intermediaries)
 - **Web app**: Privacy-first CORS proxy via Cloudflare Workers (zero logging, zero tracking)
 - No API keys required - fully open source friendly
 - No user data collection
@@ -124,9 +127,9 @@ While **iOS and macOS** builds can be compiled, they are **not officially suppor
 - Proxy source code: [music-sharity-proxy](https://github.com/ByteRoast/music-sharity-proxy)
 
 **Privacy infrastructure:**
-- Native apps: Direct API communication ✅
-- Web app: Stateless edge proxy with no data retention ✅
-- All code is open source and auditable ✅
+- Native apps: Direct API communication
+- Web app: Stateless edge proxy with no data retention
+- All code is open source and auditable
 
 > [!NOTE]
 > Due to Odesli API restrictions, the application is limited to **10 requests per minute**. A rate limiting mechanism is implemented to ensure smooth operation within this constraint.
@@ -149,6 +152,10 @@ Read our [Privacy Policy](https://music-sharity.byteroast.fr/PRIVACY) for detail
 
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.10+)
 - Android Studio or VS Code
+
+**Platform-specific requirements:**
+- **Linux**: `dpkg-deb`, `rpmbuild`, GTK3 development libraries
+- **Windows**: [WiX Toolset](https://wixtoolset.org/) for MSI packaging
 
 ### Setup
 
@@ -178,20 +185,47 @@ flutter run -d linux
 flutter run -d chrome
 ```
 
-4. **Build release:**
+### Build with Scripts
+
+Build scripts are available in `installer/` for each platform with support for release/debug targets:
+
+#### Android
+
 ```bash
-# Android APK
-flutter build apk --release
+# Linux/macOS
+./installer/android/build.sh --target release --clean true
 
-# Windows
-flutter build windows --release
-
-# Linux
-flutter build linux --release
-
-# Web
-flutter build web --release
+# Windows (PowerShell)
+.\installer\android\build.ps1 -Target release -Clean true
 ```
+
+Output: `dist/android/music-sharity-x.y.z+<build>.apk` (+ `.aab` for release)
+
+#### Linux
+
+```bash
+./installer/linux/build.sh --target release --clean true
+```
+
+Output: `dist/linux/x64/music-sharity-x.y.z+<build>-amd64.deb` and `.rpm`
+
+#### Windows
+
+```powershell
+.\installer\windows\build.ps1 -Target release -Clean true
+```
+
+Output: `dist/windows/x64/music-sharity-x.y.z+<build>-windows-x64.msi`
+
+#### Script Options
+
+| Option | Values | Default | Description |
+|--------|--------|---------|-------------|
+| `--target` / `-Target` | `release`, `debug` | `release` | Build configuration |
+| `--clean` / `-Clean` | `true`, `false` | `true` | Run `flutter clean` before build |
+| `--help` / `-Help` | - | - | Show help message |
+
+> **Note:** Debug builds only create the Flutter bundle, not installer packages.
 
 ## Contributing
 
