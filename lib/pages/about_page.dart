@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'package:flutter/material.dart';
+import 'package:music_sharity/models/music_platform.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -188,22 +189,22 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   Widget _buildPlatformChips() {
-    final platforms = [
-      'Spotify',
-      'Deezer',
-      'Apple Music',
-      'YouTube Music',
-      'Tidal',
-      'SoundCloud'
-    ];
+    List<MusicPlatform> platforms = MusicPlatform
+      .values
+      .where((mp) => mp != MusicPlatform.unknown)
+      .toList();
 
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
       children: platforms.map((platform) {
         return Chip(
-          label: Text(platform),
-          avatar: const Icon(Icons.music_note, size: 16),
+          label: Text(platform.displayName),
+          avatar: Image.asset(
+            platform.logo,
+            width: 16,
+            height: 16,
+          ),
         );
       }).toList(),
     );
