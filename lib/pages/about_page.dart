@@ -135,7 +135,6 @@ class _AboutPageState extends State<AboutPage> {
           const SizedBox(height: 24),
 
           _buildSectionTitle('Supported Platforms'),
-
           _buildPlatformChips(),
 
           const SizedBox(height: 32),
@@ -195,6 +194,7 @@ class _AboutPageState extends State<AboutPage> {
       'Apple Music',
       'YouTube Music',
       'Tidal',
+      'SoundCloud'
     ];
 
     return Wrap(
