@@ -19,6 +19,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:music_sharity/services/conversion_history_service.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/music_link.dart';
 import '../models/music_platform.dart';
@@ -41,6 +42,7 @@ class ConversionPage extends StatefulWidget {
 
 class _ConversionPageState extends State<ConversionPage> {
   final MusicConverterService _converterService = MusicConverterService();
+  final ConversionHistoryService _conversionHistoryService = ConversionHistoryService();
 
   bool _isConverting = true;
 
@@ -71,7 +73,7 @@ class _ConversionPageState extends State<ConversionPage> {
 
   Future<void> _loadConversions() async {
     try {
-      final result = await _converterService.convert(widget.musicLink);
+      final OdesliResult result = await _converterService.convert(widget.musicLink);
 
       if (!mounted) return;
 
@@ -372,6 +374,14 @@ class _ConversionPageState extends State<ConversionPage> {
           ElevatedButton.icon(
             onPressed: () async {
               Navigator.pop(dialogContext);
+
+              await _conversionHistoryService.addEntry(
+                widget.musicLink.originalUrl,
+                widget.musicLink.sourcePlatform,
+                targetPlatform,
+                url,
+                _conversionResult?.metadata,
+              );
 
               if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
                 await _shareLink(url);
