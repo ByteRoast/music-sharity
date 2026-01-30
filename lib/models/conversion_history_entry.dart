@@ -16,32 +16,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'package:hive/hive.dart';
+import 'music_platform.dart';
+import 'track_metadata.dart';
 
-part 'track_metadata.g.dart';
+part 'conversion_history_entry.g.dart';
 
-@HiveType(typeId: 1)
-class TrackMetadata {
+@HiveType(typeId: 0)
+class ConversionHistoryEntry {
   @HiveField(0)
-  final String title;
+  final DateTime timestamp;
 
   @HiveField(1)
-  final String artist;
+  final String sourceUrl;
 
   @HiveField(2)
-  final String? album;
+  final MusicPlatform sourcePlatform;
 
   @HiveField(3)
-  final String? imageUrl;
+  final MusicPlatform targetPlatform;
 
-  TrackMetadata({
-    required this.title,
-    required this.artist,
-    this.album,
-    this.imageUrl,
+  @HiveField(4)
+  final String targetUrl;
+
+  @HiveField(5)
+  final TrackMetadata? metadata;
+
+  ConversionHistoryEntry({
+    required this.timestamp,
+    required this.sourceUrl,
+    required this.sourcePlatform,
+    required this.targetPlatform,
+    required this.targetUrl,
+    this.metadata,
   });
 
   @override
   String toString() {
-    return '$title - $artist${album != null ? ' ($album)' : ''}';
+    return 'ConversionHistoryEntry(timestamp: $timestamp, '
+        'source: ${sourcePlatform.displayName} -> target: ${targetPlatform.displayName}, '
+        'track: ${metadata?.title ?? 'Unknown'})';
   }
 }

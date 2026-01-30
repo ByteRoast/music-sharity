@@ -15,13 +15,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import 'package:hive/hive.dart';
+
+part 'music_platform.g.dart';
+
+@HiveType(typeId: 2)
 enum MusicPlatform {
+  @HiveField(0)
   spotify,
+
+  @HiveField(1)
   deezer,
+
+  @HiveField(2)
   appleMusic,
+
+  @HiveField(3)
   youtubeMusic,
+
+  @HiveField(4)
   tidal,
+
+  @HiveField(5)
   soundCloud,
+
+  @HiveField(6)
   unknown,
 }
 

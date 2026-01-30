@@ -21,6 +21,10 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'models/conversion_history_entry.dart';
+import 'models/music_platform.dart';
+import 'models/track_metadata.dart';
 import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
 import 'utils/web_share_handler.dart';
@@ -29,6 +33,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(ConversionHistoryEntryAdapter());
+  Hive.registerAdapter(MusicPlatformAdapter());
+  Hive.registerAdapter(TrackMetadataAdapter());
+
+  await Hive.openBox<ConversionHistoryEntry>('conversion_history');
 
   runApp(const MusicSharityApp());
 }
