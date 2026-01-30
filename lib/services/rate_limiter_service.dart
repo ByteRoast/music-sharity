@@ -28,17 +28,22 @@ class RateLimiterService {
       StreamController<int>.broadcast();
 
   bool _isInitialized = false;
+  Completer<void>? _initializationCompleter;
 
   static final RateLimiterService _instance = RateLimiterService._internal();
 
   factory RateLimiterService() => _instance;
 
-  RateLimiterService._internal() {
-    _loadTimestamps();
-  }
+  RateLimiterService._internal();
 
   Future<void> _loadTimestamps() async {
     if (_isInitialized) return;
+
+    if (_initializationCompleter != null) {
+      return _initializationCompleter!.future;
+    }
+
+    _initializationCompleter = Completer<void>();
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -63,6 +68,7 @@ class RateLimiterService {
 
     _isInitialized = true;
     _quotaController.add(remainingQuota);
+    _initializationCompleter!.complete();
   }
 
   Future<void> _saveTimestamps() async {

@@ -26,6 +26,25 @@ enum MusicPlatform {
 }
 
 extension MusicPlatformExtension on MusicPlatform {
+  String get platformKey {
+    switch (this) {
+      case MusicPlatform.spotify:
+        return 'spotify';
+      case MusicPlatform.deezer:
+        return 'deezer';
+      case MusicPlatform.appleMusic:
+        return 'appleMusic';
+      case MusicPlatform.youtubeMusic:
+        return 'youtubeMusic';
+      case MusicPlatform.tidal:
+        return 'tidal';
+      case MusicPlatform.soundCloud:
+        return 'soundCloud';
+      case MusicPlatform.unknown:
+        return '';
+    }
+  }
+
   String get displayName {
     switch (this) {
       case MusicPlatform.spotify:

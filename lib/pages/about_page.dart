@@ -189,10 +189,9 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   Widget _buildPlatformChips() {
-    List<MusicPlatform> platforms = MusicPlatform
-      .values
-      .where((mp) => mp != MusicPlatform.unknown)
-      .toList();
+    List<MusicPlatform> platforms = MusicPlatform.values
+        .where((mp) => mp != MusicPlatform.unknown)
+        .toList();
 
     return Wrap(
       spacing: 8.0,
@@ -200,11 +199,7 @@ class _AboutPageState extends State<AboutPage> {
       children: platforms.map((platform) {
         return Chip(
           label: Text(platform.displayName),
-          avatar: Image.asset(
-            platform.logo,
-            width: 16,
-            height: 16,
-          ),
+          avatar: Image.asset(platform.logo, width: 16, height: 16),
         );
       }).toList(),
     );

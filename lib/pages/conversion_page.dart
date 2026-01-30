@@ -24,6 +24,7 @@ import '../models/music_link.dart';
 import '../models/music_platform.dart';
 import '../pages/home_page.dart';
 import '../services/music_converter_service.dart';
+import '../services/odesli_service.dart';
 import '../services/rate_limiter_service.dart';
 import '../utils/ui_helpers.dart';
 import '../widgets/platform_card.dart';
@@ -40,7 +41,11 @@ class ConversionPage extends StatefulWidget {
 
 class _ConversionPageState extends State<ConversionPage> {
   final MusicConverterService _converterService = MusicConverterService();
-  bool _isConverting = false;
+
+  bool _isConverting = true;
+
+  OdesliResult? _conversionResult;
+  String? _error;
 
   List<MusicPlatform> get availablePlatforms {
     return MusicPlatform.values
@@ -52,44 +57,33 @@ class _ConversionPageState extends State<ConversionPage> {
         .toList();
   }
 
-  Future<void> _convertToPlatform(
-    BuildContext context,
-    MusicPlatform targetPlatform,
-  ) async {
-    if (_isConverting) return;
+  bool _isPlatformAvailable(MusicPlatform platform) {
+    if (_conversionResult == null) return false;
 
-    setState(() {
-      _isConverting = true;
-    });
+    return _conversionResult!.platformLinks[platform.platformKey] != null;
+  }
 
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
+  String? _getPlatformUrl(MusicPlatform platform) {
+    if (_conversionResult == null) return null;
 
+    return _conversionResult!.platformLinks[platform.platformKey];
+  }
+
+  Future<void> _loadConversions() async {
     try {
-      final result = await _converterService.convert(
-        widget.musicLink,
-        targetPlatform,
-      );
+      final result = await _converterService.convert(widget.musicLink);
 
       if (!mounted) return;
 
       setState(() {
+        _conversionResult = result;
         _isConverting = false;
       });
-
-      if (result.isSuccess) {
-        _showConversionSuccessDialog(result, targetPlatform);
-      } else {
-        scaffoldMessenger.showSnackBar(
-          SnackBar(
-            content: Text(result.error ?? 'Conversion failed'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
     } on RateLimitException catch (e) {
       if (!mounted) return;
 
       setState(() {
+        _error = 'Rate limit exceeded. Please wait.';
         _isConverting = false;
       });
 
@@ -98,7 +92,7 @@ class _ConversionPageState extends State<ConversionPage> {
           ? 'Rate limit reached. Please wait $seconds seconds.'
           : 'Rate limit reached. Please wait ${(seconds / 60).ceil()} minute(s).';
 
-      scaffoldMessenger.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -123,13 +117,41 @@ class _ConversionPageState extends State<ConversionPage> {
       if (!mounted) return;
 
       setState(() {
+        _error = e.toString();
         _isConverting = false;
       });
 
-      scaffoldMessenger.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
       );
     }
+  }
+
+  void _handlePlatformTap(MusicPlatform platform) {
+    if (_conversionResult == null) return;
+
+    final url = _getPlatformUrl(platform);
+
+    if (url == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Content not available on ${platform.displayName}'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    _showConversionSuccessDialog(url, platform);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadConversions();
+    });
   }
 
   @override
@@ -227,26 +249,63 @@ class _ConversionPageState extends State<ConversionPage> {
                 const SizedBox(height: 20),
 
                 Expanded(
-                  child: AbsorbPointer(
-                    absorbing: _isConverting,
-                    child: Opacity(
-                      opacity: _isConverting ? 0.5 : 1.0,
-                      child: ListView.builder(
-                        itemCount: availablePlatforms.length,
-                        itemBuilder: (context, index) {
-                          final platform = availablePlatforms[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12.0),
-                            child: PlatformCard(
-                              platform: platform,
-                              onTap: () =>
-                                  _convertToPlatform(context, platform),
+                  child: _error != null
+                      ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'Failed to load conversions',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _error!,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        )
+                      : AbsorbPointer(
+                          absorbing: _isConverting,
+                          child: Opacity(
+                            opacity: _isConverting ? 0.5 : 1.0,
+                            child: ListView.builder(
+                              itemCount: availablePlatforms.length,
+                              itemBuilder: (context, index) {
+                                final platform = availablePlatforms[index];
+                                final isAvailable = _isPlatformAvailable(
+                                  platform,
+                                );
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: Opacity(
+                                    opacity: _isConverting || !isAvailable
+                                        ? 0.5
+                                        : 1.0,
+                                    child: PlatformCard(
+                                      platform: platform,
+                                      onTap: () => _handlePlatformTap(platform),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -277,10 +336,7 @@ class _ConversionPageState extends State<ConversionPage> {
     );
   }
 
-  void _showConversionSuccessDialog(
-    ConversionResult result,
-    MusicPlatform targetPlatform,
-  ) {
+  void _showConversionSuccessDialog(String url, MusicPlatform targetPlatform) {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -289,21 +345,21 @@ class _ConversionPageState extends State<ConversionPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (result.metadata != null) ...[
+            if (_conversionResult?.metadata != null) ...[
               Text(
-                result.metadata!.title,
+                _conversionResult!.metadata!.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
-              Text(result.metadata!.artist),
+              Text(_conversionResult!.metadata!.artist),
               const SizedBox(height: 16),
             ],
             Text('Converted to ${targetPlatform.displayName}'),
             const SizedBox(height: 8),
             SelectableText(
-              result.url!,
+              url,
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
@@ -318,9 +374,9 @@ class _ConversionPageState extends State<ConversionPage> {
               Navigator.pop(dialogContext);
 
               if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-                await _shareLink(result);
+                await _shareLink(url);
               } else {
-                await _copyLink(result);
+                await _copyLink(url);
               }
             },
             icon: Icon(
@@ -339,11 +395,9 @@ class _ConversionPageState extends State<ConversionPage> {
     );
   }
 
-  Future<void> _shareLink(ConversionResult result) async {
-    if (result.url == null) return;
-
+  Future<void> _shareLink(String url) async {
     try {
-      await SharePlus.instance.share(ShareParams(text: result.url));
+      await SharePlus.instance.share(ShareParams(text: url));
 
       if (!mounted) return;
 
@@ -363,11 +417,7 @@ class _ConversionPageState extends State<ConversionPage> {
     }
   }
 
-  Future<void> _copyLink(ConversionResult result) async {
-    final url = result.url;
-
-    if (url == null) return;
-
+  Future<void> _copyLink(String url) async {
     try {
       await Clipboard.setData(ClipboardData(text: url));
 

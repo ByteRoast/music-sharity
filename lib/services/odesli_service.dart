@@ -46,6 +46,7 @@ class OdesliService {
     _cleanExpiredCache();
 
     final cachedResult = _cache[sourceUrl];
+
     if (cachedResult != null && !cachedResult.isExpired) {
       return cachedResult.result;
     }

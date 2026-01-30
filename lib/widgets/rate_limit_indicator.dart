@@ -32,8 +32,10 @@ class _RateLimitIndicatorState extends State<RateLimitIndicator> {
   final RateLimiterService _rateLimiter = RateLimiterService();
 
   bool _isInitialized = false;
+  int _currentQuota = RateLimiterService.maxRequests;
 
   Timer? _refreshTimer;
+  StreamSubscription<int>? _quotaSubscription;
 
   @override
   void initState() {
@@ -46,17 +48,31 @@ class _RateLimitIndicatorState extends State<RateLimitIndicator> {
 
     if (mounted) {
       setState(() {
+        _currentQuota = _odesliService.remainingQuota;
         _isInitialized = true;
       });
 
       _startRefreshTimer();
+      _listenToQuotaChanges();
     }
   }
 
   void _startRefreshTimer() {
     _refreshTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
-        setState(() {});
+        setState(() {
+          _currentQuota = _odesliService.remainingQuota;
+        });
+      }
+    });
+  }
+
+  void _listenToQuotaChanges() {
+    _quotaSubscription = _rateLimiter.quotaStream.listen((newQuota) {
+      if (mounted) {
+        setState(() {
+          _currentQuota = newQuota;
+        });
       }
     });
   }
@@ -64,6 +80,7 @@ class _RateLimitIndicatorState extends State<RateLimitIndicator> {
   @override
   void dispose() {
     _refreshTimer?.cancel();
+    _quotaSubscription?.cancel();
 
     super.dispose();
   }
@@ -74,7 +91,7 @@ class _RateLimitIndicatorState extends State<RateLimitIndicator> {
       return const SizedBox.shrink();
     }
 
-    final remaining = _odesliService.remainingQuota;
+    final remaining = _currentQuota;
     final total = RateLimiterService.maxRequests;
     final percentage = remaining / total;
 
