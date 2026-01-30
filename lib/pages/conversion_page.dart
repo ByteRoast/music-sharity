@@ -21,12 +21,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:music_sharity/services/conversion_history_service.dart';
 import 'package:share_plus/share_plus.dart';
+import '../exceptions/rate_limit_exception.dart';
 import '../models/music_link.dart';
 import '../models/music_platform.dart';
+import '../models/odesli_result.dart';
 import '../pages/home_page.dart';
 import '../services/music_converter_service.dart';
-import '../services/odesli_service.dart';
-import '../services/rate_limiter_service.dart';
 import '../utils/ui_helpers.dart';
 import '../widgets/platform_card.dart';
 import '../widgets/rate_limit_indicator.dart';
@@ -42,7 +42,8 @@ class ConversionPage extends StatefulWidget {
 
 class _ConversionPageState extends State<ConversionPage> {
   final MusicConverterService _converterService = MusicConverterService();
-  final ConversionHistoryService _conversionHistoryService = ConversionHistoryService();
+  final ConversionHistoryService _conversionHistoryService =
+      ConversionHistoryService();
 
   bool _isConverting = true;
 
@@ -73,7 +74,9 @@ class _ConversionPageState extends State<ConversionPage> {
 
   Future<void> _loadConversions() async {
     try {
-      final OdesliResult result = await _converterService.convert(widget.musicLink);
+      final OdesliResult result = await _converterService.convert(
+        widget.musicLink,
+      );
 
       if (!mounted) return;
 

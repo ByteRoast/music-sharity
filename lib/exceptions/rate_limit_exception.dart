@@ -15,21 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import 'odesli_service.dart';
-import '../models/music_link.dart';
-import '../models/odesli_result.dart';
+class RateLimitException implements Exception {
+  final String message;
+  final Duration waitTime;
 
-class MusicConverterService {
-  final OdesliService _odesliService = OdesliService();
+  RateLimitException(this.message, this.waitTime);
 
-  static final MusicConverterService _instance =
-      MusicConverterService._internal();
-
-  factory MusicConverterService() => _instance;
-
-  MusicConverterService._internal();
-
-  Future<OdesliResult> convert(MusicLink sourceLink) async {
-    return await _odesliService.convertLink(sourceLink.originalUrl);
-  }
+  @override
+  String toString() => message;
 }

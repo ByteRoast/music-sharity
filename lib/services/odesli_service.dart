@@ -19,14 +19,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'rate_limiter_service.dart';
+import '../exceptions/rate_limit_exception.dart';
+import '../models/odesli_result.dart';
 import '../models/track_metadata.dart';
-
-class OdesliResult {
-  final Map<String, String> platformLinks;
-  final TrackMetadata? metadata;
-
-  OdesliResult({required this.platformLinks, this.metadata});
-}
 
 class OdesliService {
   static const String _baseUrl = 'https://api.song.link/v1-alpha.1/links';
