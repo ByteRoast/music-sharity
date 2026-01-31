@@ -53,7 +53,9 @@ class MusicSharityApp extends StatefulWidget {
 }
 
 class _MusicSharityAppState extends State<MusicSharityApp> {
-  static const EventChannel _shareChannel = EventChannel('fr.byteroast.music_sharity/share');
+  static const EventChannel _shareChannel = EventChannel(
+    'fr.byteroast.music_sharity/share',
+  );
 
   final AppLinks _appLinks = AppLinks();
 

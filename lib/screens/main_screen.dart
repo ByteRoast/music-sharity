@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import 'package:flutter/material.dart';
+import '../pages/conversion_history_page.dart';
 import '../pages/home_page.dart';
 import '../theme/app_theme.dart';
 
@@ -37,8 +38,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pages = [
-      HomePage(initialLink: widget.initialLink, key: ValueKey(widget.initialLink)),
-      Text('History')
+      HomePage(
+        initialLink: widget.initialLink,
+        key: ValueKey(widget.initialLink),
+      ),
+      ConversionHistoryPage(),
     ];
   }
 
@@ -47,7 +51,10 @@ class _MainScreenState extends State<MainScreen> {
     super.didUpdateWidget(oldWidget);
 
     if (widget.initialLink != oldWidget.initialLink) {
-      _pages[0] = HomePage(initialLink: widget.initialLink, key: ValueKey(widget.initialLink));
+      _pages[0] = HomePage(
+        initialLink: widget.initialLink,
+        key: ValueKey(widget.initialLink),
+      );
     }
   }
 
@@ -60,10 +67,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -73,10 +77,7 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History'
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
         ],
       ),
     );

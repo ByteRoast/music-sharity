@@ -19,13 +19,13 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:music_sharity/services/conversion_history_service.dart';
 import 'package:share_plus/share_plus.dart';
 import '../exceptions/rate_limit_exception.dart';
 import '../models/music_link.dart';
 import '../models/music_platform.dart';
 import '../models/odesli_result.dart';
-import '../pages/home_page.dart';
+import '../screens/main_screen.dart';
+import '../services/conversion_history_service.dart';
 import '../services/music_converter_service.dart';
 import '../utils/ui_helpers.dart';
 import '../widgets/platform_card.dart';
@@ -415,7 +415,7 @@ class _ConversionPageState extends State<ConversionPage> {
       if (!mounted) return;
 
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const MainScreen()),
         (route) => false,
       );
     } catch (e) {
@@ -437,7 +437,7 @@ class _ConversionPageState extends State<ConversionPage> {
       if (!mounted) return;
 
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const MainScreen()),
         (route) => false,
       );
     } catch (e) {
