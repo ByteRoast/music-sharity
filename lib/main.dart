@@ -25,7 +25,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'models/conversion_history_entry.dart';
 import 'models/music_platform.dart';
 import 'models/track_metadata.dart';
-import 'pages/home_page.dart';
+import 'screens/main_screen.dart';
 import 'theme/app_theme.dart';
 import 'utils/web_share_handler.dart';
 
@@ -53,8 +53,9 @@ class MusicSharityApp extends StatefulWidget {
 }
 
 class _MusicSharityAppState extends State<MusicSharityApp> {
-  static const _shareChannel = EventChannel('fr.byteroast.music_sharity/share');
-  final _appLinks = AppLinks();
+  static const EventChannel _shareChannel = EventChannel('fr.byteroast.music_sharity/share');
+
+  final AppLinks _appLinks = AppLinks();
 
   StreamSubscription<Uri>? _deepLinkSubscription;
   StreamSubscription<Object?>? _nativeShareSubscription;
@@ -75,6 +76,16 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
         _initNativeSharing();
       }
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Music Sharity',
+      theme: AppTheme.darkTheme,
+      debugShowCheckedModeBanner: false,
+      home: MainScreen(initialLink: _sharedLink),
+    );
   }
 
   void _initWebSharing() {
@@ -159,15 +170,5 @@ class _MusicSharityAppState extends State<MusicSharityApp> {
     _webShareCheckTimer?.cancel();
 
     super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Music Sharity',
-      theme: AppTheme.darkTheme,
-      debugShowCheckedModeBanner: false,
-      home: HomePage(initialLink: _sharedLink, key: ValueKey(_sharedLink)),
-    );
   }
 }
