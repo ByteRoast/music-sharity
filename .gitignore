@@ -154,3 +154,6 @@ gitignore# IDE - IntelliJ / Android Studio
 
 # IDE - VS Code
 .vscode/
+
+# GitHub Actions scripts files
+!.github/scripts/**/*.js
