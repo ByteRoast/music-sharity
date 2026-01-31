@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
         initialLink: widget.initialLink,
         key: ValueKey(widget.initialLink),
       ),
-      ConversionHistoryPage(),
+      ConversionHistoryPage(onNavigateToHome: () => _onItemTapped(0)),
     ];
   }
 
@@ -54,6 +54,9 @@ class _MainScreenState extends State<MainScreen> {
       _pages[0] = HomePage(
         initialLink: widget.initialLink,
         key: ValueKey(widget.initialLink),
+      );
+      _pages[1] = ConversionHistoryPage(
+        onNavigateToHome: () => _onItemTapped(0),
       );
     }
   }
