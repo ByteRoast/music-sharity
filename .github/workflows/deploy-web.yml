@@ -46,7 +46,8 @@ jobs:
         if: ${{ github.event_name != 'workflow_run' }}
         run: |
           flutter pub get
-          flutter build web --release --base-href "/"
+          COMMIT_HASH=$(echo "${{ github.sha }}" | cut -c1-6)
+          flutter build web --release --base-href "/" --dart-define=COMMIT_HASH=$COMMIT_HASH
 
       - name: Copy documentation files
         run: |

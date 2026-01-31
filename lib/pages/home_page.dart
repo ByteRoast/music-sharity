@@ -15,9 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'about_page.dart';
 import 'conversion_page.dart';
+import '../config/build_config.dart';
 import '../models/music_link.dart';
 import '../models/music_platform.dart';
 import '../utils/link_validator.dart';
@@ -98,128 +101,164 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 20),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20),
 
-            Center(
-              child: Image.asset(
-                'assets/images/brandings/logo.png',
-                width: 120,
-                height: 120,
-                fit: BoxFit.contain,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'Share music across all platforms',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 40),
-
-            TextField(
-              controller: _linkController,
-              onChanged: _validateLink,
-              decoration: InputDecoration(
-                hintText: 'Paste your music link here...',
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-                  child: const Icon(Icons.link),
+                Center(
+                  child: Image.asset(
+                    'assets/images/brandings/logo.png',
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                suffixIcon: _isValidLink
-                    ? const Icon(Icons.check_circle, color: Colors.green)
-                    : null,
-              ),
-              keyboardType: TextInputType.url,
-            ),
 
-            const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-            if (_detectedPlatform != null && _isValidLink)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
-                          _detectedPlatform!.logo,
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                const Text(
+                  'Share music across all platforms',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(height: 40),
+
+                TextField(
+                  controller: _linkController,
+                  onChanged: _validateLink,
+                  decoration: InputDecoration(
+                    hintText: 'Paste your music link here...',
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                      child: const Icon(Icons.link),
+                    ),
+                    suffixIcon: _isValidLink
+                        ? const Icon(Icons.check_circle, color: Colors.green)
+                        : null,
+                  ),
+                  keyboardType: TextInputType.url,
+                ),
+
+                const SizedBox(height: 20),
+
+                if (_detectedPlatform != null && _isValidLink)
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
                         children: [
-                          Text(
-                            _detectedPlatform!.displayName,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              _detectedPlatform!.logo,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          Text(
-                            UiHelpers.getContentTypeName(
-                              LinkValidator.detectContentType(
-                                _linkController.text,
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _detectedPlatform!.displayName,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
+                              Text(
+                                UiHelpers.getContentTypeName(
+                                  LinkValidator.detectContentType(
+                                    _linkController.text,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
+                  ),
+
+                if (!_isValidLink && _linkController.text.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Link not recognized. Supported: tracks and albums from Spotify, Deezer, Apple Music, YouTube Music, Tidal',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: 30),
+
+                ElevatedButton(
+                  onPressed: _isValidLink
+                      ? () {
+                          final musicLink = MusicLink.fromUrl(
+                            _linkController.text,
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ConversionPage(musicLink: musicLink),
+                            ),
+                          );
+                        }
+                      : null,
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text('Convert', style: TextStyle(fontSize: 16)),
                   ),
                 ),
-              ),
+              ],
+            ),
+          ),
 
-            if (!_isValidLink && _linkController.text.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  'Link not recognized. Supported: tracks and albums from Spotify, Deezer, Apple Music, YouTube Music, Tidal',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                    fontSize: 12,
+          // Display commit hash in bottom right corner (web only)
+          if (kIsWeb)
+            Positioned(
+              bottom: 8,
+              right: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: InkWell(
+                  onTap: () => launchUrl(
+                    Uri.parse(
+                      'https://github.com/ByteRoast/music-sharity/commit/${BuildConfig.commitHash}',
+                    ),
+                    mode: LaunchMode.externalApplication,
+                  ),
+                  child: Text(
+                    BuildConfig.commitHash,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey[600],
+                      fontFamily: 'monospace',
+                    ),
                   ),
                 ),
-              ),
-
-            const SizedBox(height: 30),
-
-            ElevatedButton(
-              onPressed: _isValidLink
-                  ? () {
-                      final musicLink = MusicLink.fromUrl(_linkController.text);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ConversionPage(musicLink: musicLink),
-                        ),
-                      );
-                    }
-                  : null,
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text('Convert', style: TextStyle(fontSize: 16)),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
